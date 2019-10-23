@@ -1,0 +1,23 @@
+<div class="section">
+    <div class="flex items-center">
+        <span class="section-title">Manifiesto de vuelos</span>
+        <div class="grow-1"></div>
+        <span class="search-container">
+            <input type="text" class="search" placeholder="Buscar">
+            <img 
+            class="search-icon"
+            src="https://image.flaticon.com/icons/svg/149/149852.svg" alt="">
+        </span>
+    </div><br>
+
+    <mat-card>
+        <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+            <input hidden accept="application/pdf" type="file" #fileInput (change)="onThumbnailSelected($event)">
+            <div class="flex inline column items-center">
+                <img src="https://image.flaticon.com/icons/svg/148/148711.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px" height="130px" alt="">
+                <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus archivos</span>
+                <span class="drop-subtitle">Agrega los archivos (.pdf)</span>
+            </div>
+        </div>
+    </mat-card>
+</div>

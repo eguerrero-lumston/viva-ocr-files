@@ -10,11 +10,15 @@ import { MatInputModule } from '@angular/material';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { AppComponent } from './components/app-root/app.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { DragDropDirective } from './directives/drag-drop.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormComponent
+    FormComponent,
+    FileUploadComponent,
+    DragDropDirective
   ],
   imports: [
     BrowserModule,

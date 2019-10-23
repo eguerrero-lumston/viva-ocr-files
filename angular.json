@@ -24,10 +24,10 @@
               "src/assets"
             ],
             "styles": [
+              "src/styles.css",
               "src/custom-theme.scss",
               "src/css/flexboxlayout.min.css",
-              "src/styles.css",
-              "src/css/grid/grid.min.css"
+              "src/css/grid.min.css"
             ],
             "scripts": []
           },

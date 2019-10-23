@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+/* Ng select theme */
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-/* Ng select theme */
-@import "~@ng-select/ng-select/themes/default.theme.css";
 
 *{
     font-family: sans-serif;
@@ -107,4 +107,46 @@ body{
 }
 .ng-option.ng-option-disabled{
     font-size: 0.8rem;
+}
+
+/* Sections styles */
+.section-title{
+    font-size: 1.3rem;
+    font-weight: normal;
+}.section{
+    padding: 15px;
+}
+
+.text-green{
+    color: #43AA35;
+}.text-center{
+    text-align: center;
+}
+
+input.search{
+    border: 1px solid #dedede;
+    padding: 1px 10px;
+    height: 30px;
+    font-size: 0.8rem;
+    background-color: white;
+    border-radius: 1px;
+    min-width: 200px;
+    color: black;
+    padding-right: 35px;
+}::-webkit-input-placeholder { /* Edge */
+    color: black;
+}:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+}::placeholder {
+    color: black;
+}.search-icon{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 15px;
+    height: 15px;
+    top: 0;
+    margin: auto 10px;
+}.search-container{
+    position: relative;
 }
