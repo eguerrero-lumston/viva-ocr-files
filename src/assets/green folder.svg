@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="94px" viewBox="0 0 128 94" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.1 (78136) - https://sketchapp.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Incidencias4Admin" transform="translate(-327.000000, -315.000000)">
+            <g id="Group-2" transform="translate(327.000000, 315.000000)">
+                <path d="M4,0 L40.7665482,0 L56,15 L0,15 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z" id="Rectangle" fill="#318A1C"></path>
+                <rect id="Rectangle" fill="#45AC37" x="0" y="11" width="128" height="83" rx="4"></rect>
+                <path d="M59.7984218,11 L124,11 C126.209139,11 128,12.790861 128,15 L128,90 C128,92.209139 126.209139,94 124,94 L6.91516456,94 L59.7984218,11 Z" id="Rectangle" fill-opacity="0.09" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

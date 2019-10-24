@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="18px" viewBox="0 0 24 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.1 (78136) - https://sketchapp.com -->
+    <title>Solid/upload Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M21.75,6 L12.75,6 L9.75,3 L2.25,3 C1.00734375,3 0,4.00734375 0,5.25 L0,18.75 C0,19.9926562 1.00734375,21 2.25,21 L21.75,21 C22.9926562,21 24,19.9926562 24,18.75 L24,8.25 C24,7.00734375 22.9926562,6 21.75,6 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Menú/-lateral" transform="translate(-21.000000, -96.000000)">
+            <g id="Solid/folder" transform="translate(21.000000, 93.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g id="Color/Black" mask="url(#mask-2)" fill="#EAEBEC" fill-rule="evenodd" stroke="#979797" stroke-opacity="0" stroke-width="1">
+                    <rect id="Black" x="0.5" y="0.5" width="23" height="23"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

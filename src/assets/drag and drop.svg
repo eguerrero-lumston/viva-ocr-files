@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="176px" height="139px" viewBox="0 0 176 139" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.1 (78136) - https://sketchapp.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="22" width="176" height="117"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="176" height="117" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Drag-and-drop" transform="translate(-752.000000, -347.000000)" stroke="#55B349">
+            <g id="Group-2" transform="translate(752.000000, 347.000000)">
+                <use id="Rectangle" mask="url(#mask-2)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="13" xlink:href="#path-1"></use>
+                <rect id="Rectangle" stroke-width="3" fill="#FFFFFF" x="29.5" y="1.5" width="90" height="73"></rect>
+                <circle id="Oval" stroke-width="3" cx="54.5" cy="22.5" r="9.5"></circle>
+                <polygon id="Path-2" stroke-width="3" fill="#FFFFFF" points="31.1815309 67.9757282 51.0496406 45.7112235 62.170239 56.8434758 94.1487645 26.5 118.181531 52.7907181 118.181531 74.5 31.1815309 74.5"></polygon>
+                <polygon id="Path-3" stroke-width="3" fill="#FFFFFF" points="123.286605 86.2325233 141.293784 103.708061 147.426654 97.3765561 129.786074 80.8982343 145.079542 72.8982343 101 58 116.062701 101.200288"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
