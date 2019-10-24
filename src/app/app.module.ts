@@ -12,6 +12,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { AppComponent } from './components/app-root/app.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DragDropDirective } from './directives/drag-drop.directive';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DragDropDirective } from './directives/drag-drop.directive';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    NgxDatatableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

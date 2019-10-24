@@ -45,7 +45,7 @@ body{
 
 /* SIDEBAR MENU */
 .menu{
-    margin-top: 65px;
+    margin-top: 25px;
     color: white;
     width: 100%;
 }
@@ -121,8 +121,11 @@ body{
     color: #43AA35;
 }.text-center{
     text-align: center;
+}.text-right{
+    text-align: right;
 }
 
+/* Search input */
 input.search,input.search:focus{
     border: 1px solid #dedede;
     padding: 1px 10px;
@@ -150,4 +153,82 @@ input.search,input.search:focus{
     margin: auto 10px;
 }.search-container{
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Buttons */
+.link, .btn{
+    border: 0px;
+    outline: 0;
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+    display: inline-block;
+    position: relative;
+    transition: all .1s ease-in-out;
+    background-color: transparent;
+    border-radius: 5px;
+    user-select: none;
+    color: black;
+}
+.link, .link *, .btn, .btn *{
+    font-size: 0.8rem;
+}
+
+.btn{
+    margin: 0.2rem;
+}
+.link:active, .btn:active {
+    border: none;
+    outline: 0;
+}
+.link:focus, .btn:focus {
+    border: none;
+    outline: 0;
+}
+.link:target, .btn:target {
+    border: none;
+    outline: 0;
+}
+.link:hover, .btn:hover{
+    background: rgba(200, 200, 200, 0.2);
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+.btn.danger{
+    background-color: #D00241;
+    color: white; 
+}
+.btn.danger *{
+    color: white; 
+}
+
+.btn.info{
+    background-color: #4EA9EB;
+    color: white; 
+}
+.btn.info *{
+    color: white; 
+}
+
+.btn.success{
+    background-color: #7EC636;
+    color: white; 
+}
+.btn.success *{
+    color: white; 
+}
+
+.btn.primary{
+    background-color: #0079FF;
+    color: white; 
+}
+.btn.primary *{
+    color: white; 
+}
+
+.btn.small{
+    padding: 0.3rem 0.4rem;
+    font-size: 0.7rem;
 }
