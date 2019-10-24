@@ -24,7 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "src/custom-theme.scss",
               "src/css/flexboxlayout.min.css",
               "src/css/grid.min.css"
@@ -92,7 +92,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }

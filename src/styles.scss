@@ -2,6 +2,13 @@
 /* Ng select theme */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+/* COLORS */
+$success: #7EC636;
+$danger: #D00241;
+$info: #4EA9EB;
+$primary: #0079FF;
+$warning: #FFCC00;
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -197,7 +204,7 @@ input.search,input.search:focus{
 }
 
 .btn.danger{
-    background-color: #D00241;
+    background-color: $danger;
     color: white; 
 }
 .btn.danger *{
@@ -205,7 +212,7 @@ input.search,input.search:focus{
 }
 
 .btn.info{
-    background-color: #4EA9EB;
+    background-color: $info;
     color: white; 
 }
 .btn.info *{
@@ -213,7 +220,7 @@ input.search,input.search:focus{
 }
 
 .btn.success{
-    background-color: #7EC636;
+    background-color: $success;
     color: white; 
 }
 .btn.success *{
@@ -221,7 +228,7 @@ input.search,input.search:focus{
 }
 
 .btn.primary{
-    background-color: #0079FF;
+    background-color: $primary;
     color: white; 
 }
 .btn.primary *{
@@ -231,4 +238,25 @@ input.search,input.search:focus{
 .btn.small{
     padding: 0.3rem 0.4rem;
     font-size: 0.7rem;
+}
+
+/* Status indicator */
+span.status{
+    background-color: gray;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+}
+span.status.success{
+    background-color: $success;
+}
+span.status.primary{
+    background-color: $primary;
+}
+span.status.warning{
+    background-color: $warning;
+}
+
+mat-card{
+    box-shadow: 0 0px 9px rgba(0,0,0,.18) !important;
 }

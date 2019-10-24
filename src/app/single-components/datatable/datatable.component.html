@@ -1,0 +1,73 @@
+<mat-card>
+
+    <div class="flex items-center">
+        <span class="search-container">
+            <input type="text" class="search" placeholder="Buscar">
+            <img 
+            class="search-icon"
+            src="https://image.flaticon.com/icons/svg/149/149852.svg" alt="">
+        </span>
+        
+        <div class="grow-1"></div>
+
+        <button class="btn success"  (click)='onSelectRed(row)'>Subir archivos</button>
+    </div><br>
+
+    <div style="width: 100%;">
+        <ngx-datatable
+        rowHeight="auto"
+        [columnMode]="'force'" 
+        [rows]="rows"
+        [columns]="columns">
+
+            <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}">
+                
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    <div [ngSwitch]="i" style="border-bottom: 1px solid lightgray; padding: 5px 0px; text-transform: uppercase; font-size: 0.7rem; font-weight: bold; color: gray;">
+                        <div class="text-right" *ngSwitchCase="3">{{column.name}}</div>
+                        <div class="text-center" *ngSwitchCase="2">{{column.name}}</div>
+                        <div class="text-center" *ngSwitchCase="1">{{column.name}}</div>
+                        <div *ngSwitchCase="0">{{column.name}}</div>
+                    </div>
+                </ng-template>
+
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    
+                    <div [ngSwitch]="i" class="flex items-center" style="height: 50px; border-bottom: 1px solid lightgray; font-size: 0.9rem;">
+                        <div class="flex justify-end grow-1" *ngSwitchCase="3">
+                            <button class="btn small info"  (click)='onSelectRed(row)'>
+                                <!-- <img width="15px" height="15px" src="" alt=""> -->
+                                <i class="fa fa-pen"></i>
+                            </button>
+                            <button class="btn small danger" (click)='onSelectBlue(value)'>
+                                <!-- <img width="15px" height="15px" src="" alt=""> -->
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex justify-center grow-1" *ngSwitchCase="2">
+                            <span class="status warning"></span>
+                        </div>
+    
+                        <div *ngSwitchCase="1" class="flex grow-1 justify-center">
+                            <div>
+                                {{value}}
+                            </div>
+                        </div>
+
+                        <div *ngSwitchCase="0">
+                            <div>
+                                <!-- <mat-checkbox></mat-checkbox> -->
+                                {{value}}
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+
+            </ngx-datatable-column>
+            
+        </ngx-datatable>
+    </div>
+
+</mat-card>
