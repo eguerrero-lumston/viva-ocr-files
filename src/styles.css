@@ -1,0 +1,250 @@
+@import url(~@ng-select/ng-select/themes/default.theme.css);
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+* {
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.grid > .col,
+.grid > *[class*="col-"] {
+  padding: 0.5rem !important;
+}
+.navbar {
+  width: 100%;
+  height: 65px;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+}
+.sidebar {
+  position: fixed;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background: black;
+  z-index: 5;
+}
+.menu {
+  margin-top: 25px;
+  color: white;
+  width: 100%;
+}
+.menu > .item {
+  position: relative;
+  width: 100%;
+  padding: 20px 15px;
+  border-left: 5px solid transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.menu > .item:hover {
+  background: rgba(200, 200, 200, 0.25);
+}
+.menu > .item.active {
+  background: rgba(200, 200, 200, 0.25);
+  border-left: 5px solid #98dd52;
+}
+a {
+  color: white;
+  text-decoration: none !important;
+}
+.content {
+  background: #f2f4f5;
+  min-height: 100vh;
+  margin: 0;
+  padding-top: 70px;
+  padding-left: 255px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+.top-dashboard {
+  padding: 15px 10px;
+}
+.dashboard-title {
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.dashboard-option {
+  font-size: 0.8rem;
+  margin-right: 5px;
+  margin-left: 10px;
+}
+.ng-select.custom {
+  max-width: 120px;
+}
+.ng-select.custom .ng-select-container {
+  border-radius: 2px;
+}
+.ng-select .ng-select-container,
+.ng-select.ng-select-single .ng-select-container {
+  height: 30px;
+  min-height: 30px;
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  font-size: 0.8rem;
+}
+.ng-option-label {
+  font-size: 0.8rem;
+}
+.ng-option.ng-option-disabled {
+  font-size: 0.8rem;
+}
+.section-title {
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+.section {
+  padding: 15px;
+}
+.text-green {
+  color: #43aa35;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+input.search,
+input.search:focus {
+  border: 1px solid #dedede;
+  padding: 1px 10px;
+  height: 30px;
+  font-size: 0.8rem;
+  background-color: white;
+  border-radius: 1px;
+  min-width: 200px;
+  outline: none;
+  color: black;
+  padding-right: 35px;
+}
+::-webkit-input-placeholder {
+  color: black;
+}
+:-ms-input-placeholder {
+  color: black;
+}
+::placeholder {
+  color: black;
+}
+.search-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  margin: auto 10px;
+}
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.link,
+.btn {
+  border: 0px;
+  outline: 0;
+  text-decoration: none;
+  padding: 0.7rem 1rem;
+  display: inline-block;
+  position: relative;
+  transition: all 0.1s ease-in-out;
+  background-color: transparent;
+  border-radius: 5px;
+  user-select: none;
+  color: black;
+}
+.link,
+.link *,
+.btn,
+.btn * {
+  font-size: 0.8rem;
+}
+.btn {
+  margin: 0.2rem;
+}
+.link:active,
+.btn:active {
+  border: none;
+  outline: 0;
+}
+.link:focus,
+.btn:focus {
+  border: none;
+  outline: 0;
+}
+.link:target,
+.btn:target {
+  border: none;
+  outline: 0;
+}
+.link:hover,
+.btn:hover {
+  background: rgba(200, 200, 200, 0.2);
+  opacity: 0.9;
+  cursor: pointer;
+}
+.btn.danger {
+  background-color: #d00241;
+  color: white;
+}
+.btn.danger * {
+  color: white;
+}
+.btn.info {
+  background-color: #4ea9eb;
+  color: white;
+}
+.btn.info * {
+  color: white;
+}
+.btn.success {
+  background-color: #7ec636;
+  color: white;
+}
+.btn.success * {
+  color: white;
+}
+.btn.primary {
+  background-color: #0079ff;
+  color: white;
+}
+.btn.primary * {
+  color: white;
+}
+.btn.small {
+  padding: 0.3rem 0.4rem;
+  font-size: 0.7rem;
+}
+span.status {
+  background-color: gray;
+  border-radius: 100%;
+  width: 15px;
+  height: 15px;
+}
+span.status.success {
+  background-color: #7ec636;
+}
+span.status.primary {
+  background-color: #0079ff;
+}
+span.status.warning {
+  background-color: #fc0;
+}
+mat-card {
+  box-shadow: 0 0px 9px rgba(0, 0, 0, 0.18) !important;
+}

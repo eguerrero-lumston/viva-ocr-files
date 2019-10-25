@@ -8,7 +8,7 @@ $danger: #D00241;
 $info: #4EA9EB;
 $primary: #0079FF;
 $warning: #FFCC00;
-
+$green: #7EC636;
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -65,11 +65,15 @@ body{
     font-size: 0.9rem;
 }.menu>.item:hover{
     background: rgba(200, 200, 200, 0.25);
-}.menu>.item.selected{
+}.menu>.item.active{
     background: rgba(200, 200, 200, 0.25);
     border-left: 5px solid #98dd52;
 }
 
+a{
+    color: white;
+    text-decoration:none !important;
+}
 .content{
     background: #f2f4f5;
     min-height: 100vh;

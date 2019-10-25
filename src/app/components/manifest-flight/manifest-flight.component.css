@@ -87,3 +87,15 @@ ng-select {
 .icon-folder {
   height: 100px;
 }
+.time-picker {
+  width: 70%;
+  max-width: 160px;
+  width: 110px;
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 12px 20px;
+  display: inline-block;
+}

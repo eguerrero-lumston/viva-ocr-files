@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ConnectServer } from './../../api/connect-server';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'datatable',
@@ -12,6 +13,21 @@ export class DatatableComponent implements OnInit {
     { name: 'Manifiesto3335', date: '10/10/20', status: 1 },
     { name: 'Manifiesto3336', date: '10/10/20', status: 1 },
     { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
+    { name: 'Manifiesto3337', date: '10/10/20', status: 1 },
     { name: 'Manifiesto3338', date: '10/10/20', status: 1 },
   ];
 
@@ -20,11 +36,18 @@ export class DatatableComponent implements OnInit {
     { name: 'Cargado el', prop: 'date' },
     { name: 'Estatus', prop: 'status' },
     { name: 'Acciones' },
-  ]
+  ];
 
-  constructor() { }
+  @ViewChild('dataManifestTable', {static: false}) table: DatatableComponent;
+
+  constructor(private restApi: ConnectServer) {
+    // this.table.offset = 0;
+   }
 
   ngOnInit() {
+    this.restApi.getManifests().subscribe((data: {}) => {
+      console.log('data', data);
+    });
   }
 
 }

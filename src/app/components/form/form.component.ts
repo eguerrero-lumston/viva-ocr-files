@@ -1,91 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Manifest } from 'src/app/model/manifest';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
 
   // manifestForm2: FormGroup;
+  manifest = new Manifest();
+  manifestForm: FormGroup;
 
-  manifestForm = new FormGroup({
-    fieldFolio: new FormControl(''),
-    fieldAeroport: new FormControl(''),
-    fieldCompany: new FormControl(''),
-    fieldDate: new FormControl(''),
-    fieldAeroportAcronym: new FormControl(''),
-    fieldCompanyAcronym: new FormControl(''),
-    fieldEquipment: new FormControl(''),
-    fieldEnrollment: new FormControl(''),
-    fieldFlightNumber: new FormControl(''),
-    fieldCommander: new FormControl(''),
-    fieldFirstOfficer: new FormControl(''),
-    fieldSecondOfficer: new FormControl(''),
-    fieldThirdOfficer: new FormControl(''),
-    fieldMajor: new FormControl(''),
-    fieldFirstSurcharge: new FormControl(''),
-    fieldSecondSurcharge: new FormControl(''),
-    fieldThirdSurcharge: new FormControl(''),
-    fieldCommanderLicense: new FormControl(''),
-    fieldFirstOfficerLicense: new FormControl(''),
-    fieldSecondOfficerLicense: new FormControl(''),
-    fieldThirdOfficerLicense: new FormControl(''),
-    fieldMajorLicense: new FormControl(''),
-    fieldFirstSurchargeLicense: new FormControl(''),
-    fieldSecondSurchargeLicense: new FormControl(''),
-    fieldThirdSurchargeLicense: new FormControl(''),
-    fieldOrigin: new FormControl(''),
-    fieldDestination: new FormControl(''),
-    fieldNextScale: new FormControl(''),
-    fieldItineraryTime: new FormControl(''),
-    fieldDelayCause: new FormControl(''),
-    fieldOriginAcronym: new FormControl(''),
-    fieldDestinationAcronym: new FormControl(''),
-    fieldNextScaleAcronym: new FormControl(''),
-    fieldRealTime: new FormControl(''),
-  });
-  constructor(public fb: FormBuilder) {
-    this.manifestForm = this.fb.group({
-      fieldFolio: ['', Validators.required],
-      fieldAeroport: ['', Validators.required],
-      fieldCompany: ['', Validators.required],
-      fieldDate: ['', Validators.required],
-      fieldAeroportAcronym: ['', Validators.required],
-      fieldCompanyAcronym: ['', Validators.required],
-      fieldEquipment: ['', Validators.required],
-      fieldEnrollment: ['', Validators.required],
-      fieldFlightNumber: ['', Validators.required],
-      fieldCommander: ['', Validators.required],
-      fieldFirstOfficer: ['', Validators.required],
-      fieldSecondOfficer: ['', Validators.required],
-      fieldThirdOfficer: ['', Validators.required],
-      fieldMajor: ['', Validators.required],
-      fieldFirstSurcharge: ['', Validators.required],
-      fieldSecondSurcharge: ['', Validators.required],
-      fieldThirdSurcharge: ['', Validators.required],
-      fieldCommanderLicense: ['', Validators.required],
-      fieldFirstOfficerLicense: ['', Validators.required],
-      fieldSecondOfficerLicense: ['', Validators.required],
-      fieldThirdOfficerLicense: ['', Validators.required],
-      fieldMajorLicense: ['', Validators.required],
-      fieldFirstSurchargeLicense: ['', Validators.required],
-      fieldSecondSurchargeLicense: ['', Validators.required],
-      fieldThirdSurchargeLicense: ['', Validators.required],
-      fieldOrigin: ['', Validators.required],
-      fieldDestination: ['', Validators.required],
-      fieldNextScale: ['', Validators.required],
-      fieldItineraryTime: ['', Validators.required],
-      fieldDelayCause: ['', Validators.required],
-      fieldOriginAcronym: ['', Validators.required],
-      fieldDestinationAcronym: ['', Validators.required],
-      fieldNextScaleAcronym: ['', Validators.required],
-      fieldRealTime: ['', Validators.required],
-    });
+  constructor(private fb: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit() {
+    // this.manifestForm = this.fb.group({
+    //   fieldFolio: [this.manifest.folio, Validators.required],
+    //   fieldAirport: [this.manifest.airport, Validators.required],
+    //   fieldCompany: [this.manifest.company, Validators.required],
+    //   fieldDate: [this.manifest.date, Validators.required],
+    //   fieldAirportAcronym: [this.manifest.airportacronym, Validators.required],
+    //   fieldCompanyAcronym: [this.manifest.companyacronym, Validators.required],
+    //   fieldEquipment: [this.manifest.equipment, Validators.required],
+    //   fieldEnrollment: [this.manifest.enrollment, Validators.required],
+    //   fieldFlightNumber: [this.manifest.flightnumber, Validators.required],
+    //   fieldCommander: [this.manifest.commander, Validators.required],
+    //   fieldFirstOfficer: [this.manifest.firstofficer, Validators.required],
+    //   fieldSecondOfficer: [this.manifest.secondofficer, Validators.required],
+    //   fieldThirdOfficer: [this.manifest.thirdofficer, Validators.required],
+    //   fieldMajor: [this.manifest.major, Validators.required],
+    //   fieldFirstSurcharge: [this.manifest.firstsurcharge, Validators.required],
+    //   fieldSecondSurcharge: [this.manifest.secondsurcharge, Validators.required],
+    //   fieldThirdSurcharge: [this.manifest.thirdsurcharge, Validators.required],
+    //   fieldCommanderLicense: [this.manifest.commanderlicense, Validators.required],
+    //   fieldFirstOfficerLicense: [this.manifest.firstofficerlicense, Validators.required],
+    //   fieldSecondOfficerLicense: [this.manifest.secondofficerlicense, Validators.required],
+    //   fieldThirdOfficerLicense: [this.manifest.thirdofficerlicense, Validators.required],
+    //   fieldMajorLicense: [this.manifest.majorlicense, Validators.required],
+    //   fieldFirstSurchargeLicense: [this.manifest.firstsurchargelicense, Validators.required],
+    //   fieldSecondSurchargeLicense: [this.manifest.secondsurchargelicense, Validators.required],
+    //   fieldThirdSurchargeLicense: [this.manifest.thirdsurchargelicense, Validators.required],
+    //   fieldOrigin: [this.manifest.origin, Validators.required],
+    //   fieldDestination: [this.manifest.destination, Validators.required],
+    //   fieldNextScale: [this.manifest.nextscale, Validators.required],
+    //   fieldItineraryTime: [this.manifest.itinerarytime, Validators.required],
+    //   fieldDelayCause: [this.manifest.delaycause, Validators.required],
+    //   fieldOriginAcronym: [this.manifest.originacronym, Validators.required],
+    //   fieldDestinationAcronym: [this.manifest.destinationacronym, Validators.required],
+    //   fieldNextScaleAcronym: [this.manifest.nextscaleacronym, Validators.required],
+    //   fieldRealTime: [this.manifest.realtime, Validators.required],
+    // });
+
+    this.manifestForm = this.fb.group(this.manifest);
+    // formBuilder.group({
+    //   personalData: formBuilder.group(new PersonalData()),
+    //   requestType: '',
+    //   text: ''
+    // });
   }
 
   update() {
@@ -93,7 +69,12 @@ export class FormComponent implements OnInit {
   }
 
   loadManifest() {
+    console.log(this.manifest, this.manifestForm.value);
 
+  }
+
+  viewManifest() {
+    this.router.navigate(['/upload/manifest-viewer']);
   }
 
 }

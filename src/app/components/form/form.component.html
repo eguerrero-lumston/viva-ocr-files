@@ -4,7 +4,7 @@
     <div class="flex justify-end grow-1" id="search-item">
       <span class="search-container">
         <input type="text" class="search" placeholder="Buscar">
-        <img class="search-icon" src="https://image.flaticon.com/icons/svg/149/149852.svg" alt="">
+        <img class="search-icon" src="assets/srchbar.svg" alt="">
       </span>
     </div>
   </div>
@@ -12,6 +12,7 @@
   <mat-card>
     <form  [formGroup]="manifestForm" (ngSubmit)="update()">
       <div class="flex justify-end">
+          <button class="btn-send-manifest" (click)="viewManifest()">Ir a manifiesto</button>
         <button class="btn-load-manifest" (click)="loadManifest()">Cargar manifiesto</button>
       </div>
       <div class="grid">
@@ -19,17 +20,17 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Folio</mat-label>
-              <input formControlName="fieldFolio" matInput placeholder="Folio">
+              <input formControlName="folio" matInput placeholder="Folio">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Aeropuerto</mat-label>
-              <input formControlName="fieldAeroport" matInput placeholder="Aeropuerto">
+              <input formControlName="airport" matInput placeholder="Aeropuerto">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Compañia</mat-label>
-              <input formControlName="fieldCompany" matInput placeholder="Compañia">
+              <input formControlName="company" matInput placeholder="Compañia">
             </mat-form-field>
           </div>
         </div>
@@ -38,17 +39,17 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Fecha</mat-label>
-              <input formControlName="fieldDate" matInput placeholder="Fecha">
+              <input formControlName="date" matInput placeholder="Fecha">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input formControlName="fieldAeroportAcronym" matInput placeholder="Siglas">
+              <input formControlName="airportacronym" matInput placeholder="Siglas">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input formControlName="fieldCompanyAcronym" matInput placeholder="Siglas">
+              <input formControlName="companyacronym" matInput placeholder="Siglas">
             </mat-form-field>
           </div>
         </div>
@@ -58,19 +59,19 @@
         <div class="col-4">
           <mat-form-field [floatLabel]="'always'">
             <mat-label class="custom-mat-form-field-label">Equipo</mat-label>
-            <input formControlName="fieldEquipment" matInput placeholder="Equipo">
+            <input formControlName="equipment" matInput placeholder="Equipo">
           </mat-form-field>
         </div>
         <div class="col-4">
           <mat-form-field [floatLabel]="'always'">
             <mat-label class="custom-mat-form-field-label">Matricula</mat-label>
-            <input formControlName="fieldEnrollment" matInput placeholder="Matricula">
+            <input formControlName="enrollment" matInput placeholder="Matricula">
           </mat-form-field>
         </div>
         <div class="col-4">
           <mat-form-field [floatLabel]="'always'">
             <mat-label class="custom-mat-form-field-label">No de vuelo</mat-label>
-            <input formControlName="fieldFlightNumber" matInput placeholder="No de vuelo">
+            <input formControlName="flightnumber" matInput placeholder="No de vuelo">
           </mat-form-field>
         </div>
       </div>
@@ -80,42 +81,42 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Comandante</mat-label>
-              <input formControlName="fieldCommander" matInput placeholder="Comandante">
+              <input formControlName="commander" matInput placeholder="Comandante">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">1er oficial</mat-label>
-              <input formControlName="fieldFirstOfficer" matInput placeholder="1er oficial">
+              <input formControlName="firstofficer" matInput placeholder="1er oficial">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">2do oficial</mat-label>
-              <input formControlName="fieldSecondOfficer" matInput placeholder="2do oficial">
+              <input formControlName="secondofficer" matInput placeholder="2do oficial">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">3er oficial</mat-label>
-              <input formControlName="fieldThirdOfficer" matInput placeholder="3er oficial">
+              <input formControlName="thirdofficer" matInput placeholder="3er oficial">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Mayor</mat-label>
-              <input formControlName="fieldMajor" matInput placeholder="Mayor">
+              <input formControlName="major" matInput placeholder="Mayor">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 1</mat-label>
-              <input formControlName="fieldFirstSurcharge" matInput placeholder="Sobrecargo 1">
+              <input formControlName="firstsurcharge" matInput placeholder="Sobrecargo 1">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 2</mat-label>
-              <input formControlName="fieldSecondSurcharge" matInput placeholder="Sobrecargo 2">
+              <input formControlName="secondsurcharge" matInput placeholder="Sobrecargo 2">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 3</mat-label>
-              <input formControlName="fieldThirdSurcharge" matInput placeholder="Sobrecargo 3">
+              <input formControlName="thirdsurcharge" matInput placeholder="Sobrecargo 3">
             </mat-form-field>
           </div>
         </div>
@@ -124,42 +125,42 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldCommanderLicense" matInput placeholder="Licencia">
+              <input formControlName="commanderlicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldFirstOfficerLicense" matInput placeholder="Licencia">
+              <input formControlName="firstofficerlicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldSecondOfficerLicense" matInput placeholder="Licencia">
+              <input formControlName="secondofficerlicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldThirdOfficerLicense" matInput placeholder="Licencia">
+              <input formControlName="thirdofficerlicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldMajorLicense" matInput placeholder="Licencia">
+              <input formControlName="majorlicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldFirstSurchargeLicense" matInput placeholder="Licencia">
+              <input formControlName="firstsurchargelicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldSecondSurchargeLicense" matInput placeholder="Licencia">
+              <input formControlName="secondsurchargelicense" matInput placeholder="Licencia">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input formControlName="fieldThirdSurchargeLicense" matInput placeholder="Licencia">
+              <input formControlName="thirdsurchargelicense" matInput placeholder="Licencia">
             </mat-form-field>
           </div>
         </div>
@@ -177,27 +178,27 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Origen</mat-label>
-              <input formControlName="fieldOrigin" matInput placeholder="Origen">
+              <input formControlName="origin" matInput placeholder="Origen">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Destino</mat-label>
-              <input formControlName="fieldDestination" matInput placeholder="Destino">
+              <input formControlName="destination" matInput placeholder="Destino">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Próxima escala</mat-label>
-              <input formControlName="fieldNextScale" matInput placeholder="Próxima escala">
+              <input formControlName="nextscale" matInput placeholder="Próxima escala">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Hora itinerario</mat-label>
-              <input formControlName="fieldItineraryTime" matInput placeholder="Hora itinerario">
+              <input formControlName="itinerarytime" matInput placeholder="Hora itinerario">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Causa de la demora</mat-label>
-              <input formControlName="fieldDelayCause" matInput placeholder="Causa de la demora">
+              <input formControlName="delaycause" matInput placeholder="Causa de la demora">
             </mat-form-field>
           </div>
         </div>
@@ -206,22 +207,22 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input formControlName="fieldOriginAcronym" matInput placeholder="Siglas">
+              <input formControlName="originacronym" matInput placeholder="Siglas">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input formControlName="fieldDestinationAcronym" matInput placeholder="Siglas">
+              <input formControlName="destinationacronym" matInput placeholder="Siglas">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input formControlName="fieldNextScaleAcronym" matInput placeholder="Siglas">
+              <input formControlName="nextscaleacronym" matInput placeholder="Siglas">
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Hora real</mat-label>
-              <input formControlName="fieldRealTime" matInput placeholder="Hora real">
+              <input formControlName="realtime" matInput placeholder="Hora real">
             </mat-form-field>
           </div>
         </div>

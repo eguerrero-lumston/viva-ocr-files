@@ -4,7 +4,7 @@
   </div>
   <div class="flex items-center">
     <!-- <form [formGroup]="searchForm" (ngSubmit)="update()"> -->
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Fecha</p>
       <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerDate.open()">
         <input matInput [matDatepicker]="pickerDate" [formControl]="date">
@@ -12,30 +12,29 @@
         <mat-datepicker #pickerDate></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Hora</p>
-      <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()">
-        <input matInput [matDatepicker]="pickerHour" [formControl]="hour">
-        <!-- <mat-datepicker-toggle matSuffix [for]="pickerHour"></mat-datepicker-toggle> -->
-        <mat-datepicker #pickerHour></mat-datepicker>
-      </mat-form-field>
+      <!-- <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()"> -->
+          <input class="grow-1 time-picker"  [ngxTimepicker]="pickerTime">
+          <ngx-material-timepicker #pickerTime></ngx-material-timepicker>
+      <!-- </mat-form-field> -->
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Siglas</p>
       <ng-select class="grow-1" [items]="['Value1', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
         [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Matricula</p>
       <ng-select class="grow-1" [items]="['Value1', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
         [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Origen</p>
       <ng-select class="grow-1" [items]="['Value1', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
         [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center grow-1">
       <p class="title-search grow-1">Destino</p>
       <ng-select class="grow-1" [items]="['Value1', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
         [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
@@ -47,18 +46,18 @@
     <div class="flex justify-start" id="search-item">
       <span class="search-container">
         <input type="text" class="search" placeholder="Buscar">
-        <img class="search-icon" src="https://image.flaticon.com/icons/svg/149/149852.svg" alt="">
+        <img class="search-icon" src="assets/srchbar.svg" alt="">
       </span>
     </div>
 
     <div class="flex grid items-center">
       <div class="col-3"
-        *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,14,18,195,1,51,65,15,1,561,156,1,56,15,15,0,5]">
-        <div class="flex column items-center item-folder">
+        *ngFor="let item of folders">
+        <div class="flex column items-center item-folder" (click)="viewDataManifest()">
           <img class="icon-folder"
             src="assets/green folder.svg"
             alt="">
-          <h4 class="folder-name">VB 5196</h4>
+          <h4 class="folder-name">{{ item }}</h4>
         </div>
       </div>
     </div>

@@ -1,5 +1,8 @@
+import { Folder } from './../../model/folder';
+import { ConnectServer } from './../../api/connect-server';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-manifest-flight',
@@ -15,9 +18,21 @@ export class ManifestFlightComponent implements OnInit {
   hour = new FormControl(new Date());
   selectedSupervisor = 'Value1';
   serializedDate = new FormControl((new Date()).toISOString());
-  constructor() { }
+
+  folders: string[];
+
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private restApi: ConnectServer) { }
 
   ngOnInit() {
+    this.restApi.getFolders().subscribe((data) => {
+      console.log('folders--->', data);
+      this.folders = data.folders;
+    });
   }
 
+  viewDataManifest() {
+    this.router.navigate(['./form'], { relativeTo: this.route });
+  }
 }
