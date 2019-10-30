@@ -1,31 +1,37 @@
 <div class="navbar">
   <div class="flex items-center justify-end" style="height: 100%; padding-right: 40px;">
-      <div class="flex inline items-center" style="margin-left: 10px;">
-          <div class="circle-img" style="background-image: url(assets/user.png); background-color: rgba(200, 200, 200, 0.5);"></div>
-          <span style="color: white; margin-left: 10px;">▾</span>
-      </div>
+    <div class="flex inline items-center" style="margin-left: 10px;">
+      <div class="circle-img"
+        style="background-image: url(assets/user.png); background-color: rgba(200, 200, 200, 0.5);"></div>
+      <span style="color: white; margin-left: 10px;">▾</span>
+    </div>
   </div>
 </div>
 
 <div class="sidebar flex column items-center">
   <div class="logo">
-      <img src="assets/logo.png" height="65px" alt="">
+    <img src="assets/logo.png" height="65px" alt="">
   </div>
 
   <div class="menu">
-      <a routerLink="/upload" routerLinkActive="active" class="item flex">
-        <img height="15px" class="item-icon" src="assets/upload.svg" alt="icon">
-        Carga de documentos
-      </a>
+    <a routerLink="/upload" routerLinkActive="active" class="item flex">
+      <img height="15px" class="item-icon" src="assets/upload.svg" alt="icon">
+      Carga de documentos
+    </a>
 
-      <a routerLink="/manifest" routerLinkActive="active" class="item flex">
-        <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
-        Repositorio de documentos
-      </a>
+    <a routerLink="/manifest" routerLinkActive="active" class="item flex">
+      <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
+      Manifiestos de vuelo
+    </a>
+
+    <a routerLink="/repository" routerLinkActive="active" class="item flex">
+      <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
+      Repositorio de documentos
+    </a>
   </div>
 </div>
 
-
 <div class="content">
+  <ngx-ui-loader></ngx-ui-loader>
   <router-outlet></router-outlet>
 </div>

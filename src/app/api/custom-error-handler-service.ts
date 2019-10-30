@@ -1,12 +1,12 @@
-// import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 
 // import { Error } from '../interfaces';
 
 
-// @Injectable()
-// export class CustomErrorHandlerService {
-//   constructor() { }
+@Injectable()
+export class CustomErrorHandlerService {
+  constructor() { }
 
 
 //   tryParseError(error: Response): any {
@@ -78,4 +78,4 @@
 //       }
 //     }
 //   }
-// }
+}

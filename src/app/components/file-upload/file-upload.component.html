@@ -2,30 +2,37 @@
     <div class="flex items-center">
         <span class="section-title">Manifiesto de vuelos</span>
         <div class="grow-1"></div>
-        <span class="search-container">
+        <!-- <span class="search-container">
             <input type="text" class="search" placeholder="Buscar">
-            <img 
-            class="search-icon"
-            src="assets/srchbar.svg" alt="">
-        </span>
+            <img class="search-icon" src="assets/srchbar.svg" alt="">
+        </span> -->
     </div><br>
 
     <mat-card>
-        <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
-            <input hidden accept="application/pdf" type="file" #fileInput (change)="onThumbnailSelected($event)">
+        <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
+            (onFileDropped)="uploadFile($event)">
+            <input multiple hidden accept="application/pdf" type="file" #fileInput (change)="onThumbnailSelected($event)">
             <div class="flex inline column items-center">
-                <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px" height="130px" alt="">
-                <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus archivos</span>
+                <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px"
+                    height="130px" alt="">
+                <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus
+                    archivos</span>
                 <span class="drop-subtitle">Agrega los archivos (.pdf)</span>
             </div>
         </div>
     </mat-card>
 
-    <br>
-
-    <datatable></datatable>
-
-    <br>
-
-    <datatable></datatable>
+    <!-- This is the content of the dialog, containing a list of the files to upload -->
+    <!-- <mat-card *ngIf="files.length > 0"> -->
+        <mat-dialog-content fxFlex>
+            <mat-list>
+                <mat-list-item *ngFor="let file of files">
+                    <h4 mat-line>{{file.name}}</h4>
+                    <mat-progress-bar *ngIf="progress" mode="determinate"
+                        [value]="progress[file.name].progress | async">
+                    </mat-progress-bar>
+                </mat-list-item>
+            </mat-list>
+        </mat-dialog-content>
+    <!-- </mat-card> -->
 </div>

@@ -50,32 +50,7 @@ textarea.mat-input-element {
   font-size: 1rem;
   font-weight: bold;
 }
-.btn-load-manifest {
-  background-color: #0079ff;
-  border-radius: 5px;
-  padding: 10px 10px;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
 .mat-form-field {
   width: 100%;
   margin-top: 1.5rem;
-}
-.btn-cancel-manifest {
-  background-color: transparent;
-  border-radius: 5px;
-  padding: 10px 30px;
-  color: #7ec636;
-  border: none;
-  font-weight: bold;
-}
-.btn-send-manifest {
-  background-color: #7ec636;
-  border-radius: 5px;
-  padding: 10px 30px;
-  color: white;
-  border: none;
-  font-weight: bold;
-  margin: 0px 15px;
 }

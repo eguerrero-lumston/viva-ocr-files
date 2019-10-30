@@ -194,8 +194,6 @@ input.search:focus {
 }
 .link:hover,
 .btn:hover {
-  background: rgba(200, 200, 200, 0.2);
-  opacity: 0.9;
   cursor: pointer;
 }
 .btn.danger {
@@ -245,6 +243,35 @@ span.status.primary {
 span.status.warning {
   background-color: #fc0;
 }
+span.status.danger {
+  background-color: #d00241;
+}
 mat-card {
   box-shadow: 0 0px 9px rgba(0, 0, 0, 0.18) !important;
+}
+.container {
+  margin: 10px;
+}
+.cancel-manifest {
+  background-color: transparent;
+  color: #7ec636;
+}
+.send-manifest {
+  background-color: #7ec636;
+  color: white;
+}
+.cancel {
+  background-color: #d00241;
+  color: white;
+}
+.load-manifest {
+  background-color: #0079ff;
+  color: white;
+}
+.btn {
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px 30px;
+  margin: 0px 15px;
+  border: none;
 }

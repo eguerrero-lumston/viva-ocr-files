@@ -9,6 +9,7 @@ $info: #4EA9EB;
 $primary: #0079FF;
 $warning: #FFCC00;
 $green: #7EC636;
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -202,8 +203,8 @@ input.search,input.search:focus{
     outline: 0;
 }
 .link:hover, .btn:hover{
-    background: rgba(200, 200, 200, 0.2);
-    opacity: 0.9;
+    // background: rgba(200, 200, 200, 0.2);
+    // opacity: 0.9;
     cursor: pointer;
 }
 
@@ -260,7 +261,44 @@ span.status.primary{
 span.status.warning{
     background-color: $warning;
 }
+span.status.danger{
+    background-color: $danger;
+}
 
 mat-card{
     box-shadow: 0 0px 9px rgba(0,0,0,.18) !important;
+}
+
+.container{
+    margin: 10px;
+}
+
+
+.cancel-manifest{
+    background-color: transparent;
+    color: $green;
+    
+}
+
+.send-manifest{
+    background-color: $green;
+    color: white;
+}
+
+.cancel{
+    background-color: $danger;
+    color: white;
+}
+
+.load-manifest{
+    background-color: #0079FF;
+    color: white;
+}
+
+.btn {
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 30px;
+    margin: 0px 15px;
+    border: none;
 }

@@ -1,3 +1,4 @@
+import { DatatableComponent } from './datatable/datatable.component';
 import { ManifestViewerComponent } from '../components/manifest-viewer/manifest-viewer.component';
 import { ManifestFlightComponent } from '../components/manifest-flight/manifest-flight.component';
 import { FormComponent } from '../components/form/form.component';
@@ -8,9 +9,16 @@ import { FileUploadComponent } from '../components/file-upload/file-upload.compo
 
 const routes: Routes = [
   {
-    path: 'manifest',
+    path: 'repository',
       children: [
         { path: '' , component: ManifestFlightComponent },
+        { path: 'form', component: FormComponent }
+      ]
+  },
+  {
+    path: 'manifest',
+      children: [
+        { path: '' , component: DatatableComponent },
         { path: 'form', component: FormComponent }
       ]
   },

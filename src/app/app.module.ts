@@ -1,3 +1,7 @@
+import { DialogConfirmComponent } from './single-components/dialog-confirm/dialog-confirm.component';
+import { ToastNotificationComponent } from './single-components/toast-notification/toast-notification.component';
+import { UppercaseDirective } from './directives/uppercase.directive';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { MaterialModule } from './modules/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,6 +22,9 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { DragDropDirective } from './directives/drag-drop.directive';
 import { DatatableComponent } from './single-components/datatable/datatable.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -26,8 +33,11 @@ import { HttpClientModule } from '@angular/common/http';
     ManifestFlightComponent,
     FileUploadComponent,
     DragDropDirective,
+    UppercaseDirective,
     ManifestViewerComponent,
-    DatatableComponent
+    DatatableComponent,
+    ToastNotificationComponent,
+    DialogConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -38,13 +48,32 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     PdfViewerModule,
     HttpClientModule,
-    NgxMaterialTimepickerModule, //.setLocale('es_MX')
+    NgxMaterialTimepickerModule, // .setLocale('es_MX')
     ReactiveFormsModule,
     MaterialModule,
+    MatBottomSheetModule,
+    NgxUiLoaderModule,
+    ToastrModule.forRoot({
+      // toastComponent: ToastNotificationComponent
+    })
   ],
-  providers: [],
+  entryComponents: [
+    FormComponent, // THE MAGIC HAPPENDS HERE
+    ManifestViewerComponent,
+    ToastNotificationComponent,
+    DialogConfirmComponent
+  ],
+  exports:[
+    UppercaseDirective,
+  ],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: [] },
+    FormComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//   .catch(err => console.error(err));

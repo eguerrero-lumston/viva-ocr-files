@@ -1,93 +1,76 @@
 $green: #7EC636;
 
-.container{
+.container {
     margin: 1rem;
     margin-top: 0;
 }
+
 .form-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-container > * {
-  width: 100%;
+    width: 100%;
 }
+
 .example-form {
-  min-width: 100px;
-  max-width: 250px;
-  width: 100%;
+    min-width: 100px;
+    max-width: 250px;
+    width: 100%;
 }
 
 .example-full-width {
-  width: 100%;
-  background-color: white;
-  /* padding-top: -25px; */
-  /* padding: -10px; */
-  border-radius: 5px;
-  height: 40px;
+    width: 100%;
+    background-color: white;
+
+    /* padding-top: -25px; */
+    /* padding: -10px; */
+    border-radius: 5px;
+    height: 40px;
 }
 
-#search-item{
-  margin: 15px;
-  /* max-height: 30px !important; */
+#search-item {
+    margin: 15px;
+
+    /* max-height: 30px !important; */
 }
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.3em 0px !important;}
-::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+    padding: 0.3em 0px !important;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+    top: -1.5em;
+}
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.6em) scale(.75);
+    transform: translateY(-1.6em) scale(0.75);
     width: 133.33333%;
 }
 
 .mat-form-field-label {
-  white-space: normal;
+    white-space: normal;
 }
 
 textarea.mat-input-element {
-  padding: 0px 0;
-  margin: 5px 0;
+    padding: 0px 0;
+    margin: 5px 0;
 }
 
 .mat-input-placeholder {
-  white-space: normal;
+    white-space: normal;
 }
 
-.custom-mat-form-field-label{
-  color: black;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.btn-load-manifest{
-  background-color: #0079FF;
-  border-radius: 5px;
-  padding: 10px 10px;
-  color: white;
-  border: none;
-  font-weight: bold;
+.custom-mat-form-field-label {
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .mat-form-field {
-  width: 100%;
-  margin-top: 1.5rem;
+    width: 100%;
+    margin-top: 1.5rem;
 }
 
-
-.btn-cancel-manifest{
-  background-color: transparent;
-  border-radius: 5px;
-  padding: 10px 30px;
-  color: $green;
-  border: none;
-  font-weight: bold;
-}
-
-.btn-send-manifest{
-  background-color: $green;
-  border-radius: 5px;
-  padding: 10px 30px;
-  color: white;
-  border: none;
-  font-weight: bold;
-  margin: 0px 15px;
-}
+.float-window {}

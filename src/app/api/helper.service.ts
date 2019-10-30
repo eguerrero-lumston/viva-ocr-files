@@ -1,18 +1,28 @@
 import { Injectable } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
-  addContentTypeHeader: Boolean;
+  addContentTypeHeader: boolean;
 
-  constructor() { }
+  constructor(private ngxService: NgxUiLoaderService) { }
 
-  startLoader() {
-
+  startLoader(loaderName?: string) {
+    if (loaderName) {
+      this.ngxService.startLoader(loaderName);
+    } else {
+      this.ngxService.start();
+    }
   }
-  stopLoader() {
 
+  stopLoader(loaderName?: string) {
+    if (loaderName) {
+      this.ngxService.stopLoader(loaderName);
+    } else {
+      this.ngxService.stop();
+    }
   }
 
 }

@@ -16,11 +16,11 @@ export class ManifestFlightComponent implements OnInit {
   });
   date = new FormControl(new Date());
   hour = new FormControl(new Date());
-  selectedSupervisor = 'Value1';
+  selectedSupervisor = 'Todas';
   serializedDate = new FormControl((new Date()).toISOString());
 
-  folders: string[];
-
+  folders: string[] = ['ASD89', 'ASD89', 'ASD89'];
+  files: string[]  = ['ASD89', 'ASD89', 'ASD89'];
   constructor(private router: Router,
               private route: ActivatedRoute,
               private restApi: ConnectServer) { }
@@ -29,10 +29,11 @@ export class ManifestFlightComponent implements OnInit {
     this.restApi.getFolders().subscribe((data) => {
       console.log('folders--->', data);
       this.folders = data.folders;
+      this.files = data.files;
     });
   }
 
-  viewDataManifest() {
-    this.router.navigate(['./form'], { relativeTo: this.route });
+  viewDataManifest(name: string) {
+    this.router.navigate(['./form', { name }], { relativeTo: this.route });
   }
 }
