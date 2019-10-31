@@ -318,9 +318,9 @@
       </div>
 
       <mat-card-actions style="text-align: end;">
-        <button class="btn cancel-manifest" (click)="onCancel()">Cancelar</button>
-        <button class="btn load-manifest" (click)="loadManifest()">Confirmar manifiesto</button>
-        <button class="btn send-manifest" type="submit" (click)="update()" >Actualizar</button>
+        <button class="btn margin cancel-manifest" (click)="onCancel()">Cancelar</button>
+        <button *ngIf="!isConfirmed" class="btn margin load-manifest" (click)="loadManifest()">Confirmar manifiesto</button>
+        <button class="btn margin send-manifest" type="submit" (click)="update()" >Actualizar</button>
       </mat-card-actions>
       <!-- <mat-card-actions >
           <button mat-raised-button color="primary" [disabled]="!ownerForm.valid">Create</button>

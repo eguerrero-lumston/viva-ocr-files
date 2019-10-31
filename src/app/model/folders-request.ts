@@ -3,5 +3,5 @@ import { Folder } from './folder';
 
 export interface FoldersRequest {
     folders: string[];
-    files: string[];
+    files: File[];
 }

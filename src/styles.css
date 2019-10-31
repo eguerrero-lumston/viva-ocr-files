@@ -228,6 +228,9 @@ input.search:focus {
   padding: 0.3rem 0.4rem;
   font-size: 0.7rem;
 }
+.btn.disabled {
+  background-color: gray;
+}
 span.status {
   background-color: gray;
   border-radius: 100%;
@@ -272,6 +275,8 @@ mat-card {
   font-weight: bold;
   border-radius: 5px;
   padding: 10px 30px;
-  margin: 0px 15px;
   border: none;
+}
+.btn.margin {
+  margin: 0px 15px;
 }

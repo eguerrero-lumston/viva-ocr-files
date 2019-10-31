@@ -1,3 +1,4 @@
+import { File } from './../../model/file';
 import { Folder } from './../../model/folder';
 import { ConnectServer } from './../../api/connect-server';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -19,8 +20,8 @@ export class ManifestFlightComponent implements OnInit {
   selectedSupervisor = 'Todas';
   serializedDate = new FormControl((new Date()).toISOString());
 
-  folders: string[] = ['ASD89', 'ASD89', 'ASD89'];
-  files: string[]  = ['ASD89', 'ASD89', 'ASD89'];
+  folders: string[] = [];
+  files: File[];
   constructor(private router: Router,
               private route: ActivatedRoute,
               private restApi: ConnectServer) { }
@@ -34,6 +35,6 @@ export class ManifestFlightComponent implements OnInit {
   }
 
   viewDataManifest(name: string) {
-    this.router.navigate(['./form', { name }], { relativeTo: this.route });
+    this.router.navigate(['./manifest-viewer', { name }], { relativeTo: this.route });
   }
 }

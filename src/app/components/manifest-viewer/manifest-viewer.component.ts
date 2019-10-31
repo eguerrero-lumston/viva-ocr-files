@@ -48,7 +48,7 @@ export class ManifestViewerComponent implements OnInit {
 
   openInUrl() {
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['/upload/manifest-viewer', { name: this.data.pdfName }]);
+    this.router.navigate(['/manifest/manifest-viewer', { name: this.data.pdfName }]);
   }
 
   close() {

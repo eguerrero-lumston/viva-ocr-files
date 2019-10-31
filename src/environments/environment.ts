@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URL_HOST: 'http://192.168.1.83:3000/api/',
+  URL_HOST: 'http://192.168.1.79:3000/api/',
 };
 
 /*

@@ -1,13 +1,23 @@
-<div class="flec items-center">
-  <h4 class="modal-title">{{ title }}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<!-- <h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+    <div class="flex items-center">
+      {{ data.message }}
+    </div>
+
 </div>
-<div class="modal-body">
-  {{ message }}
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="decline()">{{ btnCancelText }}</button>
-  <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText }}</button>
-</div>
+<mat-dialog-actions>
+    <div class="flex items-end">
+      <button class="btn cancel-manifest" (click)="decline()"></button>
+      <button class="btn send-manifest" (click)="accept()">{{ data.btnOkText }}</button>
+    </div>
+
+</mat-dialog-actions> -->
+
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>{{ data.message }}</mat-dialog-content>
+<br>
+<mat-dialog-actions align="end">
+  <button class="btn margin cancel-manifest" (click)="decline()">{{ data.btnCancelText }}</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button class="btn margin send-manifest" (click)="accept()" [mat-dialog-close]="true">{{ data.btnOkText }}</button>
+</mat-dialog-actions>

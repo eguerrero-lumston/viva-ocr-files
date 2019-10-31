@@ -27,6 +27,14 @@ export class NotificationService {
     this.notifier.error(body, title, this.options);
   }
 
+  showInfo(title: string, body: string) {
+    this.notifier.info(body, title, this.options);
+  }
+
+  showWarning(title: string, body: string) {
+    this.notifier.warning(body, title, this.options);
+  }
+
   showCustom() {
     this.notifier.success('title', 'title', this.options);
     // this.notifier.show()

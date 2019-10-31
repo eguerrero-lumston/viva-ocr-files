@@ -17,22 +17,20 @@ export class DialogConfirmComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogConfirmComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-
      }
 
   ngOnInit() {
   }
 
   public decline() {
-    this.dialogRef.close('Pizza!');
+    this.dialogRef.close(false);
   }
 
   public accept() {
-    // this.activeModal.close(true);
+    this.dialogRef.close(true);
   }
 
-  public dismiss() {7
-    // this.activeModal.dismiss();
+  public dismiss() {
+    this.dialogRef.close(false);
   }
-
 }

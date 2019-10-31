@@ -24,8 +24,8 @@ export class FileUploadComponent implements OnInit {
               private notificationservice: NotificationService) { }
 
   ngOnInit() {
-    this.notificationservice.showSuccess("safdas", "dvfds");
-    this.notificationservice.showCustom();
+    // this.notificationservice.showSuccess("safdas", "dvfds");
+    // this.notificationservice.showCustom();
   }
 
   uploadFile(event) {
@@ -36,6 +36,10 @@ export class FileUploadComponent implements OnInit {
   }
 
   addFiles(event: Event) {
+    if (this.uploading){ return; } else {
+      this.notificationservice.showInfo('Informaciòn', 'Espera a que los archivos seleccionados sean subidos');
+    }
+
     console.log('uploadFile', event, this.fileInput);
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
     console.log('files', files);
@@ -44,12 +48,12 @@ export class FileUploadComponent implements OnInit {
         this.files.add(files[key]);
       }
     }
-    console.log('files 2---', files);
+    console.log('files ---', files);
 
-    this.closeDialog();
+    this.uploadFiles();
   }
 
-  closeDialog() {
+  uploadFiles() {
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
       console.log('It is already to close');
@@ -61,20 +65,24 @@ export class FileUploadComponent implements OnInit {
 
     // start the upload and save the progress map
     this.progress = this.uploadService.upload(this.files);
-    console.log(this.progress);
-    // tslint:disable-next-line: forin
-    for (const key in this.progress) {
-      this.progress[key].progress.subscribe(val => console.log(val));
-    }
-
+    // console.log(this.progress);
     // convert the progress map into an array
     const allProgressObservables = [];
+
     // tslint:disable-next-line: forin
     for (const key in this.progress) {
       allProgressObservables.push(this.progress[key].progress);
+      this.progress[key].progress.subscribe({
+        next(num) { console.log(num); },
+        complete() {
+          console.log('Finished sequence progress');
+        }
+      });
+      this.progress[key].isFinish.subscribe({
+        next(isFinish) { console.log(isFinish); },
+        complete() { console.log('Finished sequence isFinish'); }
+      });
     }
-
-    // Adjust the state variables
 
     // The OK-button should have the text "Finish" now
     this.primaryButtonText = 'Finish';
@@ -94,7 +102,7 @@ export class FileUploadComponent implements OnInit {
 
       // ... the upload was successful...
       this.uploadSuccessful = true;
-
+      this.files.clear();
       // ... and the component is no longer uploading
       this.uploading = false;
     });

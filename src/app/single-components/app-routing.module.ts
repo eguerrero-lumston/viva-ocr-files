@@ -12,21 +12,22 @@ const routes: Routes = [
     path: 'repository',
       children: [
         { path: '' , component: ManifestFlightComponent },
-        { path: 'form', component: FormComponent }
+        { path: 'form', component: FormComponent },
+        { path: 'manifest-viewer', component: ManifestViewerComponent }
       ]
   },
   {
     path: 'manifest',
       children: [
         { path: '' , component: DatatableComponent },
-        { path: 'form', component: FormComponent }
+        { path: 'form', component: FormComponent },
+        { path: 'manifest-viewer', component: ManifestViewerComponent }
       ]
   },
   {
     path: 'upload',
     children: [
-      { path: '', component: FileUploadComponent },
-      { path: 'manifest-viewer', component: ManifestViewerComponent }
+      { path: '', component: FileUploadComponent }
     ]
  }
 ];

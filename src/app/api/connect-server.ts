@@ -10,6 +10,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,8 @@ export class ConnectServer {
     constructor(private http: HttpClient,
                 private notificationService: NotificationService,
                 private toastr: ToastrService,
-                private helperService: HelperService) {
+                private helperService: HelperService,
+                private snackBar: MatSnackBar) {
     }
 
     /*========================================
@@ -124,8 +126,14 @@ export class ConnectServer {
         }
         this.helperService.stopLoader();
         // console.log(errorMessage);
-        // this.toastr.error("title", errorMessage);
-        this.notificationService.showError('Error', errorMessage);
+        // this.toastr.error('title', errorMessage);
+        // this.notificationService.showError('Error', errorMessage);
+        const snackBarRef = this.snackBar.open(errorMessage, 'reintentar', {
+            duration: 9000,
+          });
+        snackBarRef.afterDismissed().subscribe(() => {
+            console.log('The snack-bar was dismissed');
+        });
         // window.alert(errorMessage);
         return throwError(errorMessage);
     }

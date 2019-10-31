@@ -1,3 +1,4 @@
+import { DialogConfirmComponent } from './../../single-components/dialog-confirm/dialog-confirm.component';
 import { NotificationService } from './../../api/notification.service';
 import { ConnectServer } from './../../api/connect-server';
 import { ManifestViewerComponent } from './../manifest-viewer/manifest-viewer.component';
@@ -8,6 +9,7 @@ import { Manifest } from 'src/app/model/manifest/manifest';
 import { MatBottomSheetRef, MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form',
@@ -24,6 +26,7 @@ export class FormComponent implements OnInit {
   manifest = new Manifest();
   // manifestForm: FormGroup;
   name: string;
+  isConfirmed = false;
   SERVER_FORMAT = 'DD/MM/YYYY';
   INPUT_FORMAT = 'YYYY-MM-DD';
 
@@ -33,6 +36,7 @@ export class FormComponent implements OnInit {
               private bottomSheet: MatBottomSheet,
               private location: Location,
               private api: ConnectServer,
+              public dialog: MatDialog,
               private notificationService: NotificationService) {
   }
 
@@ -58,20 +62,46 @@ export class FormComponent implements OnInit {
   update() {
     this.formattedManifest();
     console.log(this.manifest);
-    if (this.isFormValid()) {
+    if (this.isFormValid() && !this.isConfirmed) {
       // console.log('it is submit');
       this.api.updateManifest(this.manifest).subscribe(res => {
         console.log('response server--->', res);
-        this.notificationService.showSuccess('Correcto!', 'Se actualizò correctamente');
+        if (res) {
+          this.notificationService.showSuccess('Correcto!', 'Se actualizò correctamente');
+        }
       });
     }
   }
 
-  loadManifest() {
+  async loadManifest() {
     // this.manifestForm.setValue(this.manifest);
-    console.log(this.manifest);
-    this.api.confirmManifest(this.manifest.jobId).subscribe(res => {
-      this.notificationService.showSuccess('Correcto!', 'Se ha confirmado correctamente');
+    // console.log(this.manifest);
+    if (!this.isFormValid()) {
+      this.notificationService.showWarning('Precauciòn', 'Antes de confirmar debes llenar los datos necesarios');
+      return;
+    }
+    await this.api.updateManifest(this.manifest).toPromise();
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Confirma',
+        message: `¿Deseas confirmar el manifiesto ${this.manifest.name}?,\n
+         al finalizar regresaras a la pantalla anterior`,
+        btnOkText: 'Si, confirmar',
+        btnCancelText: 'No'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.api.confirmManifest(this.manifest.jobId).subscribe(res => {
+          if (res) {
+            this.isConfirmed = true;
+            this.notificationService.showSuccess('Correcto!', 'Se ha confirmado correctamente');
+            this.location.back();
+          }
+        });
+      }
     });
   }
 
@@ -79,11 +109,23 @@ export class FormComponent implements OnInit {
     this.bottomSheet.open(ManifestViewerComponent, {
       data: { pdfName: this.manifest.name },
     });
-    // this.router.navigate(['/upload/manifest-viewer']);
   }
 
   public onCancel = () => {
-    this.location.back();
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Confirma',
+        message: '¿Deseas regresar a la pagina anterior?',
+        btnOkText: 'Si',
+        btnCancelText: 'No'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.location.back();
+      }
+    });
   }
 
   public hasError = (value: string) => {

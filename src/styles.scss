@@ -9,6 +9,7 @@ $info: #4EA9EB;
 $primary: #0079FF;
 $warning: #FFCC00;
 $green: #7EC636;
+$gray: gray;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -244,6 +245,9 @@ input.search,input.search:focus{
     padding: 0.3rem 0.4rem;
     font-size: 0.7rem;
 }
+.btn.disabled{
+    background-color: $gray;
+}
 
 /* Status indicator */
 span.status{
@@ -299,6 +303,10 @@ mat-card{
     font-weight: bold;
     border-radius: 5px;
     padding: 10px 30px;
-    margin: 0px 15px;
+    
     border: none;
+}
+
+.btn.margin {
+    margin: 0px 15px;
 }
