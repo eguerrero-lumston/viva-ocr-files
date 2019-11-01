@@ -1,3 +1,4 @@
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Manifest } from './../../model/manifest/manifest';
 import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.component';
 import { NotificationService } from './../../api/notification.service';
@@ -7,6 +8,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'datatable',
@@ -14,32 +20,53 @@ import { MatCheckbox } from '@angular/material/checkbox';
   styleUrls: ['./datatable.component.scss']
 })
 export class DatatableComponent implements OnInit {
-  rows: Manifest[];
-  temp: Manifest[];
+  dataSource = new MatTableDataSource<Manifest>();
+  temp = new MatTableDataSource<Manifest>();
   manifestToSend = new Set<Manifest>();
+  displayedColumns: string[] = ['name', 'uploaded_at', 'checkStatus', 'actions'];
+  nameSearch = new FormControl();
+  searchForm: FormGroup;
+  isYellow = false;
+  isBlue = false;
+  isGreen = false;
 
-  columns = [
-    { name: 'Nombre', prop: 'name', sortable: true },
-    { name: 'Cargado el', prop: 'uploaded_at', sortable: true },
-    { name: 'Estatus', prop: 'checkStatus', sortable: true },
-    { name: 'Acciones', prop: 'actions' },
-  ];
-
-  @ViewChild('dataManifestTable', { static: false }) table: DatatableComponent;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private restApi: ConnectServer,
               private route: ActivatedRoute,
               private router: Router,
               public dialog: MatDialog,
+              private formBuilder: FormBuilder,
               private notificationservice: NotificationService) {
     moment.locale('es');
+    this.searchForm = this.formBuilder.group({
+      nameSearch: this.nameSearch
+    });
   }
 
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.restApi.getManifests().subscribe((data) => {
-      console.log('data', data);
-      this.rows = data;
-      this.temp = data;
+      // console.log('data', data);
+      this.dataSource.data = data;
+    });
+
+    this.nameSearch.valueChanges.pipe(
+      debounceTime(1000),
+      switchMap(name => {
+        console.log(name);
+        if (name !== '') {
+          return this.restApi.getManifestFilter(name);
+        } else {
+          this.dataSource.data = this.temp.data;
+          return [];
+        }
+      })
+    ).subscribe(res => {
+      this.temp.data = this.dataSource.data;
+      this.dataSource.data = res;
     });
   }
 
@@ -65,8 +92,9 @@ export class DatatableComponent implements OnInit {
         this.restApi.deleteManifest(row.jobId).subscribe(res => {
           if (res) {
             this.notificationservice.showSuccess('Correcto', 'se elimino correctamente');
-            const index = this.rows.indexOf(row);
-            this.rows.splice(index, 1);
+            const index = this.dataSource.data.indexOf(row);
+            this.dataSource.data.splice(index, 1);
+            this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
           }
         });
       }
@@ -101,9 +129,10 @@ export class DatatableComponent implements OnInit {
             this.restApi.confirmManifest(manifest.jobId).subscribe(res => {
               if (res) {
                 this.notificationservice.showSuccess('Correcto!', `Se ha confirmado ${manifest.name} correctamente`);
-                this.manifestToSend.add(manifest);
-                const index = this.rows.indexOf(manifest);
-                this.rows.splice(index, 1);
+                this.manifestToSend.delete(manifest);
+                const index = this.dataSource.data.indexOf(manifest);
+                this.dataSource.data.splice(index, 1);
+                this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
               }
             });
           }
@@ -113,8 +142,7 @@ export class DatatableComponent implements OnInit {
 
   }
 
-  onSort(event: Event) {
-    console.log(event);
+  customSort(event: {active: string, direction: string }) {
 
   }
 
@@ -131,17 +159,31 @@ export class DatatableComponent implements OnInit {
     // console.log(this.manifestToSend);
   }
 
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
+  updateFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
-    // filter our data
-    const temp = this.temp.filter(value => {
-      return value.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+  changeStatus() {
+    const status = [];
+    if (this.isYellow) {
+        status.push('1');
+    }
+    if (this.isBlue) {
+        status.push('2');
+    }
+    if (this.isGreen) {
+        status.push('3');
+    }
+    console.log(status.toString(),  JSON.stringify(status));
 
-    // update the rows
-    this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    // this.table.offset = 0;
+    if (status.length > 0) {
+      this.restApi.getManifestFilter(null, status.toString()).subscribe(res => {
+        console.log('filter', res);
+        this.temp.data = this.dataSource.data;
+        this.dataSource.data = res;
+      });
+    } else {
+      this.dataSource.data = this.temp.data;
+    }
   }
 }

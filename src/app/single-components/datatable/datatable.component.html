@@ -3,36 +3,35 @@
 
         <div class="flex items-center">
             <span class="search-container">
-                <input (keyup)="updateFilter($event)" type="text" class="search" placeholder="Buscar">
+                <form [formGroup]="searchForm">
+                    <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+                </form>
                 <img class="search-icon" src="assets/srchbar.svg" alt="">
             </span>
 
             <div class="grow-1"></div>
+            <div class="grow-1">
+                    <mat-checkbox [(ngModel)]="isYellow" (ngModelChange)="changeStatus()">Amarillo</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="isBlue" (ngModelChange)="changeStatus()">Azul</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="isGreen" (ngModelChange)="changeStatus()">Verde</mat-checkbox>
+            </div>
 
-            <button class="btn success"
-            [ngClass]="{'disabled': this.manifestToSend.size <= 0}"
-            [disabled]="this.manifestToSend.size <= 0"
-             (click)='onConfirmArray()'>Confirmar archivos</button>
+            <button class="btn success" [ngClass]="{ 'disabled': this.manifestToSend.size <= 0 }"
+                [disabled]="this.manifestToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
         </div><br>
 
         <div style="width: 100%;">
-            <ngx-datatable
-            [sortType]="'multi'"
-            [sorts]="[{ prop: 'name', dir: 'desc' }]"
-            [footerHeight]="50"
-            [limit]="10"
-            (sort)="onSort($event)"
-             #dataManifestTable rowHeight="auto" 
-             [columnMode]="'force'" [rows]="rows" [columns]="columns">
+            <!-- <ngx-datatable [sortType]="'multi'" [sorts]="[{ prop: 'name', dir: 'desc' }]" [footerHeight]="50"
+                [limit]="10" (sort)="onSort($event)" #dataManifestTable rowHeight="auto" [columnMode]="'force'"
+                [rows]="rows" [columns]="columns">
 
-                <ngx-datatable-column  [sortable]="true" 
-                *ngFor="let column of columns; let i = index;" name="{{column.name}}"
-                    prop="{{column.prop}}">
+                <ngx-datatable-column [sortable]="true" *ngFor="let column of columns; let i = index;"
+                    name="{{column.name}}" prop="{{column.prop}}">
 
                     <ng-template let-column="column" ngx-datatable-header-template>
                         <div [ngSwitch]="i"
                             style="border-bottom: 1px solid lightgray; padding: 5px 0px; text-transform: uppercase; font-size: 0.7rem; font-weight: bold; color: gray;">
-                            <div class="text-right" *ngSwitchCase="3">{{column.name}}</div>
+                            <div class="text-center" *ngSwitchCase="3">{{column.name}}</div>
                             <div class="text-center" *ngSwitchCase="2">{{column.name}}</div>
                             <div class="text-center" *ngSwitchCase="1">{{column.name}}</div>
                             <div class="text-center" *ngSwitchCase="0">{{column.name}}</div>
@@ -43,7 +42,7 @@
 
                         <div [ngSwitch]="i" class="flex items-center"
                             style="height: 50px; border-bottom: 1px solid lightgray; font-size: 0.9rem;">
-                            <div class="flex justify-end grow-1" *ngSwitchCase="3">
+                            <div class="flex justify-center grow-1" *ngSwitchCase="3">
                                 <button class="btn small info" (click)='onEdit(row)'>
                                     <img width="15px" height="15px" src="assets/edit.svg" alt="">
                                 </button>
@@ -56,7 +55,8 @@
                                 <span title="Sin analizar" *ngIf="value == 0" class="status danger"></span>
                                 <span title="Por analizar" *ngIf="value == 1" class="status warning"></span>
                                 <span title="Analizado, faltan campos" *ngIf="value == 2" class="status primary"></span>
-                                <span title="Analizado, Todos los campos" *ngIf="value == 3" class="status success"></span>
+                                <span title="Analizado, Todos los campos" *ngIf="value == 3"
+                                    class="status success"></span>
                             </div>
 
                             <div *ngSwitchCase="1" class="flex grow-1 justify-center">
@@ -68,7 +68,7 @@
                             <div *ngSwitchCase="0" style="padding-left: 20px;">
                                 <div>
                                     <mat-checkbox #check (click)="onCheckIsPressed(row, check)"
-                                    [disabled]="row.checkStatus !== 3"></mat-checkbox>
+                                        [disabled]="row.checkStatus !== 3"></mat-checkbox>
                                     {{value}}
                                 </div>
                             </div>
@@ -77,8 +77,81 @@
                     </ng-template>
 
                 </ngx-datatable-column>
-                
-            </ngx-datatable>
+
+            </ngx-datatable> -->
+
+            <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource"
+                class="mat-elevation-z1">
+
+                <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+                        <div class="text-center">Nombre</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div>
+                            <mat-checkbox #check (click)="onCheckIsPressed(element, check)"
+                                [disabled]="element.checkStatus !== 3"></mat-checkbox>
+                            {{element.name}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="uploaded_at">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+                        <div class="text-center"> Cargado el</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex grow-1 justify-start">
+                            <div>
+                                {{getDateFormat(element.uploaded_at)}}
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="checkStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+                        <div class="text-center"> Estatus </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex items-center justify-center grow-1">
+                            <span title="Sin analizar" *ngIf="element.checkStatus == 0" class="status danger"></span>
+                            <span title="Por analizar" *ngIf="element.checkStatus == 1" class="status warning"></span>
+                            <span title="Analizado, faltan campos" *ngIf="element.checkStatus == 2"
+                                class="status primary"></span>
+                            <span title="Analizado, Todos los campos" *ngIf="element.checkStatus == 3"
+                                class="status success"></span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="table-title">
+                        <div class="text-center"> Acciones </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex justify-center grow-1">
+                            <button class="btn small info" (click)='onEdit(element)'>
+                                <img width="15px" height="15px" src="assets/edit.svg" alt="">
+                            </button>
+                            <button class="btn small danger" (click)='onDelete(element)'>
+                                <img width="15px" height="15px" src="assets/delete.svg" alt="">
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
         </div>
 
     </mat-card>

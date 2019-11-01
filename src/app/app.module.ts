@@ -1,3 +1,5 @@
+import { DelayInputDirective } from './directives/delay-input.directive';
+import { QueueInterceptorService } from './api/queue-interceptor.service';
 import { DialogConfirmComponent } from './single-components/dialog-confirm/dialog-confirm.component';
 import { ToastNotificationComponent } from './single-components/toast-notification/toast-notification.component';
 import { UppercaseDirective } from './directives/uppercase.directive';
@@ -21,7 +23,7 @@ import { AppComponent } from './components/app-root/app.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DragDropDirective } from './directives/drag-drop.directive';
 import { DatatableComponent } from './single-components/datatable/datatable.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ToastrModule } from 'ngx-toastr';
@@ -34,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
     FileUploadComponent,
     DragDropDirective,
     UppercaseDirective,
+    DelayInputDirective,
     ManifestViewerComponent,
     DatatableComponent,
     ToastNotificationComponent,
@@ -65,8 +68,14 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   exports:[
     UppercaseDirective,
+    DelayInputDirective,
   ],
   providers: [
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: QueueInterceptorService,
+    //   multi: true
+    // },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },
     FormComponent,

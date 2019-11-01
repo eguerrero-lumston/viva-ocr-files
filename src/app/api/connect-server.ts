@@ -58,6 +58,22 @@ export class ConnectServer {
             );
     }
 
+    getManifestFilter(name?: string, status?: string): Observable<Manifest[]> {
+        // this.helperService.startLoader();
+        let params: any;
+        if (name) {
+            params = new HttpParams().set('name', name);
+        } else {
+            params = new HttpParams().set('checkStatus', status);
+        }
+
+        return this.http.get<Manifest[]>(this.apiURL + 'docs/filter/table', { headers: this.headers.headers, params })
+            .pipe(
+                // tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
     // HttpClient API put() method => update one manifest
     updateManifest(manifest: Manifest) {
         this.helperService.startLoader();
