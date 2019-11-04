@@ -113,7 +113,7 @@ ng-select{
     // margin-bottom: -10px;
 }
 
-.time-picker{
+.time-picker {
     width: 70%;
     max-width: 160px;
     width: 110px;
@@ -126,4 +126,48 @@ ng-select{
     display: inline-block;
     // border-
     // margin-top: 0px;
+}
+
+.input-manifest{
+    width: 70%;
+    max-width: 160px;
+    width: 110px;
+    height: 30px;
+    border: 1px solid $base-color;
+    border-radius: 4px;
+    box-sizing: border-box;
+    // margin-left: 5px;
+    padding-left: 12px;
+    display: inline-block;
+}
+
+.breadcrumb {
+    background: none;
+    font-size: 1em;
+    margin: 0;
+    span,
+    span {
+      color: black;
+      cursor: pointer;
+    }
+    span:hover,
+    span:hover {
+      color: dimgrey;
+      text-decoration: none;
+    }
+    li {
+      list-style: none;
+      float: left;
+      margin: 5px;
+    }
+    li:last-child {
+      margin-right: 20px;
+    }
+    li::after {
+      content: "/";
+      color: black;
+    }
+    li:first-child::after {
+      content: "";
+    }
 }

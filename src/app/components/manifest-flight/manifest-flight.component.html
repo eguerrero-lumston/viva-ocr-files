@@ -3,46 +3,49 @@
     <h1 class="grow-1">Manifiestos de vuelo</h1>
   </div>
   <div class="grid">
-    <div class="flex items-center ">
-      <!-- <form [formGroup]="searchForm" (ngSubmit)="update()"> -->
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Fecha</p>
-        <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerDate.open()">
-          <input matInput [matDatepicker]="pickerDate" [formControl]="date">
-          <!-- <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle> -->
-          <mat-datepicker #pickerDate></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Hora</p>
-        <!-- <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()"> -->
-            <input class="grow-1 time-picker"  [ngxTimepicker]="pickerTime" readonly>
-            <ngx-material-timepicker #pickerTime  [appendToInput]="false"></ngx-material-timepicker>
+    <form [formGroup]="searchForm">
+      <div class="flex items-center ">
+        <!-- <form [formGroup]="searchForm" (ngSubmit)="update()"> -->
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Fecha</p>
+          <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerDate.open()">
+            <input matInput [matDatepicker]="pickerDate" [formControl]="date">
+            <!-- <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle> -->
+            <mat-datepicker #pickerDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Hora</p>
+          <!-- <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()"> -->
+          <input name="time" formControlName="hour" type="time" class="grow-1 input-manifest">
+          <!-- <input > -->
+          <!-- <ngx-material-timepicker #pickerTime [appendToInput]="false"></ngx-material-timepicker> -->
 
-        <!-- </mat-form-field> -->
+          <!-- </mat-form-field> -->
+        </div>
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Siglas</p>
+          <ng-select class="grow-1 select-supervisor" formControlName="acronym"
+            [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" [clearable]="true"></ng-select>
+        </div>
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Matricula</p>
+          <ng-select class="grow-1 select-supervisor" formControlName="registration"
+            [items]="this.suggestions.registrations" [clearable]="true"></ng-select>
+        </div>
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Origen</p>
+          <ng-select class="grow-1 select-supervisor" formControlName="origin" [items]="this.suggestions.origins"
+            [clearable]="true"></ng-select>
+        </div>
+        <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Destino</p>
+          <ng-select class="grow-1 select-supervisor" formControlName="destination"
+            [items]="this.suggestions.destinations" [clearable]="true"></ng-select>
+        </div>
+        <!-- </form> -->
       </div>
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Siglas</p>
-        <ng-select class="grow-1" [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
-          [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
-      </div>
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Matricula</p>
-        <ng-select class="grow-1" [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
-          [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
-      </div>
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Origen</p>
-        <ng-select class="grow-1" [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
-          [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
-      </div>
-      <div class="flex items-center grow-1">
-        <p class="title-search grow-1">Destino</p>
-        <ng-select class="grow-1" [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" class="select-supervisor"
-          [clearable]="false" [(ngModel)]="selectedSupervisor"></ng-select>
-      </div>
-      <!-- </form> -->
-    </div>
+    </form>
   </div>
 
   <mat-card>
@@ -51,27 +54,36 @@
         <input type="text" class="search" placeholder="Buscar">
         <img class="search-icon" src="assets/srchbar.svg" alt="">
       </span>
+      <ol class="breadcrumb">
+        <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item " (click)="returnHome()">
+          <span class="flex items-center">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">keyboard_arrow_left</mat-icon>
+            {{ breadcrumb }}
+          </span>
+        </li>
+      </ol>
     </div>
 
     <div class="flex grid items-center">
-      <div class="col-3"
-        *ngFor="let item of folders">
-        <div class="flex column items-center item-folder" (click)="viewDataManifest(item)">
-          <img class="icon-folder"
-            src="assets/green folder.svg"
-            alt="">
-          <h4 class="folder-name shrink-1">{{ item }}</h4>
+      <ng-container *ngIf="!isInFolder">
+        <div class="col-3" *ngFor="let item of folders">
+          <div class="flex column items-center item-folder" (click)="viewFolder(item)">
+            <img class="icon-folder" src="assets/green folder.svg" alt="">
+            <h4 class="folder-name shrink-1">{{ item }}</h4>
+          </div>
         </div>
-      </div>
-      <div class="col-3"
-        *ngFor="let item of files">
-        <div class="flex column items-center item-folder" (click)="viewDataManifest(item)">
-          <img class="icon-folder"
-            src="assets/PDF_file_icon.svg"
-            alt="">
+      </ng-container>
+      <div class="col-3" *ngFor="let item of files">
+        <div *ngIf="isInFolder" class="flex column items-center item-folder" (click)="viewDataManifest(item)">
+          <img class="icon-folder" src="assets/PDF_file_icon.svg" alt="">
           <h4 class="folder-name shrink-1">{{ item.name }}</h4>
         </div>
       </div>
+      <ng-container *ngIf="!files && isInFolder">
+        <div class="flex items-center">
+          <h3>No hay documentos</h3>
+        </div>
+      </ng-container>
     </div>
   </mat-card>
 </div>

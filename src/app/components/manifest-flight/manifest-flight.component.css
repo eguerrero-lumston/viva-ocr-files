@@ -99,3 +99,44 @@ ng-select {
   padding: 12px 20px;
   display: inline-block;
 }
+.input-manifest {
+  width: 70%;
+  max-width: 160px;
+  width: 110px;
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding-left: 12px;
+  display: inline-block;
+}
+.breadcrumb {
+  background: none;
+  font-size: 1em;
+  margin: 0;
+}
+.breadcrumb span,
+.breadcrumb span {
+  color: black;
+  cursor: pointer;
+}
+.breadcrumb span:hover,
+.breadcrumb span:hover {
+  color: dimgrey;
+  text-decoration: none;
+}
+.breadcrumb li {
+  list-style: none;
+  float: left;
+  margin: 5px;
+}
+.breadcrumb li:last-child {
+  margin-right: 20px;
+}
+.breadcrumb li::after {
+  content: "/";
+  color: black;
+}
+.breadcrumb li:first-child::after {
+  content: "";
+}

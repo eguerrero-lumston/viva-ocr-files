@@ -1,3 +1,7 @@
+import { FileFilter } from './../model/file-filter';
+import { Suggestions } from './../model/suggestion';
+import { File } from './../model/file';
+import { ManifestPaginatorResponse } from '../model/manifest-paginator-response';
 import { NotificationService } from './notification.service';
 import { Pdf } from './../model/pdf';
 import { FoldersRequest } from './../model/folders-request';
@@ -11,6 +15,8 @@ import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -37,9 +43,9 @@ export class ConnectServer {
     };
 
     // HttpClient API get() method => Fetch manifest list
-    getManifests(): Observable<Manifest[]> {
+    getManifests(): Observable<ManifestPaginatorResponse> {
         this.helperService.startLoader();
-        return this.http.get<Manifest[]>(this.apiURL + 'docs/', this.headers)
+        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/', this.headers)
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -58,16 +64,20 @@ export class ConnectServer {
             );
     }
 
-    getManifestFilter(name?: string, status?: string): Observable<Manifest[]> {
+    getManifestFilter(paginator: MatPaginator, name?: string, status?: string): Observable<ManifestPaginatorResponse> {
         // this.helperService.startLoader();
-        let params: any;
+        let params = new HttpParams();
+        const page = paginator.pageIndex + 1;
+        params = params.append('limit', String(paginator.pageSize));
+        params = params.append('page', String(page));
         if (name) {
-            params = new HttpParams().set('name', name);
-        } else {
-            params = new HttpParams().set('checkStatus', status);
+            params = params.append('name', name);
+        }
+        if (status) {
+            params = params.append('checkStatus', status);
         }
 
-        return this.http.get<Manifest[]>(this.apiURL + 'docs/filter/table', { headers: this.headers.headers, params })
+        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/filter/table', { headers: this.headers.headers, params })
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -115,6 +125,56 @@ export class ConnectServer {
         return this.http.get<FoldersRequest>(this.apiURL + 'folders/', this.headers)
             .pipe(
                 tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getFoldersFilter(filter: FileFilter): Observable<FoldersRequest> {
+        this.helperService.startLoader();
+        let params = new HttpParams();
+        if (filter.date) {
+            const SERVER_FORMAT = 'DD/MM/YYYY';
+            const INPUT_FORMAT = 'YYYY-MM-DD';
+            const dateRaw = moment(filter.date, INPUT_FORMAT);
+            const formatDate = dateRaw.format(SERVER_FORMAT);
+            console.log('formatDate---->', dateRaw, formatDate);
+            params = params.append('date', formatDate);
+        }
+        if (filter.hour) {
+            params = params.append('hour', filter.hour);
+        }
+        if (filter.acronym) {
+            params = params.append('acronym', filter.acronym);
+        }
+        if (filter.registration) {
+            params = params.append('registration', filter.registration);
+        }
+        if (filter.origin) {
+            params = params.append('origin', filter.origin);
+        }
+        if (filter.destination) {
+            params = params.append('destination', filter.destination);
+        }
+
+        return this.http.get<FoldersRequest>(this.apiURL + 'docs/filter', { headers: this.headers.headers, params })
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getFolder(name: string): Observable<FoldersRequest> {
+        this.helperService.startLoader();
+        return this.http.get<FoldersRequest>(this.apiURL + `folders/${name}/`, { headers: this.headers.headers })
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getSuggestions(): Observable<Suggestions> {
+        return this.http.get<Suggestions>(this.apiURL + 'docs/filter/suggestions', { headers: this.headers.headers })
+            .pipe(
                 catchError(error => this.handleError(error))
             );
     }

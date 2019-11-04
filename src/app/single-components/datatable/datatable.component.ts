@@ -1,3 +1,5 @@
+import { ManifestPaginatorResponse } from './../../model/manifest-paginator-response';
+import { GlobalVariable } from './../../global/global';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Manifest } from './../../model/manifest/manifest';
 import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.component';
@@ -8,27 +10,36 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { state } from '@angular/animations';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'datatable',
   templateUrl: './datatable.component.html',
-  styleUrls: ['./datatable.component.scss']
+  styleUrls: ['./datatable.component.scss'],
+  providers: [ GlobalVariable ]
 })
 export class DatatableComponent implements OnInit {
   dataSource = new MatTableDataSource<Manifest>();
-  temp = new MatTableDataSource<Manifest>();
+  temp = new ManifestPaginatorResponse();
   manifestToSend = new Set<Manifest>();
   displayedColumns: string[] = ['name', 'uploaded_at', 'checkStatus', 'actions'];
+  total = 0;
+  limit = 10;
+  page = 0;
+  pageEvent: PageEvent;
+
   nameSearch = new FormControl();
   searchForm: FormGroup;
   isYellow = false;
   isBlue = false;
   isGreen = false;
+  isPurple = false;
+  status = [''];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -38,7 +49,8 @@ export class DatatableComponent implements OnInit {
               private router: Router,
               public dialog: MatDialog,
               private formBuilder: FormBuilder,
-              private notificationservice: NotificationService) {
+              private notificationservice: NotificationService,
+              private globalVariable: GlobalVariable) {
     moment.locale('es');
     this.searchForm = this.formBuilder.group({
       nameSearch: this.nameSearch
@@ -46,30 +58,44 @@ export class DatatableComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(this.paginator);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.restApi.getManifests().subscribe((data) => {
-      // console.log('data', data);
-      this.dataSource.data = data;
+      console.log('ngOnInit', data);
+      this.temp = data;
+      this.dataSource.data = data.docs;
+      this.total = data.total;
+      this.limit = data.limit;
+      this.page = data.page - 1;
     });
 
-    this.nameSearch.valueChanges.pipe(
+    this.nameSearch.valueChanges
+    .pipe(
       debounceTime(1000),
       switchMap(name => {
-        console.log(name);
         if (name !== '') {
-          return this.restApi.getManifestFilter(name);
+          this.nameSearch.setValue(name);
+          return this.restApi.getManifestFilter(this.paginator, this.nameSearch.value, this.status.toString());
         } else {
-          this.dataSource.data = this.temp.data;
-          return [];
+          this.configDefault();
         }
+        return [];
       })
     ).subscribe(res => {
-      this.temp.data = this.dataSource.data;
-      this.dataSource.data = res;
+        this.total = res.total;
+        this.limit = res.limit;
+        this.page = res.page - 1;
+        this.dataSource.data = res.docs;
     });
   }
 
+  configDefault() {
+    this.dataSource.data = this.temp.docs;
+    this.total = this.temp.total;
+    this.limit = this.temp.limit;
+    this.page = this.temp.page - 1;
+  }
   getDateFormat(date: string) {
     const dateRaw = moment(date);
     return dateRaw.format('DD-MM-YYYY');
@@ -125,7 +151,7 @@ export class DatatableComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       if (result) {
         this.manifestToSend.forEach(manifest => {
-          if (manifest.checkStatus === 3) {
+          if (manifest.checkStatus === this.globalVariable.STATUS_GREEN) {
             this.restApi.confirmManifest(manifest.jobId).subscribe(res => {
               if (res) {
                 this.notificationservice.showSuccess('Correcto!', `Se ha confirmado ${manifest.name} correctamente`);
@@ -148,7 +174,7 @@ export class DatatableComponent implements OnInit {
 
   onCheckIsPressed(manifest: Manifest, check: MatCheckbox) {
     // console.log(manifest, check.checked);
-    if (manifest.checkStatus !== 3) {
+    if (manifest.checkStatus !== this.globalVariable.STATUS_GREEN) {
       return;
     }
     if (check.checked) {
@@ -163,27 +189,50 @@ export class DatatableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  getManifestFilter(event?: PageEvent) {
+    if (event) {
+      this.page = event.pageIndex + 1;
+      this.total = event.pageSize;
+    } else {
+      this.page = 1;
+      this.total = this.paginator.pageSize;
+    }
+    console.log('getManifestFilter', this.page, this.total);
+    this.restApi.getManifestFilter(this.paginator,
+      this.nameSearch.value, this.status.toString()).subscribe(res => {
+      console.log('filter', res);
+      // this.temp.data = this.dataSource.data;
+      this.total = res.total;
+      this.limit = res.limit;
+      this.page = res.page - 1;
+      this.dataSource.data = res.docs;
+    });
+  }
+
   changeStatus() {
     const status = [];
     if (this.isYellow) {
-        status.push('1');
+        status.push(this.globalVariable.STATUS_YELLOW);
     }
+
     if (this.isBlue) {
-        status.push('2');
+        status.push(this.globalVariable.STATUS_BLUE);
     }
     if (this.isGreen) {
-        status.push('3');
+        status.push(this.globalVariable.STATUS_GREEN);
     }
-    console.log(status.toString(),  JSON.stringify(status));
 
-    if (status.length > 0) {
-      this.restApi.getManifestFilter(null, status.toString()).subscribe(res => {
-        console.log('filter', res);
-        this.temp.data = this.dataSource.data;
-        this.dataSource.data = res;
-      });
+    if (this.isPurple) {
+        status.push(this.globalVariable.STATUS_CONFIRMED);
+    }
+    this.status = status;
+
+    console.log(this.total, this.page);
+    if (this.status.length > 0) {
+      this.getManifestFilter();
     } else {
-      this.dataSource.data = this.temp.data;
+      this.configDefault();
     }
   }
+
 }

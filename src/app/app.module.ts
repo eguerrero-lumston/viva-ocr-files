@@ -1,3 +1,4 @@
+import { GlobalVariable } from './global/global';
 import { DelayInputDirective } from './directives/delay-input.directive';
 import { QueueInterceptorService } from './api/queue-interceptor.service';
 import { DialogConfirmComponent } from './single-components/dialog-confirm/dialog-confirm.component';
@@ -79,6 +80,7 @@ import { ToastrModule } from 'ngx-toastr';
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },
     FormComponent,
+    GlobalVariable
   ],
   bootstrap: [AppComponent]
 })

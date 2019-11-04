@@ -14,72 +14,14 @@
                     <mat-checkbox [(ngModel)]="isYellow" (ngModelChange)="changeStatus()">Amarillo</mat-checkbox>
                     <mat-checkbox [(ngModel)]="isBlue" (ngModelChange)="changeStatus()">Azul</mat-checkbox>
                     <mat-checkbox [(ngModel)]="isGreen" (ngModelChange)="changeStatus()">Verde</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="isPurple" (ngModelChange)="changeStatus()">Mostrar confirmados</mat-checkbox>
             </div>
 
             <button class="btn success" [ngClass]="{ 'disabled': this.manifestToSend.size <= 0 }"
                 [disabled]="this.manifestToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
         </div><br>
 
-        <div style="width: 100%;">
-            <!-- <ngx-datatable [sortType]="'multi'" [sorts]="[{ prop: 'name', dir: 'desc' }]" [footerHeight]="50"
-                [limit]="10" (sort)="onSort($event)" #dataManifestTable rowHeight="auto" [columnMode]="'force'"
-                [rows]="rows" [columns]="columns">
-
-                <ngx-datatable-column [sortable]="true" *ngFor="let column of columns; let i = index;"
-                    name="{{column.name}}" prop="{{column.prop}}">
-
-                    <ng-template let-column="column" ngx-datatable-header-template>
-                        <div [ngSwitch]="i"
-                            style="border-bottom: 1px solid lightgray; padding: 5px 0px; text-transform: uppercase; font-size: 0.7rem; font-weight: bold; color: gray;">
-                            <div class="text-center" *ngSwitchCase="3">{{column.name}}</div>
-                            <div class="text-center" *ngSwitchCase="2">{{column.name}}</div>
-                            <div class="text-center" *ngSwitchCase="1">{{column.name}}</div>
-                            <div class="text-center" *ngSwitchCase="0">{{column.name}}</div>
-                        </div>
-                    </ng-template>
-
-                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-
-                        <div [ngSwitch]="i" class="flex items-center"
-                            style="height: 50px; border-bottom: 1px solid lightgray; font-size: 0.9rem;">
-                            <div class="flex justify-center grow-1" *ngSwitchCase="3">
-                                <button class="btn small info" (click)='onEdit(row)'>
-                                    <img width="15px" height="15px" src="assets/edit.svg" alt="">
-                                </button>
-                                <button class="btn small danger" (click)='onDelete(row)'>
-                                    <img width="15px" height="15px" src="assets/delete.svg" alt="">
-                                </button>
-                            </div>
-
-                            <div class="flex justify-center grow-1" *ngSwitchCase="2">
-                                <span title="Sin analizar" *ngIf="value == 0" class="status danger"></span>
-                                <span title="Por analizar" *ngIf="value == 1" class="status warning"></span>
-                                <span title="Analizado, faltan campos" *ngIf="value == 2" class="status primary"></span>
-                                <span title="Analizado, Todos los campos" *ngIf="value == 3"
-                                    class="status success"></span>
-                            </div>
-
-                            <div *ngSwitchCase="1" class="flex grow-1 justify-center">
-                                <div>
-                                    {{getDateFormat(value)}}
-                                </div>
-                            </div>
-
-                            <div *ngSwitchCase="0" style="padding-left: 20px;">
-                                <div>
-                                    <mat-checkbox #check (click)="onCheckIsPressed(row, check)"
-                                        [disabled]="row.checkStatus !== 3"></mat-checkbox>
-                                    {{value}}
-                                </div>
-                            </div>
-                        </div>
-
-                    </ng-template>
-
-                </ngx-datatable-column>
-
-            </ngx-datatable> -->
-
+        <div >
             <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource"
                 class="mat-elevation-z1">
 
@@ -94,7 +36,8 @@
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div>
                             <mat-checkbox #check (click)="onCheckIsPressed(element, check)"
-                                [disabled]="element.checkStatus !== 3"></mat-checkbox>
+                                [disabled]="element.checkStatus != globalVariable.STATUS_GREEN"
+                                *ngIf="element.checkStatus != globalVariable.STATUS_CONFIRMED"></mat-checkbox>
                             {{element.name}}
                         </div>
                     </td>
@@ -121,11 +64,11 @@
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex items-center justify-center grow-1">
-                            <span title="Sin analizar" *ngIf="element.checkStatus == 0" class="status danger"></span>
-                            <span title="Por analizar" *ngIf="element.checkStatus == 1" class="status warning"></span>
-                            <span title="Analizado, faltan campos" *ngIf="element.checkStatus == 2"
+                            <span title="Sin analizar" *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE" class="status danger"></span>
+                            <span title="Por analizar" *ngIf="element.checkStatus == globalVariable.STATUS_YELLOW" class="status warning"></span>
+                            <span title="Analizado, faltan campos" *ngIf="element.checkStatus == globalVariable.STATUS_BLUE"
                                 class="status primary"></span>
-                            <span title="Analizado, Todos los campos" *ngIf="element.checkStatus == 3"
+                            <span title="Analizado, Todos los campos" *ngIf="element.checkStatus == globalVariable.STATUS_GREEN || element.checkStatus == globalVariable.STATUS_CONFIRMED"
                                 class="status success"></span>
                         </div>
                     </td>
@@ -141,7 +84,7 @@
                             <button class="btn small info" (click)='onEdit(element)'>
                                 <img width="15px" height="15px" src="assets/edit.svg" alt="">
                             </button>
-                            <button class="btn small danger" (click)='onDelete(element)'>
+                            <button *ngIf="element.checkStatus != globalVariable.STATUS_CONFIRMED" class="btn small danger" (click)='onDelete(element)'>
                                 <img width="15px" height="15px" src="assets/delete.svg" alt="">
                             </button>
                         </div>
@@ -151,7 +94,13 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginator
+                [length]="total"
+                [pageSizeOptions]="[10, 25, 100]"
+                [pageSize]="limit" 
+                [pageIndex]="page"
+                (page)="getManifestFilter($event)" showFirstLastButtons></mat-paginator>
+
         </div>
 
     </mat-card>
