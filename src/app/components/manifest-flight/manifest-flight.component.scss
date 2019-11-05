@@ -171,3 +171,26 @@ ng-select{
       content: "";
     }
 }
+
+#time:invalid:before {
+    color: #808080;
+    content: attr(placeholder);
+    padding-left: 10px;
+    pointer-events: none;
+    position: absolute;
+    left: 20px;
+}
+
+  input[type=time]:valid,
+  input[type=time]:focus,
+  input[type=time]:active {
+    color: #000;
+}
+
+  input[type=time]:valid:before,
+  input[type=time]:focus:before,
+  input[type=time]:active:before {
+    display: none;
+}
+  
+  

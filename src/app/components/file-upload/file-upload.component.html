@@ -27,11 +27,11 @@
         <mat-dialog-content fxFlex>
             <mat-list>
                 <mat-list-item *ngFor="let file of files">
-                    <h4 mat-line>{{file.name}}  %{{ progress[file.name].progress | async}} --> {{ !progress[file.name].isFinish }}</h4>
-                    <mat-progress-bar *ngIf="progress" mode="determinate"
+                    <h4 mat-line>{{file.name}}</h4>
+                    <mat-progress-bar *ngIf="progress" mode="indeterminate"
                         [value]="progress[file.name].progress | async">
                     </mat-progress-bar>
-                    <mat-icon *ngIf="progress[file.name].isFinish" aria-hidden="false" aria-label="Example home icon">check_circle</mat-icon>
+                    <!-- <mat-icon *ngIf="progress[file.name].isFinish" aria-hidden="false" aria-label="Example home icon">check_circle</mat-icon> -->
                 </mat-list-item>
             </mat-list>
         </mat-dialog-content>

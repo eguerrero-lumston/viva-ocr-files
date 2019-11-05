@@ -1,3 +1,5 @@
+import { HomeComponent } from './components/home/home.component';
+import { LoginUserComponent } from './components/login/login-user.component';
 import { GlobalVariable } from './global/global';
 import { DelayInputDirective } from './directives/delay-input.directive';
 import { QueueInterceptorService } from './api/queue-interceptor.service';
@@ -41,7 +43,9 @@ import { ToastrModule } from 'ngx-toastr';
     ManifestViewerComponent,
     DatatableComponent,
     ToastNotificationComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    LoginUserComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,7 @@ import { ToastrModule } from 'ngx-toastr';
     ToastNotificationComponent,
     DialogConfirmComponent
   ],
-  exports:[
+  exports: [
     UppercaseDirective,
     DelayInputDirective,
   ],

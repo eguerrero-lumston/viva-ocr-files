@@ -65,8 +65,8 @@
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex items-center justify-center grow-1">
                             <span title="Sin analizar" *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE" class="status danger"></span>
-                            <span title="Por analizar" *ngIf="element.checkStatus == globalVariable.STATUS_YELLOW" class="status warning"></span>
-                            <span title="Analizado, faltan campos" *ngIf="element.checkStatus == globalVariable.STATUS_BLUE"
+                            <span title="Faltan campos por analizar" *ngIf="element.checkStatus == globalVariable.STATUS_YELLOW" class="status warning"></span>
+                            <span title="Analizado, falta revisar campos" *ngIf="element.checkStatus == globalVariable.STATUS_BLUE"
                                 class="status primary"></span>
                             <span title="Analizado, Todos los campos" *ngIf="element.checkStatus == globalVariable.STATUS_GREEN || element.checkStatus == globalVariable.STATUS_CONFIRMED"
                                 class="status success"></span>

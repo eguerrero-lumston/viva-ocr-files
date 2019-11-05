@@ -9,7 +9,7 @@
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Fecha</p>
           <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerDate.open()">
-            <input matInput [matDatepicker]="pickerDate" [formControl]="date">
+            <input placeholder="{{date}}" matInput [matDatepicker]="pickerDate" formControlName="date">
             <!-- <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle> -->
             <mat-datepicker #pickerDate></mat-datepicker>
           </mat-form-field>
@@ -17,7 +17,7 @@
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Hora</p>
           <!-- <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()"> -->
-          <input name="time" formControlName="hour" type="time" class="grow-1 input-manifest">
+          <input id="time" placeholder="{{hour}}" name="time" formControlName="hour" type="time" class="grow-1 input-manifest">
           <!-- <input > -->
           <!-- <ngx-material-timepicker #pickerTime [appendToInput]="false"></ngx-material-timepicker> -->
 
@@ -25,22 +25,22 @@
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Siglas</p>
-          <ng-select class="grow-1 select-supervisor" formControlName="acronym"
+          <ng-select placeholder="Todas" class="grow-1 select-supervisor" formControlName="acronym"
             [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Matricula</p>
-          <ng-select class="grow-1 select-supervisor" formControlName="registration"
+          <ng-select placeholder="Todas" class="grow-1 select-supervisor" formControlName="registration"
             [items]="this.suggestions.registrations" [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Origen</p>
-          <ng-select class="grow-1 select-supervisor" formControlName="origin" [items]="this.suggestions.origins"
+          <ng-select placeholder="Todos" class="grow-1 select-supervisor" formControlName="origin" [items]="this.suggestions.origins"
             [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Destino</p>
-          <ng-select class="grow-1 select-supervisor" formControlName="destination"
+          <ng-select placeholder="Todos" class="grow-1 select-supervisor" formControlName="destination"
             [items]="this.suggestions.destinations" [clearable]="true"></ng-select>
         </div>
         <!-- </form> -->
@@ -51,7 +51,9 @@
   <mat-card>
     <div class="flex justify-start" id="search-item">
       <span class="search-container">
-        <input type="text" class="search" placeholder="Buscar">
+          <form [formGroup]="searchFormFiles">
+              <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+          </form>
         <img class="search-icon" src="assets/srchbar.svg" alt="">
       </span>
       <ol class="breadcrumb">
@@ -73,13 +75,18 @@
           </div>
         </div>
       </ng-container>
+      <ng-container *ngIf="!folders && !isInFolder">
+          <div class="flex items-center">
+            <h3>No hay carpetas para mostrar</h3>
+          </div>
+        </ng-container>
       <div class="col-3" *ngFor="let item of files">
         <div *ngIf="isInFolder" class="flex column items-center item-folder" (click)="viewDataManifest(item)">
           <img class="icon-folder" src="assets/PDF_file_icon.svg" alt="">
           <h4 class="folder-name shrink-1">{{ item.name }}</h4>
         </div>
       </div>
-      <ng-container *ngIf="!files && isInFolder">
+      <ng-container *ngIf="files.length == 0 && isInFolder">
         <div class="flex items-center">
           <h3>No hay documentos</h3>
         </div>

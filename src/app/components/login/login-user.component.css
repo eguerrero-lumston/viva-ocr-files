@@ -1,0 +1,49 @@
+.content-body{ 
+    /* width: 100%; */
+    height: 100%;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* The image used */
+    background: url(/assets/background-gra.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.button {
+    position: relative;
+    padding: 10px 10rem;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    outline: none;
+    color: black;
+    mix-blend-mode: screen;
+    margin-top: 16px;
+}
+  
+.button::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: white;
+    border-radius: 0.2em;
+    content: '';
+    mix-blend-mode: color-burn;
+}
+  
+  
+        

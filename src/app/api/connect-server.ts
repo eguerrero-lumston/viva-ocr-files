@@ -129,7 +129,7 @@ export class ConnectServer {
             );
     }
 
-    getFoldersFilter(filter: FileFilter): Observable<FoldersRequest> {
+    getFoldersFilter(filter: FileFilter): Observable<File[]> {
         this.helperService.startLoader();
         let params = new HttpParams();
         if (filter.date) {
@@ -156,7 +156,7 @@ export class ConnectServer {
             params = params.append('destination', filter.destination);
         }
 
-        return this.http.get<FoldersRequest>(this.apiURL + 'docs/filter', { headers: this.headers.headers, params })
+        return this.http.get<File[]>(this.apiURL + 'docs/filter', { headers: this.headers.headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -200,16 +200,16 @@ export class ConnectServer {
             // Get server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
-        this.helperService.stopLoader();
+        // this.helperService.stopLoader();
         // console.log(errorMessage);
         // this.toastr.error('title', errorMessage);
-        // this.notificationService.showError('Error', errorMessage);
-        const snackBarRef = this.snackBar.open(errorMessage, 'reintentar', {
-            duration: 9000,
-          });
-        snackBarRef.afterDismissed().subscribe(() => {
-            console.log('The snack-bar was dismissed');
-        });
+        this.notificationService.showError('Error', errorMessage);
+        // const snackBarRef = this.snackBar.open(errorMessage, 'reintentar', {
+        //     duration: 9000,
+        //   });
+        // snackBarRef.afterDismissed().subscribe(() => {
+        //     console.log('The snack-bar was dismissed');
+        // });
         // window.alert(errorMessage);
         return throwError(errorMessage);
     }
