@@ -1,8 +1,9 @@
+import { MatchesManifest } from './matches-manifest';
 import { ManifestObject } from './manifest-object';
 
 
 export class Manifest {
-
+    key: string;
     checkStatus: number;
     jobId: string;
     jobStatus: string;
@@ -18,6 +19,8 @@ export class Manifest {
     date: Date;
     formattedDate: string;
     formatted_date: string;
+
+    matches: MatchesManifest;
 
     airport = new ManifestObject();
     company = new ManifestObject();
@@ -40,19 +43,5 @@ export class Manifest {
     destination = new ManifestObject();
     nextScale = new ManifestObject();
     delayReason: string;
-
-    airportacronym: string;
-    companyacronym: string;
-    commanderlicence: string;
-    officerOnelicence: string;
-    officerTwolicence: string;
-    officerThreelicence: string;
-    seniorlicence: string;
-    surchargeOnelicence: string;
-    surchargeTwolicence: string;
-    surchargeThreelicence: string;
-    originacronym: string;
-    destinationacronym: string;
-    nextScaleacronym: string;
 
 }

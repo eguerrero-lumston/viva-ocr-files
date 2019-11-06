@@ -40,15 +40,15 @@ export class FileUploadComponent implements OnInit {
       this.notificationservice.showInfo('Informaciòn', 'Espera a que los archivos seleccionados sean subidos');
     }
 
-    console.log('uploadFile', event, this.fileInput);
+    // console.log('uploadFile', event, this.fileInput);
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
-    console.log('files', files);
+    // console.log('files', files);
     for (const key in files) {
       if (!isNaN(parseInt(key))) {
         this.files.add(files[key]);
       }
     }
-    console.log('files ---', files);
+    // console.log('files ---', files);
 
     this.uploadFiles();
   }
@@ -72,16 +72,16 @@ export class FileUploadComponent implements OnInit {
     // tslint:disable-next-line: forin
     for (const key in this.progress) {
       allProgressObservables.push(this.progress[key].progress);
-      this.progress[key].progress.subscribe({
-        next(num) { console.log(num); },
-        complete() {
-          console.log('Finished sequence progress');
-        }
-      });
-      this.progress[key].isFinish.subscribe({
-        next(isFinish) { console.log(isFinish); },
-        complete() { console.log('Finished sequence isFinish'); }
-      });
+      // this.progress[key].progress.subscribe({
+      //   next(num) { console.log(num); },
+      //   complete() {
+      //     console.log('Finished sequence progress');
+      //   }
+      // });
+      // this.progress[key].isFinish.subscribe({
+      //   next(isFinish) { console.log(isFinish); },
+      //   complete() { console.log('Finished sequence isFinish'); }
+      // });
     }
 
     // The OK-button should have the text "Finish" now

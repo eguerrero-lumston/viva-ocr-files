@@ -26,7 +26,7 @@ export class UploadService {
     files.forEach(file => {
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      console.log('document', file, file.name);
+      // console.log('document', file, file.name);
       formData.append('document', file, file.name);
 
       // create a http-post request and pass the form

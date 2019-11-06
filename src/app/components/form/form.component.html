@@ -24,12 +24,22 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Aeropuerto</mat-label>
-              <input name="manifest.airport.name" [(ngModel)]="manifest.airport.name" matInput placeholder="Aeropuerto">
+              <input appUppercase name="manifest.airport.name" [(ngModel)]="manifest.airport.name" matInput placeholder="Aeropuerto" [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Compañia</mat-label>
-              <input name="manifest.company.name" [(ngModel)]="manifest.company.name" matInput placeholder="Compañia">
+              <input appUppercase name="manifest.company.name" [(ngModel)]="manifest.company.name" matInput placeholder="Compañia" [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>
@@ -44,7 +54,7 @@
               name="manifest.formattedDate" [(ngModel)]="manifest.formattedDate" matInput placeholder="Fecha" [matAutocomplete]="date">
               <!-- <input [formControl]="myControl" > -->
               <mat-autocomplete #date="matAutocomplete">
-                <mat-option *ngFor="let option of dateOptions" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.dates" [value]="formatDate(option)">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
@@ -55,7 +65,7 @@
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
               <input required name="manifest.airport.acronym" [(ngModel)]="manifest.airport.acronym" appUppercase matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
-                <mat-option *ngFor="let option of acronyms" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
@@ -66,7 +76,7 @@
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
               <input appUppercase required name="manifest.company.acronym" [(ngModel)]="manifest.company.acronym" matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
-                <mat-option *ngFor="let option of acronyms" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
@@ -80,13 +90,18 @@
         <div class="col-4">
           <mat-form-field [floatLabel]="'always'">
             <mat-label class="custom-mat-form-field-label">Equipo</mat-label>
-            <input name="manifest.equipment" [(ngModel)]="manifest.equipment" matInput placeholder="Equipo">
+            <input appUppercase name="manifest.equipment" [(ngModel)]="manifest.equipment" matInput placeholder="Equipo">
           </mat-form-field>
         </div>
         <div class="col-4">
           <mat-form-field [floatLabel]="'always'">
             <mat-label class="custom-mat-form-field-label">Matricula</mat-label>
-            <input  required name="manifest.registration" [(ngModel)]="manifest.registration" matInput placeholder="Matricula">
+            <input appUppercase required name="manifest.registration" [(ngModel)]="manifest.registration" matInput placeholder="Matricula" [matAutocomplete]="registration">
+            <mat-autocomplete #registration="matAutocomplete">
+              <mat-option *ngFor="let option of manifest.matches.registrations" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
             <mat-error *ngIf="hasError(manifest.registration)">Ingrese matricula</mat-error>
           </mat-form-field>
         </div>
@@ -104,42 +119,82 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Comandante</mat-label>
-              <input name="manifest.commander.name" [(ngModel)]="manifest.commander.name" matInput placeholder="Comandante">
+              <input name="manifest.commander.name" [(ngModel)]="manifest.commander.name" matInput placeholder="Comandante" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">1er oficial</mat-label>
-              <input name="manifest.officerOne.name" [(ngModel)]="manifest.officerOne.name" matInput placeholder="1er oficial">
+              <input name="manifest.officerOne.name" [(ngModel)]="manifest.officerOne.name" matInput placeholder="1er oficial" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">2do oficial</mat-label>
-              <input name="manifest.officerTwo.name" [(ngModel)]="manifest.officerTwo.name" matInput placeholder="2do oficial">
+              <input name="manifest.officerTwo.name" [(ngModel)]="manifest.officerTwo.name" matInput placeholder="2do oficial" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">3er oficial</mat-label>
-              <input name="manifest.officerThree.name" [(ngModel)]="manifest.officerThree.name" matInput placeholder="3er oficial">
+              <input name="manifest.officerThree.name" [(ngModel)]="manifest.officerThree.name" matInput placeholder="3er oficial" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Mayor</mat-label>
-              <input name="manifest.senior.name" [(ngModel)]="manifest.senior.name" matInput placeholder="Mayor">
+              <input name="manifest.senior.name" [(ngModel)]="manifest.senior.name" matInput placeholder="Mayor" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 1</mat-label>
-              <input name="manifest.surchargeOne.name" [(ngModel)]="manifest.surchargeOne.name" matInput placeholder="Sobrecargo 1">
+              <input name="manifest.surchargeOne.name" [(ngModel)]="manifest.surchargeOne.name" matInput placeholder="Sobrecargo 1" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 2</mat-label>
-              <input name="manifest.surchargeTwo.name" [(ngModel)]="manifest.surchargeTwo.name" matInput placeholder="Sobrecargo 2">
+              <input name="manifest.surchargeTwo.name" [(ngModel)]="manifest.surchargeTwo.name" matInput placeholder="Sobrecargo 2" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Sobrecargo 3</mat-label>
-              <input name="manifest.surchargeThree.name" [(ngModel)]="manifest.surchargeThree.name" matInput placeholder="Sobrecargo 3">
+              <input name="manifest.surchargeThree.name" [(ngModel)]="manifest.surchargeThree.name" matInput placeholder="Sobrecargo 3" appUppercase [matAutocomplete]="names">
+              <mat-autocomplete #names="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>
@@ -148,7 +203,7 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.commander.licence" [(ngModel)]="manifest.commander.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.commander.licence" [(ngModel)]="manifest.commander.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -158,7 +213,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.officerOne.licence" [(ngModel)]="manifest.officerOne.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.officerOne.licence" [(ngModel)]="manifest.officerOne.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -168,7 +223,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.officerTwo.licence" [(ngModel)]="manifest.officerTwo.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.officerTwo.licence" [(ngModel)]="manifest.officerTwo.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -178,7 +233,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.officerThree.licence" [(ngModel)]="manifest.officerThree.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.officerThree.licence" [(ngModel)]="manifest.officerThree.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -188,7 +243,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.senior.licence" [(ngModel)]="manifest.senior.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.senior.licence" [(ngModel)]="manifest.senior.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -198,7 +253,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.surchargeOne.licence" [(ngModel)]="manifest.surchargeOne.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.surchargeOne.licence" [(ngModel)]="manifest.surchargeOne.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -208,7 +263,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.surchargeTwo.licence" [(ngModel)]="manifest.surchargeTwo.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.surchargeTwo.licence" [(ngModel)]="manifest.surchargeTwo.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -218,7 +273,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Licencia</mat-label>
-              <input name="manifest.surchargeThree.licence" [(ngModel)]="manifest.surchargeThree.licence" matInput placeholder="Licencia" [matAutocomplete]="licencesAC">
+              <input name="manifest.surchargeThree.licence" [(ngModel)]="manifest.surchargeThree.licence" matInput type="number" placeholder="Licencia" [matAutocomplete]="licencesAC">
               <mat-autocomplete #licencesAC="matAutocomplete">
                 <mat-option *ngFor="let option of licences" [value]="option">
                   {{option}}
@@ -241,12 +296,22 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Origen</mat-label>
-              <input  required name="manifest.origin.name" [(ngModel)]="manifest.origin.name" matInput placeholder="Origen">
+              <input  required name="manifest.origin.name" [(ngModel)]="manifest.origin.name" matInput placeholder="Origen" [matAutocomplete]="origins">
+              <mat-autocomplete #origins="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.origins" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Destino</mat-label>
-              <input  required name="manifest.destination.name" [(ngModel)]="manifest.destination.name" matInput placeholder="Destino">
+              <input  required name="manifest.destination.name" [(ngModel)]="manifest.destination.name" matInput placeholder="Destino" [matAutocomplete]="destinations">
+              <mat-autocomplete #destinations="matAutocomplete">
+                <mat-option *ngFor="let option of manifest.matches.destinations" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
               <mat-error *ngIf="hasError(manifest.destination.name)">Ingrese destino</mat-error>
             </mat-form-field>
 
@@ -277,7 +342,7 @@
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
               <input required name="manifest.origin.acronym" [(ngModel)]="manifest.origin.acronym" appUppercase matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
-                <mat-option *ngFor="let option of acronyms" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
@@ -288,7 +353,7 @@
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
               <input required name="manifest.destination.acronym" [(ngModel)]="manifest.destination.acronym" appUppercase matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
-                <mat-option *ngFor="let option of acronyms" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>
@@ -300,7 +365,7 @@
               <input name="manifest.nextScale.acronym" 
               [(ngModel)]="manifest.nextScale.acronym" appUppercase matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
-                <mat-option *ngFor="let option of acronyms" [value]="option">
+                <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete>

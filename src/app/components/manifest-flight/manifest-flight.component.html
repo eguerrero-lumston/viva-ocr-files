@@ -2,9 +2,9 @@
   <div class="flex items-center">
     <h1 class="grow-1">Manifiestos de vuelo</h1>
   </div>
-  <div class="grid">
+  <div>
     <form [formGroup]="searchForm">
-      <div class="flex items-center ">
+      <div class="flex grid items-center ">
         <!-- <form [formGroup]="searchForm" (ngSubmit)="update()"> -->
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Fecha</p>
@@ -17,7 +17,8 @@
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Hora</p>
           <!-- <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerHour.open()"> -->
-          <input id="time" placeholder="{{hour}}" name="time" formControlName="hour" type="time" class="grow-1 input-manifest">
+          <input id="time" placeholder="{{hour}}" name="time" formControlName="hour" type="time"
+            class="grow-1 input-manifest">
           <!-- <input > -->
           <!-- <ngx-material-timepicker #pickerTime [appendToInput]="false"></ngx-material-timepicker> -->
 
@@ -35,8 +36,8 @@
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Origen</p>
-          <ng-select placeholder="Todos" class="grow-1 select-supervisor" formControlName="origin" [items]="this.suggestions.origins"
-            [clearable]="true"></ng-select>
+          <ng-select placeholder="Todos" class="grow-1 select-supervisor" formControlName="origin"
+            [items]="this.suggestions.origins" [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Destino</p>
@@ -51,14 +52,14 @@
   <mat-card>
     <div class="flex justify-start" id="search-item">
       <span class="search-container">
-          <form [formGroup]="searchFormFiles">
-              <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
-          </form>
+        <form [formGroup]="searchFormFiles">
+          <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+        </form>
         <img class="search-icon" src="assets/srchbar.svg" alt="">
       </span>
       <ol class="breadcrumb">
-        <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item " (click)="returnHome()">
-          <span class="flex items-center">
+        <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item " (click)="returnHome(breadcrumb)">
+          <span class="flex items-center" >
             <mat-icon aria-hidden="false" aria-label="Example home icon">keyboard_arrow_left</mat-icon>
             {{ breadcrumb }}
           </span>
@@ -66,8 +67,8 @@
       </ol>
     </div>
 
-    <div class="flex grid items-center">
-      <ng-container *ngIf="!isInFolder">
+    <div class="flex grid items-center ">
+      <ng-container>
         <div class="col-3" *ngFor="let item of folders">
           <div class="flex column items-center item-folder" (click)="viewFolder(item)">
             <img class="icon-folder" src="assets/green folder.svg" alt="">
@@ -75,22 +76,23 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="!folders && !isInFolder">
-          <div class="flex items-center">
-            <h3>No hay carpetas para mostrar</h3>
-          </div>
-        </ng-container>
+      
       <div class="col-3" *ngFor="let item of files">
-        <div *ngIf="isInFolder" class="flex column items-center item-folder" (click)="viewDataManifest(item)">
+        <div class="flex column items-center item-folder" (click)="viewDataManifest(item)">
           <img class="icon-folder" src="assets/PDF_file_icon.svg" alt="">
           <h4 class="folder-name shrink-1">{{ item.name }}</h4>
         </div>
       </div>
-      <ng-container *ngIf="files.length == 0 && isInFolder">
-        <div class="flex items-center">
-          <h3>No hay documentos</h3>
-        </div>
-      </ng-container>
+      <!-- <ng-container *ngIf="files.length == 0 && folders.length == 0">
+          <div class="flex items-center">
+            <h3> No hay documentos</h3>
+          </div>
+        </ng-container> -->
     </div>
+    <ng-container *ngIf="folders.length == 0 && files.length == 0">
+        <div class="flex items-center justify-center">
+          <h3>No hay carpetas para mostrar </h3>
+        </div>
+      </ng-container><br>
   </mat-card>
 </div>

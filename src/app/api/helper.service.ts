@@ -19,7 +19,9 @@ export class HelperService {
 
   stopLoader(loaderName?: string) {
     if (loaderName) {
-      this.ngxService.stopLoader(loaderName);
+      if (this.ngxService.getLoader(loaderName)) {
+        this.ngxService.stopLoader(loaderName);
+      }
     } else {
       this.ngxService.stop();
     }

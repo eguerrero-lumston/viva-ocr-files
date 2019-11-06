@@ -10,11 +10,11 @@ import * as uuid from 'uuid';
   templateUrl: './manifest-viewer.component.html',
   styleUrls: ['./manifest-viewer.component.css']
 })
-export class ManifestViewerComponent implements OnInit {
+export class ManifestViewerComponent implements OnInit, OnDestroy {
 
   loaderId = uuid.v4();
   isBottomSheet = false;
-  pdfSrc = '/assets/Manifiestos_Aeropuertos (1).pdf';
+  pdfSrc = '';
   constructor(private router: Router,
               private route: ActivatedRoute,
               private bottomSheetRef: MatBottomSheet,
@@ -27,37 +27,40 @@ export class ManifestViewerComponent implements OnInit {
 
   ngOnInit() {
     this.helperService.startLoader(this.loaderId);
-    console.log(this.data);
+    // console.log(this.data);
     if (this.data) {
-      this.getPdfFile(this.data.pdfName);
+      this.getPdfFile(this.data.key);
     }
     this.route.params
       .subscribe((params: Params) => {
-        console.log(params);
-        if (params.pdfName) {
-          this.getPdfFile(params.pdfName);
+        // console.log(params);
+        if (params.key) {
+          this.getPdfFile(params.key);
         }
       });
   }
 
-  getPdfFile(name: string) {
-    this.api.getPDFUri(name, this.loaderId).subscribe(data => {
+  getPdfFile(key: string) {
+    this.api.getPDFUri(key, this.loaderId).subscribe(data => {
       this.pdfSrc = data.url;
     });
   }
 
   openInUrl() {
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['/manifest/manifest-viewer', { name: this.data.pdfName }]);
+    this.router.navigate(['/manifest/manifest-viewer', { key: this.data.key }]);
   }
 
   close() {
     this.bottomSheetRef.dismiss();
   }
 
-  afterLoadPdf(){
-    console.log('finish pdf');
+  afterLoadPdf() {
+    // console.log('finish pdf');
     this.helperService.stopLoader(this.loaderId);
   }
 
+  ngOnDestroy(): void {
+    this.helperService.stopLoader(this.loaderId);
+  }
 }

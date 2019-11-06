@@ -165,7 +165,7 @@ export class ConnectServer {
 
     getFolder(name: string): Observable<FoldersRequest> {
         this.helperService.startLoader();
-        return this.http.get<FoldersRequest>(this.apiURL + `folders/${name}/`, { headers: this.headers.headers })
+        return this.http.get<FoldersRequest>(this.apiURL + `folders${name}/`, { headers: this.headers.headers })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -200,7 +200,7 @@ export class ConnectServer {
             // Get server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
-        // this.helperService.stopLoader();
+        this.helperService.stopLoader();
         // console.log(errorMessage);
         // this.toastr.error('title', errorMessage);
         this.notificationService.showError('Error', errorMessage);
