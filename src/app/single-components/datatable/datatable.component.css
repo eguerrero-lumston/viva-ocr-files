@@ -24,9 +24,3 @@ mat-table {
   color: gray;
   flex: 0 0 100px;
 }
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-  border: 2px solid #757575;
-  background: #68d0e5;
-  clip-path: polygon(0 0, 0% 100%, 100% 0);
-  padding: 30%;
-}

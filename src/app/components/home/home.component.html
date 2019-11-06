@@ -14,22 +14,21 @@
   </div>
 
   <div class="menu">
-    <a [routerLink]="['../', { outlets: { 'homeout': ['upload'] } }]" routerLinkActive="active"
-      class="item flex">
-      <img height="15px" class="item-icon" src="assets/upload.svg" alt="icon">
-      Carga de documentos
-    </a>
-    <a [routerLink]="['', { outlets: { homeout: ['upload'] } }]" routerLinkActive="active" class="item flex">
+    <a [routerLink]="['/upload']" routerLinkActive="active" class="item flex">
       <img height="15px" class="item-icon" src="assets/upload.svg" alt="icon">
       Carga de documentos
     </a>
 
-    <a routerLink="/manifest" routerLinkActive="active" class="item flex">
+    <a [routerLink]="['/manifest']" routerLinkActive="active" class="item flex">
       <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
       Manifiestos de vuelo
     </a>
 
-    <a routerLink="/repository" routerLinkActive="active" class="item flex">
+    <a [routerLink]="['/repository']" routerLinkActive="active" class="item flex">
+      <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
+      Repositorio de documentos
+    </a>
+    <a [routerLink]="['/compliance-report']" routerLinkActive="active" class="item flex">
       <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
       Repositorio de documentos
     </a>
@@ -38,5 +37,5 @@
 
 <div class="content">
   <ngx-ui-loader></ngx-ui-loader>
-  <router-outlet name="homeout"></router-outlet>
+  <router-outlet></router-outlet>
 </div>

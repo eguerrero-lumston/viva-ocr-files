@@ -15,15 +15,12 @@ import * as moment from 'moment';
 })
 export class ManifestFlightComponent implements OnInit {
   searchForm: FormGroup;
+  searchFormFiles: FormGroup;
+  nameSearchFilter = new FormControl();
   breadcrumbs = [];
   isInFolder = false;
   date = moment().format('YYYY-MM-DD');
   hour = moment().format('hh:mm a');
-  acronym = new FormControl('');
-  registration = new FormControl('');
-  origin = new FormControl('');
-  destination = new FormControl('');
-
   selectedSupervisor = 'Todas';
 
   suggestions = new Suggestions();
@@ -32,8 +29,6 @@ export class ManifestFlightComponent implements OnInit {
   filesTemp: File[] = [];
   files: File[] = [];
 
-  nameSearchFilter = new FormControl();
-  searchFormFiles: FormGroup;
   constructor(private router: Router,
               private route: ActivatedRoute,
               private restApi: ConnectServer,

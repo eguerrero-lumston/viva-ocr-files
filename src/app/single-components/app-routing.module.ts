@@ -1,3 +1,4 @@
+import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
 import { LoginUserComponent } from './../components/login/login-user.component';
 import { DatatableComponent } from './datatable/datatable.component';
@@ -10,33 +11,40 @@ import { FileUploadComponent } from '../components/file-upload/file-upload.compo
 
 
 const routes: Routes = [
-  { path: '', component: LoginUserComponent },
-  { path: 'home', component: HomeComponent },
-  {
-    path: 'repository',
+  { path: 'login', component: LoginUserComponent, outlet: 'primary' },
+  { path: '', component: HomeComponent, outlet: 'primary',
+  children: [
+    {
+      path: 'repository',
+        children: [
+          { path: '' , component: ManifestFlightComponent },
+          { path: 'form', component: FormComponent },
+          { path: 'manifest-viewer', component: ManifestViewerComponent }
+        ]
+    },
+    {
+      path: 'manifest',
+        children: [
+          { path: '' , component: DatatableComponent },
+          { path: 'form', component: FormComponent },
+          { path: 'manifest-viewer', component: ManifestViewerComponent }
+        ]
+    },
+    {
+      path: 'upload',
       children: [
-        { path: '' , component: ManifestFlightComponent },
-        { path: 'form', component: FormComponent },
-        { path: 'manifest-viewer', component: ManifestViewerComponent }
-      ],
-      outlet: 'homeout'
-  },
-  {
-    path: 'manifest',
+        { path: '', component: FileUploadComponent }
+      ]
+    },
+    {
+      path: 'compliance-report',
       children: [
-        { path: '' , component: DatatableComponent },
-        { path: 'form', component: FormComponent },
-        { path: 'manifest-viewer', component: ManifestViewerComponent }
-      ],
-      outlet: 'homeout'
-  },
-  {
-    path: 'upload',
-    children: [
-      { path: '', component: FileUploadComponent, outlet: 'homeout' }
-    ],
-    outlet: 'homeout'
-  }
+        { path: '', component: ComplianceReportComponent }
+      ]
+    }
+  ]
+},
+  
 ];
 
 @NgModule({

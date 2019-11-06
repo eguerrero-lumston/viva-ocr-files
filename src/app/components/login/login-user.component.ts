@@ -31,7 +31,7 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.router.navigate(['home']);
+    this.router.navigate(['/']);
     // this.adalService.login();
   }
 

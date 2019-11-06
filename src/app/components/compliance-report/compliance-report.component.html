@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="flex items-center">
+    <h1 class="grow-1">Reportes de cumplimiento</h1>
+  </div>
+  <div class="grid">
+    <form [formGroup]="searchForm">
+      <div class="flex items-center ">
+        <!-- <form [formGroup]="searchForm" (ngSubmit)="update()"> -->
+        <!-- <div class="flex items-center grow-1">
+          <p class="title-search grow-1">Inicio</p>
+          <mat-form-field class="grow-1" [floatLabel]="'never'" appearance="outline" (click)="pickerDate.open()">
+            <input placeholder="{{date}}" matInput [matDatepicker]="pickerDate" formControlName="date">
+            
+            <mat-datepicker #pickerDate></mat-datepicker>
+          </mat-form-field>
+        </div> -->
+        <div class="date-picker flex items-center ">
+          <label class="title-search grow-1">Inicio</label>
+          <mat-form-field appearance="outline">
+            <input formControlName="start" matInput [matDatepicker]="pickerStart" placeholder="Selecciona una fecha">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="date-picker flex items-center">
+          <label class="title-search grow-1">Fin</label>
+          <mat-form-field appearance="outline">
+            <input formControlName="finish" matInput [matDatepicker]="picker" placeholder="Selecciona una fecha">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <mat-card>
+    <div class="flex justify-start" id="search-item">
+      <span class="search-container">
+        <form [formGroup]="searchFormFiles">
+          <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+        </form>
+        <img class="search-icon" src="assets/srchbar.svg" alt="">
+      </span>
+    </div>
+    <br>
+    <div class="flex grid items-center">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+
+        <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef> Weight </th>
+          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Symbol </th>
+          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </div>
+  </mat-card>
+</div>

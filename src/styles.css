@@ -280,3 +280,6 @@ mat-card {
 .btn.margin {
   margin: 0px 15px;
 }
+table {
+  width: 100%;
+}

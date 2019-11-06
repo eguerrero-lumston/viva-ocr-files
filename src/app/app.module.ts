@@ -1,3 +1,4 @@
+import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginUserComponent } from './components/login/login-user.component';
 import { GlobalVariable } from './global/global';
@@ -45,7 +46,8 @@ import { ToastrModule } from 'ngx-toastr';
     ToastNotificationComponent,
     DialogConfirmComponent,
     LoginUserComponent,
-    HomeComponent
+    HomeComponent,
+    ComplianceReportComponent
   ],
   imports: [
     BrowserModule,

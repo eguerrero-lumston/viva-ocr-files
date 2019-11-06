@@ -1,0 +1,90 @@
+.date-picker{
+    padding: 20px;
+}
+$base-color: #E4E4E4;
+$date-picker-bg-color: white;
+
+.container{
+    margin: 1rem;
+    margin-top: 0;
+}
+// mat-icon-stepper selected color change 
+::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: $base-color!important;
+}
+
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: $base-color!important;
+    // opacity: 1!important;
+}
+
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: $base-color!important;
+}
+
+// mat-input error outline color
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: $base-color!important;
+    opacity: 0.8!important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+    caret-color: $base-color!important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+    caret-color: $base-color!important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+    color: rgba(0,0,0,.6)!important;
+    // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: $base-color!important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: $base-color!important;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: $date-picker-bg-color !important;
+}
+
+::ng-deep.mat-form-field-outline {
+    /*change color of underline*/
+    background-color: $date-picker-bg-color !important;
+    border-radius: 5px;
+} 
+
+::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: $date-picker-bg-color !important;
+    border-radius: 5px;
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0px 0px 5px 0px !important;}
+
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 100%;
+}
+
+.title-search {
+    font-size: 0.9rem;
+    margin: 10px;
+    color: #1C1C1C;
+    font-weight: bold;
+}
