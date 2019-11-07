@@ -20,7 +20,7 @@
     <mat-card>
         <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
             (onFileDropped)="uploadFile($event)">
-            <input multiple hidden accept="application/pdf" type="file" #fileInput
+            <input multiple hidden accept="application/pdf/image/jpeg,image/gif,image/png,image/x-eps" type="file" #fileInput
                 (change)="onThumbnailSelected($event)">
             <div class="flex inline column items-center">
                 <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px"

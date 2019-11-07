@@ -1,5 +1,5 @@
 .date-picker{
-    padding: 20px;
+    // padding: 20px;
 }
 $base-color: #E4E4E4;
 $date-picker-bg-color: white;
@@ -79,12 +79,41 @@ $date-picker-bg-color: white;
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
     transform: translateY(-1.1em) scale(.75);
-    width: 100%;
+    width: 70%;
 }
 
 .title-search {
     font-size: 0.9rem;
-    margin: 10px;
+    margin-bottom: 5px;
     color: #1C1C1C;
     font-weight: bold;
+}
+
+.row-red{
+    background-color: rgb(219, 85, 121);
+}
+.row-green{
+    background-color: #C6EFCE;
+}
+.row-yellow{
+    background-color: #FFEB9C;
+}
+
+.name-colum {
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+mat-form-field{
+    width: 95%;
+}
+mat-radio-button {   
+    margin: 6px;
+}
+
+mat-radio-group {
+    margin-top: -22px;
+}
+.title{
+    width: 100%;
 }

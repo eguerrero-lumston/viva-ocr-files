@@ -1,7 +1,10 @@
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { FormComponent } from './../form/form.component';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-compliance-report',
@@ -26,14 +29,22 @@ export class ComplianceReportComponent implements OnInit {
     {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
   ];
+
+  generalDisplayedColumns: string[] = ['name', 'generate', 'percent'];
+  dataSourceGeneral = [
+    { name: 'generado', generate: 195, percent: 96.53 },
+    { name: 'no generado', generate: 7, percent: 3.47 },
+    { name: 'total', generate: 201, percent: 100.00 },
+  ];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private restApi: ConnectServer,
     private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
-      start: [null, Validators.required],
-      finish: [null, Validators.required],
+      start: [new Date(), Validators.required],
+      finish: [new Date(), Validators.required],
+      manifestType: '1'
     });
 
     this.searchFormFiles = this.formBuilder.group({
@@ -42,6 +53,39 @@ export class ComplianceReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchForm.valueChanges
+      .pipe(
+        debounceTime(500),
+        switchMap(values => {
+          console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
+          console.log('this.validateValues()');
+          // if (this.validateValues()) {
+          //   //   this.nameSearch.setValue(name);
+          //   return this.restApi.getFoldersFilter(this.searchForm.value);
+          // } else {
+          //   this.isInFolder = false;
+          //   this.files.length = 0;
+          //   this.folders = this.foldersTemp;
+            return [];
+          // }
+        })
+      ).subscribe(res => {
+        console.log('res', res);
+        // this.isInFolder = true;
+        // this.files = res;
+        // if (res) {
+        //   this.filesTemp = res;
+        // }
+      });
   }
 
+  getClassRow(percent: number) {
+    if (percent > 90) {
+      return 'row-green';
+    } else if (percent > 50 && percent < 90) {
+      return 'row-yellow';
+    } else if (percent < 50) {
+      return 'row-red';
+    }
+  }
 }
