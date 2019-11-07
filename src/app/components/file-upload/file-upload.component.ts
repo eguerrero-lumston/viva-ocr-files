@@ -29,28 +29,38 @@ export class FileUploadComponent implements OnInit {
   }
 
   uploadFile(event) {
+    // console.log('is from drop', event, this.fileInput.nativeElement.files);
+    // event.array.forEach(element => {
+    this.fileInput.nativeElement.files = event;
+    // });
     this.addFiles(event);
   }
   onThumbnailSelected(event) {
+    // console.log('is from selected', event);
     this.addFiles(event);
   }
 
   addFiles(event: Event) {
-    if (this.uploading){ return; } else {
+    if (this.uploading) {
       this.notificationservice.showInfo('Informaciòn', 'Espera a que los archivos seleccionados sean subidos');
+      return;
+    } else {
+      this.notificationservice.showInfo('Informaciòn', 'Iniciando subida de los archivos seleccionados');
     }
 
     // console.log('uploadFile', event, this.fileInput);
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
-    // console.log('files', files);
+    console.log('files', files);
     for (const key in files) {
       if (!isNaN(parseInt(key))) {
         this.files.add(files[key]);
       }
     }
-    // console.log('files ---', files);
+    console.log('files ---', files);
+    if (this.files.size > 0) {
+      this.uploadFiles();
 
-    this.uploadFiles();
+    }
   }
 
   uploadFiles() {
@@ -76,6 +86,9 @@ export class FileUploadComponent implements OnInit {
       //   next(num) { console.log(num); },
       //   complete() {
       //     console.log('Finished sequence progress');
+      //   },
+      //   error(error) {
+      //     console.log('error', error);
       //   }
       // });
       // this.progress[key].isFinish.subscribe({
@@ -96,6 +109,7 @@ export class FileUploadComponent implements OnInit {
 
     // When all progress-observables are completed...
     forkJoin(allProgressObservables).subscribe(end => {
+      console.log('allProgressObservables are finished', end);
       // ... the dialog can be closed again...
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;

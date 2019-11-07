@@ -179,11 +179,13 @@ export class ConnectServer {
             );
     }
 
-    getPDFUri(name: string, loaderId: string): Observable<Pdf> {
+    getPDFUri(name: string, loaderId: string, isRepository: boolean): Observable<Pdf> {
         // this.helperService.startLoader(loaderId);
+        const bucket = isRepository ? '/clean' : '/tmp';
+        console.log(isRepository, bucket);
         const params = new HttpParams()
             .set('key', name);
-        return this.http.get<Pdf>(this.apiURL + 'docs/pdf', { headers: this.headers.headers, params })
+        return this.http.get<Pdf>(this.apiURL + 'docs/pdf' + bucket, { headers: this.headers.headers, params })
             .pipe(
                 catchError(error => this.handleError(error))
             );

@@ -142,15 +142,18 @@ export class ManifestFlightComponent implements OnInit {
     // console.log(breadcrumb);
     // this.location.back();
     // this.folderName
+    let qp = { name : link };
+// this.router.navigate(['/view'], {  queryParams: qp,skipLocationChange: true });
     if (breads.length !== 1) {
-      this.router.navigate(['/repository', { name: link }], { relativeTo: this.route, skipLocationChange: true });
+      this.router.navigate(['/repository'], {queryParams: qp, relativeTo: this.route, skipLocationChange: true });
     } else {
       this.router.navigate(['/repository', { name: '' }], { relativeTo: this.route, skipLocationChange: true });
     }
   }
 
   viewDataManifest(file: File) {
-    this.router.navigate(['./manifest-viewer', { key: file.key }], { relativeTo: this.route, skipLocationChange: true });
+    console.log('fileeee', file);
+    this.router.navigate(['./manifest-viewer', { key: file.key, isRepository: true }], { queryParams: {}, relativeTo: this.route });
   }
 
   validateValues() {

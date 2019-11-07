@@ -1,3 +1,4 @@
+import { NotificationService } from './../../api/notification.service';
 import { HelperService } from './../../api/helper.service';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -10,45 +11,49 @@ import * as uuid from 'uuid';
   templateUrl: './manifest-viewer.component.html',
   styleUrls: ['./manifest-viewer.component.css']
 })
-export class ManifestViewerComponent implements OnInit, OnDestroy {
+export class ManifestViewerComponent implements OnInit {
 
+  color = '#7EC636';
   loaderId = uuid.v4();
   isBottomSheet = false;
   pdfSrc = '';
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private bottomSheetRef: MatBottomSheet,
-              private api: ConnectServer,
-              private helperService: HelperService,
-              @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private bottomSheetRef: MatBottomSheet,
+    private api: ConnectServer,
+    private helperService: HelperService,
+    private notificationService: NotificationService,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
     this.isBottomSheet = data != null;
 
   }
 
   ngOnInit() {
     this.helperService.startLoader(this.loaderId);
-    // console.log(this.data);
+    console.log(this.data);
     if (this.data) {
-      this.getPdfFile(this.data.key);
+      this.getPdfFile(this.data.key, false);
     }
     this.route.params
       .subscribe((params: Params) => {
-        // console.log(params);
+        console.log('params', params);
         if (params.key) {
-          this.getPdfFile(params.key);
+          this.getPdfFile(params.key, params.isRepository === 'true');
         }
       });
   }
 
-  getPdfFile(key: string) {
-    this.api.getPDFUri(key, this.loaderId).subscribe(data => {
+  getPdfFile(key: string, isRepository: boolean) {
+    console.log('keeey', key, isRepository);
+    this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
       this.pdfSrc = data.url;
     });
   }
 
   openInUrl() {
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['/manifest/manifest-viewer', { key: this.data.key }]);
+    this.router.navigate(['/manifest/manifest-viewer', { key: this.data.key, isRepository: false }]);
   }
 
   close() {
@@ -60,7 +65,9 @@ export class ManifestViewerComponent implements OnInit, OnDestroy {
     this.helperService.stopLoader(this.loaderId);
   }
 
-  ngOnDestroy(): void {
+  onError(error: any) {
+    // do anything
     this.helperService.stopLoader(this.loaderId);
+    this.notificationService.showError('Error', 'No se pudo cargar el archivo ' + error);
   }
 }

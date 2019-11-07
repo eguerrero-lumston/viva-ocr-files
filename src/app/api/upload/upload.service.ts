@@ -7,7 +7,8 @@ import {
   HttpEventType,
   HttpResponse,
 } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,12 @@ export class UploadService {
       const progress = new Subject<number>();
       const isFinish = new Subject<boolean>();
       // send the http-request and subscribe for progress-updates
-      this.http.request(req).subscribe(event => {
+      this.http.request(req).pipe(
+        catchError(error => {
+          progress.error(error);
+          return throwError(error);
+        })
+      ).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
 
           // calculate the progress percentage

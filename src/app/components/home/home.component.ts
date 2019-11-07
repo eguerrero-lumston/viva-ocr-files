@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  color = '#7EC636';
   constructor(private router: Router) { }
 
   ngOnInit() {
