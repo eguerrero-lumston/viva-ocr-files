@@ -1,7 +1,3 @@
-.container {
-  margin: 1rem;
-  margin-top: 0;
-}
 ::ng-deep .mat-step-header .mat-step-icon-selected,
 .mat-step-header .mat-step-icon-state-done,
 .mat-step-header .mat-step-icon-state-edit {
@@ -76,7 +72,7 @@ ng-select {
 }
 .title-search {
   font-size: 0.9rem;
-  margin: 10px;
+  margin-left: 20px;
   color: #1c1c1c;
   font-weight: bold;
 }

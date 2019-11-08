@@ -1,10 +1,6 @@
 $base-color: #E4E4E4;
 $date-picker-bg-color: white;
 
-.container{
-    margin: 1rem;
-    margin-top: 0;
-}
 // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
     background-color: $base-color!important;
@@ -98,7 +94,7 @@ ng-select{
 }
 .title-search {
     font-size: 0.9rem;
-    margin: 10px;
+    margin-left: 20px;
     color: #1C1C1C;
     font-weight: bold;
 }

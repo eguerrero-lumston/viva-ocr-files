@@ -52,6 +52,10 @@ export class ManifestFlightComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.folders = [];
+    this.foldersTemp = [];
+    this.filesTemp = [];
+    this.files = [];
     this.route.params
       .subscribe((params: Params) => {
         // console.log('parametros', params);
@@ -112,23 +116,21 @@ export class ManifestFlightComponent implements OnInit {
 
     this.nameSearchFilter.valueChanges.subscribe(name => {
       if (name !== '') {
-        if (this.isInFolder) {
-          this.files = this.filesTemp.filter(file => {
-            file.name.includes(name);
-          });
-        } else {
-          this.folders = this.foldersTemp.filter(name => {
-            name.includes(name);
-          });
-        }
+        this.files = this.filesTemp.filter(file => {
+          file.name.includes(name);
+        });
+        this.folders = this.foldersTemp.filter(name => {
+          name.includes(name);
+        });
       } else {
         this.files = this.filesTemp;
+        this.folders = this.foldersTemp;
       }
     });
   }
 
   viewFolder(name) {
-    this.folderName = `${ this.folderName }/${ name }`;
+    this.folderName = `${this.folderName}/${name}`;
     this.router.navigate(['/repository', { name: this.folderName }], { relativeTo: this.route });
 
   }
@@ -142,10 +144,10 @@ export class ManifestFlightComponent implements OnInit {
     // console.log(breadcrumb);
     // this.location.back();
     // this.folderName
-    let qp = { name : link };
-// this.router.navigate(['/view'], {  queryParams: qp,skipLocationChange: true });
+    let qp = { name: link };
+    // this.router.navigate(['/view'], {  queryParams: qp,skipLocationChange: true });
     if (breads.length !== 1) {
-      this.router.navigate(['/repository'], {queryParams: qp, relativeTo: this.route, skipLocationChange: true });
+      this.router.navigate(['/repository'], { queryParams: qp, relativeTo: this.route, skipLocationChange: true });
     } else {
       this.router.navigate(['/repository', { name: '' }], { relativeTo: this.route, skipLocationChange: true });
     }

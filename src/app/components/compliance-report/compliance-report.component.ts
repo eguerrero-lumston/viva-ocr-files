@@ -13,22 +13,23 @@ import * as moment from 'moment';
 })
 export class ComplianceReportComponent implements OnInit {
   searchForm: FormGroup;
-  searchFormFiles: FormGroup;
+  searchFormReport: FormGroup;
   nameSearchFilter = new FormControl();
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['name', 'position', 'weight', 'symbol', 'percent'];
   dataSource = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+    {position: 1, name: 'HYD', weight: 19, symbol: 13},
+    {position: 2, name: 'HEL', weight: 46, symbol: 1},
+    {position: 3, name: 'LIT', weight: 63, symbol: 56},
+    {position: 4, name: 'BER', weight: 95, symbol: 58},
+    {position: 5, name: 'BOR', weight: 100, symbol: 84},
+    {position: 6, name: 'CAR', weight: 27, symbol: 28},
+    {position: 7, name: 'NIT', weight: 47, symbol: 5},
+    {position: 8, name: 'OXY', weight: 100, symbol: 48},
+    {position: 9, name: 'FLU', weight: 88, symbol: 96},
+    {position: 10, name: 'NEO', weight: 77, symbol: 4},
   ];
+  dataSourceTemp = this.dataSource;
 
   generalDisplayedColumns: string[] = ['name', 'generate', 'percent'];
   dataSourceGeneral = [
@@ -47,12 +48,16 @@ export class ComplianceReportComponent implements OnInit {
       manifestType: '1'
     });
 
-    this.searchFormFiles = this.formBuilder.group({
+    this.searchFormReport = this.formBuilder.group({
       nameSearch: this.nameSearchFilter
     });
   }
 
   ngOnInit() {
+    this.initListeners();
+  }
+
+  initListeners() {
     this.searchForm.valueChanges
       .pipe(
         debounceTime(500),
@@ -77,6 +82,21 @@ export class ComplianceReportComponent implements OnInit {
         //   this.filesTemp = res;
         // }
       });
+    this.nameSearchFilter.valueChanges.subscribe(name => {
+      if (name !== '') {
+        // if (this.isInFolder) {
+          this.dataSource = this.dataSourceTemp.filter(report => {
+            report.name.includes(name);
+          });
+        // } else {
+          // this.folders = this.foldersTemp.filter(name => {
+          //   name.includes(name);
+          // });
+        // }
+      } else {
+        this.dataSource = this.dataSourceTemp;
+      }
+    });
   }
 
   getClassRow(percent: number) {

@@ -124,8 +124,9 @@ a{
 
 /* Sections styles */
 .section-title{
-    font-size: 1.3rem;
-    font-weight: normal;
+    // font-size: 1.3rem;
+    margin-left: 5px;
+    font-weight: bold;
 }.section{
     padding: 15px;
 }
@@ -273,8 +274,10 @@ mat-card{
     box-shadow: 0 0px 9px rgba(0,0,0,.18) !important;
 }
 
+
 .container{
-    margin: 10px;
+    margin: 1rem;
+    margin-top: 0;
 }
 
 

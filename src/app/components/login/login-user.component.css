@@ -1,6 +1,15 @@
-.content-body{ 
-    /* width: 100%; */
+.content-body {
     height: 100%;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+}
+
+.bg{ 
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 1024px;
@@ -11,10 +20,10 @@
     
     /* Set up positioning */
     position: fixed;
-    top: 0;
-    left: 0;
+    /* top: 0;
+    left: 0; */
     /* The image used */
-    background: url(/assets/background-gra.png) no-repeat center center fixed; 
+    /* background: url("./assets/background-gra.png") no-repeat center center fixed;  */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -45,5 +54,11 @@
     mix-blend-mode: color-burn;
 }
   
-  
-        
+.svg {
+    position: relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 10;
+}

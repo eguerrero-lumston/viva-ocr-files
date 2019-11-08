@@ -1,3 +1,4 @@
+import { AppRoutingModule } from './routing/app-routing.module';
 import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginUserComponent } from './components/login/login-user.component';
@@ -14,7 +15,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './single-components/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';

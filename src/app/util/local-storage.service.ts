@@ -8,6 +8,7 @@ export class LocalStorageService {
     constructor() { }
 
     exist(key: string): boolean {
+      console.log('localStorage.getItem(key) !== null;', localStorage.getItem(key), localStorage.getItem(key) !== null);
       return localStorage.getItem(key) !== null;
     }
     save(key: string, object: any) {

@@ -1,10 +1,13 @@
 <div class="navbar">
   <div class="flex items-center justify-end" style="height: 100%; padding-right: 40px;">
-    <!-- <div class="flex inline items-center" style="margin-left: 10px;">
-        <div class="circle-img"
-          style="background-image: url(assets/user.png); background-color: rgba(200, 200, 200, 0.5);"></div>
-        <span style="color: white; margin-left: 10px;">▾</span>
-      </div> -->
+    <div class="flex inline items-center" style="margin-right: 10px; cursor: pointer;" [matMenuTriggerFor]="menu">
+      <div class="circle-img"
+        style="background-image: url(assets/user.png); background-color: rgba(200, 200, 200, 0.5);"></div>
+      <span style="color: white; margin-left: 5px; ">▾</span>
+    </div>
+    <mat-menu #menu="matMenu">
+      <button (click)="logout()" mat-menu-item>Cerrar sesiòn</button>
+    </mat-menu>
   </div>
 </div>
 
@@ -23,7 +26,7 @@
       <img height="15px" class="item-icon" src="assets/report.svg" alt="icon">
       Manifiestos de vuelo
     </a>
-
+    <!-- *ngIf="isElectron" -->
     <a [queryParams]="{}" [routerLink]="['/repository']" routerLinkActive="active" class="item flex">
       <img height="15px" class="item-icon" src="assets/folder.svg" alt="icon">
       Repositorio de documentos

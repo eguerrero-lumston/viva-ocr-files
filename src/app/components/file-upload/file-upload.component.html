@@ -1,12 +1,7 @@
-<div class="section">
+<div class="container">
     <div class="flex items-center">
-        <span class="section-title">Manifiesto de vuelos</span>
-        <div class="grow-1"></div>
-        <!-- <span class="search-container">
-            <input type="text" class="search" placeholder="Buscar">
-            <img class="search-icon" src="assets/srchbar.svg" alt="">
-        </span> -->
-    </div><br>
+        <h1 class="grow-1 section-title">Manifiesto de vuelos</h1>
+    </div>
     <mat-dialog-content fxFlex>
         <mat-list>
             <mat-list-item *ngFor="let file of files">
@@ -20,8 +15,8 @@
     <mat-card>
         <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
             (onFileDropped)="uploadFile($event)">
-            <input multiple hidden accept="application/pdf/image/jpeg,image/gif,image/png,image/x-eps" type="file" #fileInput
-                (change)="onThumbnailSelected($event)">
+            <input multiple hidden accept="application/pdf/image/jpeg,image/gif,image/png,image/x-eps" type="file"
+                #fileInput (change)="onThumbnailSelected($event)">
             <div class="flex inline column items-center">
                 <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px"
                     height="130px" alt="">

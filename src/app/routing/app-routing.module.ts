@@ -1,7 +1,7 @@
+import { DatatableComponent } from './../single-components/datatable/datatable.component';
 import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
 import { LoginUserComponent } from './../components/login/login-user.component';
-import { DatatableComponent } from './datatable/datatable.component';
 import { ManifestViewerComponent } from '../components/manifest-viewer/manifest-viewer.component';
 import { ManifestFlightComponent } from '../components/manifest-flight/manifest-flight.component';
 import { FormComponent } from '../components/form/form.component';
@@ -12,39 +12,45 @@ import { FileUploadComponent } from '../components/file-upload/file-upload.compo
 
 const routes: Routes = [
   { path: 'login', component: LoginUserComponent, outlet: 'primary' },
-  { path: '', component: HomeComponent, outlet: 'primary',
-  children: [
-    {
-      path: 'repository',
+  {
+    path: '', component: HomeComponent, outlet: 'primary',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'upload'
+      },
+      {
+        path: 'repository',
         children: [
-          { path: '' , component: ManifestFlightComponent },
+          { path: '', component: ManifestFlightComponent },
           { path: 'form', component: FormComponent },
           { path: 'manifest-viewer', component: ManifestViewerComponent }
         ]
-    },
-    {
-      path: 'manifest',
+      },
+      {
+        path: 'manifest',
         children: [
-          { path: '' , component: DatatableComponent },
+          { path: '', component: DatatableComponent },
           { path: 'form', component: FormComponent },
           { path: 'manifest-viewer', component: ManifestViewerComponent }
         ]
-    },
-    {
-      path: 'upload',
-      children: [
-        { path: '', component: FileUploadComponent }
-      ]
-    },
-    {
-      path: 'compliance-report',
-      children: [
-        { path: '', component: ComplianceReportComponent }
-      ]
-    }
-  ]
-},
-  
+      },
+      {
+        path: 'upload',
+        children: [
+          { path: '', component: FileUploadComponent }
+        ]
+      },
+      {
+        path: 'compliance-report',
+        children: [
+          { path: '', component: ComplianceReportComponent }
+        ]
+      }
+    ]
+  },
+
 ];
 
 @NgModule({

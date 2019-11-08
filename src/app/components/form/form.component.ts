@@ -62,7 +62,7 @@ export class FormComponent implements OnInit, OnDestroy {
           this.licences = data.licences.filter(word => word !== '');
           this.surcharges = data.surcharges.filter(word => word !== '');
           // console.log('manifest ---->', this.manifest);
-          if (this.localStorageService.exist(this.manifest.jobId)){
+          if (this.localStorageService.exist(this.manifest.jobId)) {
             this.manifest = this.localStorageService.get(this.manifest.jobId) as Manifest;
           }
         });

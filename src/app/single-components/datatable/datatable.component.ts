@@ -21,7 +21,7 @@ import { Observable } from 'rxjs';
   selector: 'datatable',
   templateUrl: './datatable.component.html',
   styleUrls: ['./datatable.component.scss'],
-  providers: [ GlobalVariable ]
+  providers: [GlobalVariable]
 })
 export class DatatableComponent implements OnInit {
   dataSource = new MatTableDataSource<Manifest>();
@@ -45,12 +45,12 @@ export class DatatableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private restApi: ConnectServer,
-              private route: ActivatedRoute,
-              private router: Router,
-              public dialog: MatDialog,
-              private formBuilder: FormBuilder,
-              private notificationservice: NotificationService,
-              private globalVariable: GlobalVariable) {
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private notificationservice: NotificationService,
+    private globalVariable: GlobalVariable) {
     moment.locale('es');
     this.searchForm = this.formBuilder.group({
       nameSearch: this.nameSearch
@@ -59,6 +59,14 @@ export class DatatableComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.paginator);
+    this.total = 0;
+    this.limit = 10;
+    this.page = 0;
+    this.isYellow = false;
+    this.isBlue = false;
+    this.isGreen = false;
+    this.isPurple = false;
+    this.status = [''];
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.restApi.getManifests().subscribe((data) => {
@@ -71,23 +79,23 @@ export class DatatableComponent implements OnInit {
     });
 
     this.nameSearch.valueChanges
-    .pipe(
-      debounceTime(1000),
-      switchMap(name => {
-        if (name !== '') {
-          this.nameSearch.setValue(name);
-          return this.restApi.getManifestFilter(this.paginator, this.nameSearch.value, this.status.toString());
-        } else {
-          this.configDefault();
-        }
-        return [];
-      })
-    ).subscribe(res => {
+      .pipe(
+        debounceTime(1000),
+        switchMap(name => {
+          if (name !== '') {
+            this.nameSearch.setValue(name);
+            return this.restApi.getManifestFilter(this.paginator, this.nameSearch.value, this.status.toString());
+          } else {
+            this.configDefault();
+          }
+          return [];
+        })
+      ).subscribe(res => {
         this.total = res.total;
         this.limit = res.limit;
         this.page = res.page - 1;
         this.dataSource.data = res.docs;
-    });
+      });
   }
 
   configDefault() {
@@ -168,7 +176,7 @@ export class DatatableComponent implements OnInit {
 
   }
 
-  customSort(event: {active: string, direction: string }) {
+  customSort(event: { active: string, direction: string }) {
 
   }
 
@@ -197,42 +205,40 @@ export class DatatableComponent implements OnInit {
       this.page = 1;
       this.total = this.paginator.pageSize;
     }
-    console.log('getManifestFilter', this.page, this.total);
+    console.log('getManifestFilter', this.page, this.status.toString());
     this.restApi.getManifestFilter(this.paginator,
       this.nameSearch.value, this.status.toString()).subscribe(res => {
-      console.log('filter', res);
-      // this.temp.data = this.dataSource.data;
-      this.total = res.total;
-      this.limit = res.limit;
-      this.page = res.page - 1;
-      this.dataSource.data = res.docs;
-    });
+        console.log('filter', res);
+        // this.temp.data = this.dataSource.data;
+        this.total = res.total;
+        this.limit = res.limit;
+        this.page = res.page - 1;
+        this.dataSource.data = res.docs;
+      });
   }
 
   changeStatus() {
     const status = [];
     if (this.isYellow) {
-        status.push(this.globalVariable.STATUS_YELLOW);
+      status.push(this.globalVariable.STATUS_YELLOW);
     }
 
     if (this.isBlue) {
-        status.push(this.globalVariable.STATUS_BLUE);
+      status.push(this.globalVariable.STATUS_BLUE);
     }
     if (this.isGreen) {
-        status.push(this.globalVariable.STATUS_GREEN);
+      status.push(this.globalVariable.STATUS_GREEN);
     }
 
     if (this.isPurple) {
-        status.push(this.globalVariable.STATUS_CONFIRMED);
+      status.push(this.globalVariable.STATUS_CONFIRMED);
     }
     this.status = status;
-
-    console.log(this.total, this.page);
+    console.log('this.status', this.status);
     if (this.status.length > 0) {
       this.getManifestFilter();
     } else {
       this.configDefault();
     }
   }
-
 }

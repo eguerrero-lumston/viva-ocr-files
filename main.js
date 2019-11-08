@@ -2,11 +2,12 @@ const { app, BrowserWindow } = require('electron');
 const electron = require('electron');
 const url = require("url");
 const path = require("path");
+var ipcMain = require('electron').ipcMain;
 const globalShortcut = electron.globalShortcut;
 
 let mainWindow
-
 function createWindow() {
+    
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -14,8 +15,9 @@ function createWindow() {
             nodeIntegration: true
         }
     })
+    
     mainWindow.maximize();
-    mainWindow.setMenu(null)
+    
     mainWindow.loadURL(
         url.format({
             pathname: path.join(__dirname, `/dist/index.html`),
@@ -25,6 +27,9 @@ function createWindow() {
     );
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
+
+    mainWindow.setMenu(null)
+    mainWindow.setMenuBarVisibility(false)
 
     mainWindow.on('closed', function () {
         mainWindow = null
