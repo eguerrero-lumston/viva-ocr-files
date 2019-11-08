@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { MatchesManifest } from 'src/app/model/manifest/matches-manifest';
 import { ManifestObject } from 'src/app/model/manifest/manifest-object';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form',
@@ -21,7 +22,7 @@ import { ManifestObject } from 'src/app/model/manifest/manifest-object';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit, OnDestroy {
-
+  airportName = new FormControl();
   // manifestForm2: FormGroup;
   dateOptions: string[];
   acronyms: string[];
@@ -68,6 +69,16 @@ export class FormComponent implements OnInit, OnDestroy {
         });
       });
     // Observable.of(this.manifest)
+    this.airportName.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.manifest.matches.names.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   union(...iterables) {
@@ -196,4 +207,6 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.localStorageService.save(this.manifest.jobId, this.manifest);
   }
+
+
 }
