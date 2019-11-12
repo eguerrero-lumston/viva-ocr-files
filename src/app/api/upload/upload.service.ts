@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../util/local-storage.service';
 import { NotificationService } from './../notification.service';
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -6,6 +7,7 @@ import {
   HttpRequest,
   HttpEventType,
   HttpResponse,
+  HttpHeaders,
 } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,8 +18,10 @@ import { catchError } from 'rxjs/operators';
 export class UploadService {
 
   url = environment.URL_HOST + 'docs/';
-  constructor(private http: HttpClient,
-              private notifierService: NotificationService) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private notifierService: NotificationService) { }
 
   public upload(files: Set<File>): { [key: string]: { progress: Observable<number>, isFinish: Observable<boolean> } } {
 
@@ -34,6 +38,9 @@ export class UploadService {
       // tell it to report the upload progress
       const req = new HttpRequest('POST', this.url, formData, {
         reportProgress: true,
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.localStorageService.get('token')}`,
+      })
       });
 
       // create a new progress-subject for every file
@@ -61,6 +68,9 @@ export class UploadService {
           progress.complete();
           this.notifierService.showSuccess('Correcto', `${file.name} se subio correctamente`);
         }
+      }, error => {
+        // console.log(error.message);
+        this.notifierService.showError('Error', `${file.name} no se subio, ${error.message}`);
       });
 
       // Save every progress-observable in a map of all observables

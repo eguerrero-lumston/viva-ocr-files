@@ -1,3 +1,4 @@
+import { AdalService } from 'adal-angular4';
 import { DialogConfirmComponent } from './../../single-components/dialog-confirm/dialog-confirm.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -12,9 +13,10 @@ import isElectron from 'is-electron';
 export class HomeComponent implements OnInit {
 
   isElectron: boolean;
-  color = '#7EC636';
+  
   constructor(
     private router: Router,
+    private adalService: AdalService,
     public dialog: MatDialog) {
       this.isElectron = isElectron();
     }
@@ -37,6 +39,7 @@ export class HomeComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       if (result) {
         // logout
+        this.adalService.logOut();
         this.router.navigate(['/login']);
       }
     });

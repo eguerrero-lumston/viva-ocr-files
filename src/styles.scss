@@ -11,26 +11,32 @@ $warning: #FFCC00;
 $green: #7EC636;
 $gray: gray;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+    height: 100%;
+}
 
-*{
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
     font-family: sans-serif;
     box-sizing: border-box;
 }
 
 /* Body had a margin by default */
-body{
+body {
     margin: 0;
 }
 
 /* Better padding for the grid */
 .grid > .col, .grid > *[class*='col-'] {
-    padding: 0.5rem !important; 
+    padding: 0.5rem !important;
 }
 
 /* NAVBAR */
-.navbar{
+.navbar {
     width: 100%;
     height: 65px;
     background-color: black;
@@ -42,7 +48,7 @@ body{
 }
 
 /* SIDEBAR */
-.sidebar{
+.sidebar {
     position: fixed;
     height: 100%;
     left: 0;
@@ -53,30 +59,36 @@ body{
 }
 
 /* SIDEBAR MENU */
-.menu{
+.menu {
     margin-top: 25px;
     color: white;
     width: 100%;
 }
-.menu>.item{
+
+.menu > .item {
     position: relative;
     width: 100%;
     padding: 20px 15px;
     border-left: 5px solid transparent;
     cursor: pointer;
     font-size: 0.9rem;
-}.menu>.item:hover{
+}
+
+.menu > .item:hover {
     background: rgba(200, 200, 200, 0.25);
-}.menu>.item.active{
+}
+
+.menu > .item.active {
     background: rgba(200, 200, 200, 0.25);
     border-left: 5px solid #98dd52;
 }
 
-a{
+a {
     color: white;
-    text-decoration:none !important;
+    text-decoration: none !important;
 }
-.content{
+
+.content {
     background: #f2f4f5;
     min-height: 100vh;
     margin: 0;
@@ -87,15 +99,17 @@ a{
 }
 
 /* Top dashboard */
-.top-dashboard{
+.top-dashboard {
     padding: 15px 10px;
 }
-.dashboard-title{
+
+.dashboard-title {
     font-weight: bold;
     font-size: 1rem;
     text-transform: uppercase;
 }
-.dashboard-option{
+
+.dashboard-option {
     font-size: .8rem;
     margin-right: 5px;
     margin-left: 10px;
@@ -105,42 +119,52 @@ a{
 .ng-select.custom {
     max-width: 120px;
 }
+
 .ng-select.custom .ng-select-container {
     border-radius: 2px;
 }
-.ng-select .ng-select-container, 
-.ng-select.ng-select-single .ng-select-container{
+
+.ng-select .ng-select-container,
+.ng-select.ng-select-single .ng-select-container {
     height: 30px;
     min-height: 30px;
     border: 1px solid rgba(200, 200, 200, 0.5);
     font-size: 0.8rem;
 }
-.ng-option-label{
+
+.ng-option-label {
     font-size: 0.8rem;
 }
-.ng-option.ng-option-disabled{
+
+.ng-option.ng-option-disabled {
     font-size: 0.8rem;
 }
 
 /* Sections styles */
-.section-title{
+.section-title {
     // font-size: 1.3rem;
     margin-left: 5px;
     font-weight: bold;
-}.section{
+}
+
+.section {
     padding: 15px;
 }
 
-.text-green{
+.text-green {
     color: #43AA35;
-}.text-center{
+}
+
+.text-center {
     text-align: center;
-}.text-right{
+}
+
+.text-right {
     text-align: right;
 }
 
 /* Search input */
-input.search,input.search:focus{
+input.search, input.search:focus {
     border: 1px solid #dedede;
     padding: 1px 10px;
     height: 30px;
@@ -151,13 +175,21 @@ input.search,input.search:focus{
     outline: none;
     color: black;
     padding-right: 35px;
-}::-webkit-input-placeholder { /* Edge */
+}
+
+::-webkit-input-placeholder { /* Edge */
     color: black;
-}:-ms-input-placeholder { /* Internet Explorer 10-11 */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: black;
-}::placeholder {
+}
+
+::placeholder {
     color: black;
-}.search-icon{
+}
+
+.search-icon {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -165,14 +197,16 @@ input.search,input.search:focus{
     height: 15px;
     top: 0;
     margin: auto 10px;
-}.search-container{
+}
+
+.search-container {
     position: relative;
     display: flex;
     align-items: center;
 }
 
 /* Buttons */
-.link, .btn{
+.link, .btn {
     border: 0px;
     outline: 0;
     text-decoration: none;
@@ -185,119 +219,130 @@ input.search,input.search:focus{
     user-select: none;
     color: black;
 }
-.link, .link *, .btn, .btn *{
+
+.link, .link *, .btn, .btn * {
     font-size: 0.8rem;
 }
 
-.btn{
+.btn {
     margin: 0.2rem;
 }
+
 .link:active, .btn:active {
     border: none;
     outline: 0;
 }
+
 .link:focus, .btn:focus {
     border: none;
     outline: 0;
 }
+
 .link:target, .btn:target {
     border: none;
     outline: 0;
 }
-.link:hover, .btn:hover{
+
+.link:hover, .btn:hover {
     // background: rgba(200, 200, 200, 0.2);
     // opacity: 0.9;
     cursor: pointer;
 }
 
-.btn.danger{
+.btn.danger {
     background-color: $danger;
-    color: white; 
-}
-.btn.danger *{
-    color: white; 
+    color: white;
 }
 
-.btn.info{
+.btn.danger * {
+    color: white;
+}
+
+.btn.info {
     background-color: $info;
-    color: white; 
-}
-.btn.info *{
-    color: white; 
+    color: white;
 }
 
-.btn.success{
+.btn.info * {
+    color: white;
+}
+
+.btn.success {
     background-color: $success;
-    color: white; 
-}
-.btn.success *{
-    color: white; 
+    color: white;
 }
 
-.btn.primary{
+.btn.success * {
+    color: white;
+}
+
+.btn.primary {
     background-color: $primary;
-    color: white; 
-}
-.btn.primary *{
-    color: white; 
+    color: white;
 }
 
-.btn.small{
+.btn.primary * {
+    color: white;
+}
+
+.btn.small {
     padding: 0.3rem 0.4rem;
     font-size: 0.7rem;
 }
-.btn.disabled{
+
+.btn.disabled {
     background-color: $gray;
 }
 
 /* Status indicator */
-span.status{
+span.status {
     background-color: gray;
     border-radius: 100%;
     width: 15px;
     height: 15px;
 }
-span.status.success{
+
+span.status.success {
     background-color: $success;
 }
-span.status.primary{
+
+span.status.primary {
     background-color: $primary;
 }
-span.status.warning{
+
+span.status.warning {
     background-color: $warning;
 }
-span.status.danger{
+
+span.status.danger {
     background-color: $danger;
 }
 
-mat-card{
-    box-shadow: 0 0px 9px rgba(0,0,0,.18) !important;
+mat-card {
+    box-shadow: 0 0px 9px rgba(0, 0, 0, 0.18) !important;
 }
 
-
-.container{
+.container {
     margin: 1rem;
     margin-top: 0;
 }
 
-
-.cancel-manifest{
+.cancel-manifest {
     background-color: transparent;
     color: $green;
-    
 }
 
-.send-manifest{
+.send-manifest {
     background-color: $green;
     color: white;
 }
 
-.cancel{
+.cancel {
     background-color: $danger;
     color: white;
 }
 
-.load-manifest{
+.load-manifest {
     background-color: #0079FF;
     color: white;
 }
@@ -306,13 +351,35 @@ mat-card{
     font-weight: bold;
     border-radius: 5px;
     padding: 10px 30px;
-    
     border: none;
 }
 
 .btn.margin {
     margin: 0px 15px;
 }
-table{
+
+table {
     width: 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: $gray;
+    opacity: 0.6;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $green;
 }

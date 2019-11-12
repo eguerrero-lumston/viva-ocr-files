@@ -1,3 +1,4 @@
+import { AuthGuard } from '../services/auth.guard';
 import { DatatableComponent } from './../single-components/datatable/datatable.component';
 import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginUserComponent, outlet: 'primary' },
   {
     path: '', component: HomeComponent, outlet: 'primary',
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',

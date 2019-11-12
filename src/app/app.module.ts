@@ -1,3 +1,5 @@
+import { AuthGuard } from './services/auth.guard';
+import { AdalService, AdalInterceptor } from 'adal-angular4';
 import { AppRoutingModule } from './routing/app-routing.module';
 import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { HomeComponent } from './components/home/home.component';
@@ -85,6 +87,9 @@ import { ToastrModule } from 'ngx-toastr';
     //   useClass: QueueInterceptorService,
     //   multi: true
     // },
+    AdalService,
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },
     FormComponent,

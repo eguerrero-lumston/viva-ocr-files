@@ -1,6 +1,6 @@
 {
   "name": "manifiesto",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "aplicacion de Manifiestos para Viva aerobus",
   "productName": "manifiesto",
   "main": "main.js",
@@ -37,6 +37,8 @@
     "adal-angular4": "^4.0.12",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
+    "exceljs": "^3.3.1",
+    "file-saver": "^2.0.2",
     "hammerjs": "^2.0.8",
     "is-electron": "^2.2.0",
     "material-time-control": "github:SteveDunlap13/MaterialTimeControl",

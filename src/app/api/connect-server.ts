@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../util/local-storage.service';
 import { ReportsResponse } from './../model/request/reports-response';
 import { ManifestPaginatorResponse } from './../model/request/manifest-paginator-response';
 import { FileFilter } from './../model/file-filter';
@@ -25,11 +26,12 @@ import * as moment from 'moment';
 export class ConnectServer {
     // Define API
     apiURL = environment.URL_HOST;
-    constructor(private http: HttpClient,
-                private notificationService: NotificationService,
-                private toastr: ToastrService,
-                private helperService: HelperService,
-                private snackBar: MatSnackBar) {
+    constructor(
+        private http: HttpClient,
+        private notificationService: NotificationService,
+        private localStorageService: LocalStorageService,
+        private helperService: HelperService,
+        private snackBar: MatSnackBar) {
     }
 
     /*========================================
@@ -39,9 +41,23 @@ export class ConnectServer {
     // Http Options
     headers = {
         headers: new HttpHeaders({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.localStorageService.get('token')}`,
         })
     };
+
+    // HttpClient API post() method => Get token app
+    getToken(oid: string): Observable<any> {
+        this.helperService.startLoader();
+        const params = {
+            tkn_az: oid
+        };
+        return this.http.post<any>(this.apiURL + 'auth', params)
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
 
     // HttpClient API get() method => Fetch manifest list
     getManifests(): Observable<ManifestPaginatorResponse> {

@@ -24,7 +24,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Aeropuerto</mat-label>
-              <input appUppercase name="manifest.airport.name" [formControl]="airportName" [(ngModel)]="manifest.airport.name" matInput placeholder="Aeropuerto" [matAutocomplete]="names">
+              <input appUppercase name="manifest.airport.name" [(ngModel)]="manifest.airport.name" matInput placeholder="Aeropuerto" [matAutocomplete]="names">
               <mat-autocomplete #names="matAutocomplete">
                 <mat-option *ngFor="let option of manifest.matches.names" [value]="option">
                   {{option}}

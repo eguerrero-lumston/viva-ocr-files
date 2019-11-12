@@ -115,7 +115,7 @@ export class ComplianceReportComponent implements OnInit {
 
   exportAsExcel() {
     // console.log('XLSX', this.table);
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); // converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -123,7 +123,7 @@ export class ComplianceReportComponent implements OnInit {
 
     const start = moment(this.searchForm.value.start).format('DD/MM/YYYY');
     const end = moment(this.searchForm.value.end).format('DD/MM/YYYY');
-    XLSX.writeFile(wb, `${start} ${end} Report.xlsx`);
+    XLSX.writeFile(wb, `Reporte-${start} a ${end}.xlsx`);
 
   }
 }

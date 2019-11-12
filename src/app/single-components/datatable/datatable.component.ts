@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../util/local-storage.service';
 import { ManifestPaginatorResponse } from '../../model/request/manifest-paginator-response';
 import { GlobalVariable } from './../../global/global';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
@@ -50,6 +51,7 @@ export class DatatableComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private localStorageService: LocalStorageService,
     private formBuilder: FormBuilder,
     private notificationservice: NotificationService,
     private globalVariable: GlobalVariable) {
@@ -131,6 +133,9 @@ export class DatatableComponent implements OnInit {
       if (result) {
         this.restApi.deleteManifest(row.jobId).subscribe(res => {
           if (res) {
+            
+            this.localStorageService.delete(row.jobId);
+            this.localStorageService.delete(row.key);
             this.notificationservice.showSuccess('Correcto', 'se elimino correctamente');
             const index = this.dataSource.data.indexOf(row);
             this.dataSource.data.splice(index, 1);

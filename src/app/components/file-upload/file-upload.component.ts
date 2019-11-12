@@ -119,6 +119,16 @@ export class FileUploadComponent implements OnInit {
       this.files.clear();
       // ... and the component is no longer uploading
       this.uploading = false;
+    }, error => {
+      // console.log('allProgressObservables are finished with error', error);
+      this.canBeClosed = true;
+      // this.dialogRef.disableClose = false;
+
+      // ... the upload was successful...
+      this.uploadSuccessful = true;
+      this.files.clear();
+      // ... and the component is no longer uploading
+      this.uploading = false;
     });
   }
 }

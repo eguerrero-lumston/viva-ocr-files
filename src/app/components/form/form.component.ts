@@ -4,7 +4,7 @@ import { DialogConfirmComponent } from './../../single-components/dialog-confirm
 import { NotificationService } from './../../api/notification.service';
 import { ConnectServer } from './../../api/connect-server';
 import { ManifestViewerComponent } from './../manifest-viewer/manifest-viewer.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Manifest } from 'src/app/model/manifest/manifest';
@@ -21,7 +21,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit, OnDestroy {
+export class FormComponent implements OnInit, OnDestroy, OnChanges {
   airportName = new FormControl();
   // manifestForm2: FormGroup;
   dateOptions: string[];
@@ -75,13 +75,18 @@ export class FormComponent implements OnInit, OnDestroy {
       map(value => this._filter(value))
     );
   }
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+    console.log(changes);
+  }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.manifest.matches.names.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  union(...iterables) {
+  union(...iterables: string[][]) {
     const set = new Set<string>();
 
     for (const iterable of iterables) {
@@ -101,6 +106,7 @@ export class FormComponent implements OnInit, OnDestroy {
         console.log('response server--->', res);
         if (res) {
           this.localStorageService.delete(this.manifest.jobId);
+          this.localStorageService.delete(this.manifest.key);
           this.notificationService.showSuccess('Correcto!', 'Se actualizò correctamente');
         }
       });
@@ -131,6 +137,7 @@ export class FormComponent implements OnInit, OnDestroy {
         this.api.confirmManifest(this.manifest.jobId).subscribe(res => {
           if (res) {
             this.localStorageService.delete(this.manifest.jobId);
+            this.localStorageService.delete(this.manifest.key);
             this.isConfirmed = true;
             this.notificationService.showSuccess('Correcto!', 'Se ha confirmado correctamente');
             this.location.back();

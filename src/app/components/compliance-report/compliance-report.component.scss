@@ -150,3 +150,11 @@ ng-select{
     // margin-right: 0px;
     margin-top: -32px;
 }
+.row-selectable{
+    cursor: pointer;
+    
+}
+.row-selectable:hover{
+    background-color: lightgray;
+    
+}
