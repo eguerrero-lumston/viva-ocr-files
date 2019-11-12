@@ -91,12 +91,15 @@ $date-picker-bg-color: white;
 
 .row-red{
     background-color: rgb(219, 85, 121);
+    border-bottom: 1px solid gray;
 }
 .row-green{
     background-color: #C6EFCE;
+    border-bottom: 1px solid gray;
 }
 .row-yellow{
     background-color: #FFEB9C;
+    border-bottom: 1px solid gray;
 }
 
 .name-colum {
@@ -116,4 +119,34 @@ mat-radio-group {
 }
 .title{
     width: 100%;
+}
+// table {
+//     text-align: center !important;
+//     width: 100%;
+// }
+  
+//   .mat-header-cell {
+//     text-align: center;
+// }
+
+ng-select{
+    width: 95%;
+    margin-top: -15px;
+}
+.ng-select .ng-select-container, .ng-select.ng-select-single .ng-select-container {
+    height: 36px;
+    min-height: 30px;
+    border: 1px solid rgba(200, 200, 200, 0.5);
+    font-size: 0.8rem;
+}
+
+.title-search-2{
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0px;
+}
+
+.end {
+    // margin-right: 0px;
+    margin-top: -32px;
 }

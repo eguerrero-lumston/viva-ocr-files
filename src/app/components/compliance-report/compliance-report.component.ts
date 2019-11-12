@@ -1,10 +1,13 @@
+import { MatTableDataSource } from '@angular/material/table';
+import { Report } from './../../model/report';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { FormComponent } from './../form/form.component';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as moment from 'moment';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-compliance-report',
@@ -15,27 +18,18 @@ export class ComplianceReportComponent implements OnInit {
   searchForm: FormGroup;
   searchFormReport: FormGroup;
   nameSearchFilter = new FormControl();
+  isLoading = false;
 
-  displayedColumns: string[] = ['name', 'position', 'weight', 'symbol', 'percent'];
-  dataSource = [
-    {position: 1, name: 'HYD', weight: 19, symbol: 13},
-    {position: 2, name: 'HEL', weight: 46, symbol: 1},
-    {position: 3, name: 'LIT', weight: 63, symbol: 56},
-    {position: 4, name: 'BER', weight: 95, symbol: 58},
-    {position: 5, name: 'BOR', weight: 100, symbol: 84},
-    {position: 6, name: 'CAR', weight: 27, symbol: 28},
-    {position: 7, name: 'NIT', weight: 47, symbol: 5},
-    {position: 8, name: 'OXY', weight: 100, symbol: 48},
-    {position: 9, name: 'FLU', weight: 88, symbol: 96},
-    {position: 10, name: 'NEO', weight: 77, symbol: 4},
-  ];
-  dataSourceTemp = this.dataSource;
+  displayedColumns: string[] = ['airport', 'noGenerated', 'generated', 'total', 'percent'];
+  dataSource = new MatTableDataSource<Report>();
+  dataSourceTemp: Report[];
+  @ViewChild('TABLE', { static: true }) table: ElementRef;
 
-  generalDisplayedColumns: string[] = ['name', 'generate', 'percent'];
+  generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
   dataSourceGeneral = [
-    { name: 'generado', generate: 195, percent: 96.53 },
-    { name: 'no generado', generate: 7, percent: 3.47 },
-    { name: 'total', generate: 201, percent: 100.00 },
+    { name: 'generado', manifest: 195, percent: 96.53 },
+    { name: 'no generado', manifest: 7, percent: 3.47 },
+    { name: 'total', manifest: 201, percent: 100.00 },
   ];
   constructor(
     private router: Router,
@@ -43,9 +37,10 @@ export class ComplianceReportComponent implements OnInit {
     private restApi: ConnectServer,
     private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
+      airline: ['VIV', Validators.required],
       start: [new Date(), Validators.required],
-      finish: [new Date(), Validators.required],
-      manifestType: '1'
+      end: [new Date(), Validators.required],
+      manifestType: ['origin', Validators.required]
     });
 
     this.searchFormReport = this.formBuilder.group({
@@ -54,6 +49,21 @@ export class ComplianceReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
+    const type = this.searchForm.value.manifestType ? this.searchForm.value.manifestType : 'origin';
+    const start = moment(this.searchForm.value.start);
+    const end = moment(this.searchForm.value.end);
+    // console.log(type, start.format(), end.format());
+    this.restApi.getReports(type, start, end).subscribe(res => {
+      console.log('res', res);
+      this.dataSource.data = res.flights;
+      this.dataSourceTemp = res.flights;
+      this.configGeneral(res);
+      this.isLoading = false;
+      this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
+    }, error => {
+      this.isLoading = false;
+    });
     this.initListeners();
   }
 
@@ -62,40 +72,21 @@ export class ComplianceReportComponent implements OnInit {
       .pipe(
         debounceTime(500),
         switchMap(values => {
-          console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
-          console.log('this.validateValues()');
-          // if (this.validateValues()) {
-          //   //   this.nameSearch.setValue(name);
-          //   return this.restApi.getFoldersFilter(this.searchForm.value);
-          // } else {
-          //   this.isInFolder = false;
-          //   this.files.length = 0;
-          //   this.folders = this.foldersTemp;
-            return [];
-          // }
+          // console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
+          // console.log('this.validateValues()', values.start);
+          const type = values.manifestType ? values.manifestType : 'origin';
+          const start = moment(this.searchForm.value.start);
+          const end = moment(this.searchForm.value.end);
+          return this.restApi.getReports(type, start, end);
         })
       ).subscribe(res => {
         console.log('res', res);
-        // this.isInFolder = true;
-        // this.files = res;
-        // if (res) {
-        //   this.filesTemp = res;
-        // }
+        this.dataSource.data = res.flights;
+        this.configGeneral(res);
       });
+
     this.nameSearchFilter.valueChanges.subscribe(name => {
-      if (name !== '') {
-        // if (this.isInFolder) {
-          this.dataSource = this.dataSourceTemp.filter(report => {
-            report.name.includes(name);
-          });
-        // } else {
-          // this.folders = this.foldersTemp.filter(name => {
-          //   name.includes(name);
-          // });
-        // }
-      } else {
-        this.dataSource = this.dataSourceTemp;
-      }
+      this.dataSource.filter = name.trim().toLowerCase();
     });
   }
 
@@ -107,5 +98,32 @@ export class ComplianceReportComponent implements OnInit {
     } else if (percent < 50) {
       return 'row-red';
     }
+  }
+
+  dateFilter(date: Date, isStart) {
+    return date < new Date();
+  }
+
+  configGeneral(res: any) {
+    this.dataSourceGeneral[0].manifest = res.general.generated.manifest;
+    this.dataSourceGeneral[0].percent = res.general.generated.percent;
+    this.dataSourceGeneral[1].manifest = res.general.noGenerated.manifest;
+    this.dataSourceGeneral[1].percent = res.general.noGenerated.percent;
+    this.dataSourceGeneral[2].manifest = res.general.total.manifest;
+    this.dataSourceGeneral[2].percent = res.general.total.percent;
+  }
+
+  exportAsExcel() {
+    // console.log('XLSX', this.table);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+
+    const start = moment(this.searchForm.value.start).format('DD/MM/YYYY');
+    const end = moment(this.searchForm.value.end).format('DD/MM/YYYY');
+    XLSX.writeFile(wb, `${start} ${end} Report.xlsx`);
+
   }
 }

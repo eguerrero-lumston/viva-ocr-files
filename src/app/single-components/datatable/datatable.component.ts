@@ -1,4 +1,4 @@
-import { ManifestPaginatorResponse } from './../../model/manifest-paginator-response';
+import { ManifestPaginatorResponse } from '../../model/request/manifest-paginator-response';
 import { GlobalVariable } from './../../global/global';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Manifest } from './../../model/manifest/manifest';
@@ -26,6 +26,7 @@ import { Observable } from 'rxjs';
 export class DatatableComponent implements OnInit {
   dataSource = new MatTableDataSource<Manifest>();
   temp = new ManifestPaginatorResponse();
+  isLoading = false;
   manifestToSend = new Set<Manifest>();
   displayedColumns: string[] = ['name', 'uploaded_at', 'checkStatus', 'actions'];
   total = 0;
@@ -44,7 +45,8 @@ export class DatatableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private restApi: ConnectServer,
+  constructor(
+    private restApi: ConnectServer,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -58,6 +60,7 @@ export class DatatableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     // console.log(this.paginator);
     this.total = 0;
     this.limit = 10;
@@ -72,10 +75,13 @@ export class DatatableComponent implements OnInit {
     this.restApi.getManifests().subscribe((data) => {
       console.log('ngOnInit', data);
       this.temp = data;
+      this.isLoading = false;
       this.dataSource.data = data.docs;
       this.total = data.total;
       this.limit = data.limit;
       this.page = data.page - 1;
+    }, error => {
+      this.isLoading = false;
     });
 
     this.nameSearch.valueChanges

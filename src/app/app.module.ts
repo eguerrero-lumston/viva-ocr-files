@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
 import { FormComponent } from './components/form/form.component';
 import { ManifestViewerComponent } from './components/manifest-viewer/manifest-viewer.component';
@@ -63,6 +64,7 @@ import { ToastrModule } from 'ngx-toastr';
     MaterialModule,
     MatBottomSheetModule,
     NgxUiLoaderModule,
+    NgOptionHighlightModule,
     ToastrModule.forRoot({
       // toastComponent: ToastNotificationComponent
     })

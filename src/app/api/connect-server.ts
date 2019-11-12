@@ -1,10 +1,11 @@
+import { ReportsResponse } from './../model/request/reports-response';
+import { ManifestPaginatorResponse } from './../model/request/manifest-paginator-response';
 import { FileFilter } from './../model/file-filter';
 import { Suggestions } from './../model/suggestion';
 import { File } from './../model/file';
-import { ManifestPaginatorResponse } from '../model/manifest-paginator-response';
 import { NotificationService } from './notification.service';
 import { Pdf } from './../model/pdf';
-import { FoldersRequest } from './../model/folders-request';
+import { FoldersRequest } from '../model/request/folders-request';
 import { Folder } from './../model/folder';
 import { Manifest } from 'src/app/model/manifest/manifest';
 import { HelperService } from './helper.service';
@@ -12,7 +13,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, retry, catchError, tap } from 'rxjs/operators';
+import { map, retry, catchError, tap, publishReplay, refCount } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
@@ -187,6 +188,30 @@ export class ConnectServer {
             .set('key', name);
         return this.http.get<Pdf>(this.apiURL + 'docs/pdf' + bucket, { headers: this.headers.headers, params })
             .pipe(
+                publishReplay(1),
+                refCount(),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getReports(type: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportsResponse> {
+        this.helperService.startLoader();
+        let params = new HttpParams();
+        params = params.append('type', type);
+        const SERVER_FORMAT = 'YYYY-MM-DD';
+        if (start) {
+            const formatDate = start.format(SERVER_FORMAT);
+            // console.log('formatDate start---->', formatDate);
+            params = params.append('start', formatDate);
+        }
+        if (end) {
+            const formatDate = end.format(SERVER_FORMAT);
+            // console.log('formatDate end---->', formatDate);
+            params = params.append('end', formatDate);
+        }
+        return this.http.get<ReportsResponse>(this.apiURL + 'reports', { headers: this.headers.headers, params })
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
             );
     }

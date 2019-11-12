@@ -8,6 +8,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-manifest-flight',
@@ -18,6 +19,7 @@ export class ManifestFlightComponent implements OnInit {
   searchForm: FormGroup;
   searchFormFiles: FormGroup;
   nameSearchFilter = new FormControl();
+  isLoading = false;
   breadcrumbs = [];
   isInFolder = false;
   date = moment().format('YYYY-MM-DD');
@@ -36,7 +38,8 @@ export class ManifestFlightComponent implements OnInit {
     private route: ActivatedRoute,
     private restApi: ConnectServer,
     private location: Location,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private config: NgSelectConfig) {
     this.searchForm = this.formBuilder.group({
       date: [null, Validators.required],
       hour: [null, Validators.required],
@@ -49,9 +52,11 @@ export class ManifestFlightComponent implements OnInit {
     this.searchFormFiles = this.formBuilder.group({
       nameSearch: this.nameSearchFilter
     });
+    this.configNgSelect();
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.folders = [];
     this.foldersTemp = [];
     this.filesTemp = [];
@@ -74,9 +79,12 @@ export class ManifestFlightComponent implements OnInit {
           this.restApi.getFolders().subscribe((data) => {
             // console.log('folders--->', data);
             this.breadcrumbs.length = 0;
+            this.isLoading = false;
             this.folders = data.folders;
             this.foldersTemp = data.folders;
             this.files = data.files;
+          }, error => {
+            this.isLoading = false;
           });
         }
       });
@@ -165,5 +173,16 @@ export class ManifestFlightComponent implements OnInit {
       this.searchForm.get('registration').valid ||
       this.searchForm.get('origin').valid ||
       this.searchForm.get('destination').valid;
+  }
+  configNgSelect() {
+    this.config.notFoundText = 'No se encontraron coincidencias';
+    this.config.appendTo = 'body';
+    this.config.addTagText = 'Agregar';
+    // set the bindValue to global config when you use the same
+    // bindValue in most of the place.
+    // You can also override bindValue for the specified template
+    // by defining `bindValue` as property
+    // Eg : <ng-select bindValue="some-new-value"></ng-select>
+    this.config.bindValue = 'value';
   }
 }

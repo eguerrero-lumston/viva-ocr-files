@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../util/local-storage.service';
 import { NotificationService } from './../../api/notification.service';
 import { HelperService } from './../../api/helper.service';
 import { ConnectServer } from './../../api/connect-server';
@@ -22,6 +23,7 @@ export class ManifestViewerComponent implements OnInit {
     private route: ActivatedRoute,
     private bottomSheetRef: MatBottomSheet,
     private api: ConnectServer,
+    private localStorageService: LocalStorageService,
     private helperService: HelperService,
     private notificationService: NotificationService,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
@@ -46,9 +48,13 @@ export class ManifestViewerComponent implements OnInit {
 
   getPdfFile(key: string, isRepository: boolean) {
     console.log('keeey', key, isRepository);
-    this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
-      this.pdfSrc = data.url;
-    });
+    if (this.localStorageService.exist(key)) {
+      this.pdfSrc = this.localStorageService.get(key);
+    } else {
+      this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
+        this.pdfSrc = data.url;
+      });
+    }
   }
 
   openInUrl() {

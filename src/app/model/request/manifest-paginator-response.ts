@@ -1,4 +1,5 @@
-import { Manifest } from './manifest/manifest';
+import { Manifest } from './../manifest/manifest';
+
 export class ManifestPaginatorResponse {
     docs: Manifest[];
     limit: number;

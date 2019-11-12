@@ -4,6 +4,7 @@
 /dist
 /manifiesto-win32-x64
 /tmp
+/releases
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out

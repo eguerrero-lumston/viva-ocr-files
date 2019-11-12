@@ -11,11 +11,12 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "run:electron": "electron .",
     "start:electron": "ng build --base-href ./ && electron .",
     "packager": "electron-packager . WinApp --platform=win32 --arch=all",
     "compile:electron": "ng build --base-href ./ && electron-packager . --platform=win32 --no-prune --ignore=/node_modules --ignore=/e2e --ignore=/src --overwrite",
-    "electron-package-win": "ng build --base-href && electron-packager . --no-prune --ignore=/node_modules --ignore=/e2e --ignore=/src --overwrite",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/windows/icon.ico --prune=true --out=release-builds --version-string.CompanyName='CE' --version-string.FileDescription='Electron tutorial app' --version-string.ProductName='Electron tutorial app'"
+    "pack:electron": "ng build --base-href ./ && node packager.js",
+    "package-win": "node build.js"
   },
   "private": true,
   "dependencies": {
@@ -30,8 +31,11 @@
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
     "@fooloomanzoo/datetime-input": "^3.0.4",
+    "@ng-select/ng-option-highlight": "0.0.4",
     "@ng-select/ng-select": "^3.1.0",
     "@swimlane/ngx-datatable": "^16.0.2",
+    "adal-angular4": "^4.0.12",
+    "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
     "is-electron": "^2.2.0",
@@ -42,6 +46,7 @@
     "ngx-ui-loader": "^8.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "xlsx": "^0.15.1",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

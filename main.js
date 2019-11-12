@@ -1,10 +1,9 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const electron = require('electron');
 const url = require("url");
 const path = require("path");
 var ipcMain = require('electron').ipcMain;
 const globalShortcut = electron.globalShortcut;
-
 // this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent(app)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -20,9 +19,7 @@ function createWindow() {
             nodeIntegration: true
         }
     })
-    
-    mainWindow.maximize();
-    
+
     mainWindow.loadURL(
         url.format({
             pathname: path.join(__dirname, `/dist/index.html`),
@@ -33,22 +30,30 @@ function createWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
 
-    mainWindow.setMenu(null)
-    mainWindow.setMenuBarVisibility(false)
-
     mainWindow.on('closed', function () {
         mainWindow = null
     })
 
+    mainWindow.setMenu(null);
+    mainWindow.maximize();
+   
+    // mainWindow.setMenu(null);
+    mainWindow.maximize();
+    Menu.setApplicationMenu(null);
+
     globalShortcut.register('f5', function () {
         console.log('f5 is pressed')
-        mainWindow.reload()
-    })
+        mainWindow.reload();
+        mainWindow.loadURL(url.format({ pathname: path.join(__dirname, `/dist/index.html`), protocol: 'file:', slashes: true, }));
+    });
+
     globalShortcut.register('CommandOrControl+R', function () {
         console.log('CommandOrControl+R is pressed')
-        mainWindow.reload()
-    })
+        mainWindow.reload();
+        mainWindow.loadURL(url.format({ pathname: path.join(__dirname, `/dist/index.html`), protocol: 'file:', slashes: true, }));
+    });
 }
+
 function handleSquirrelEvent(application) {
     if (process.argv.length === 1) {
         return false;
