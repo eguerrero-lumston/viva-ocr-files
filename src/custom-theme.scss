@@ -9,14 +9,119 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$primary-new: #7ec636;
+$accent-new: #b1f968;
+$warn-new: #4b9500;
+
+// define a real custom palette (using http://mcg.mbitson.com)
+$md-primary-manifest: (
+    50 : #f0f8e7,
+    100 : #d8eec3,
+    200 : #bfe39b,
+    300 : #a5d772,
+    400 : #91cf54,
+    500 : #7ec636,
+    600 : #76c030,
+    700 : #6bb929,
+    800 : #61b122,
+    900 : #4ea416,
+    A100 : #e6ffd8,
+    A200 : #c5ffa5,
+    A400 : #a5ff72,
+    A700 : #94ff58,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+$md-accent-manifest: (
+    50 : #f6feed,
+    100 : #e8fdd2,
+    200 : #d8fcb4,
+    300 : #c8fb95,
+    400 : #bdfa7f,
+    500 : #b1f968,
+    600 : #aaf860,
+    700 : #a1f755,
+    800 : #98f64b,
+    900 : #88f53a,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #e8ffd9,
+    A700 : #d9ffbf,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-warn-manifest: (
+    50 : #e9f2e0,
+    100 : #c9dfb3,
+    200 : #a5ca80,
+    300 : #81b54d,
+    400 : #66a526,
+    500 : #4b9500,
+    600 : #448d00,
+    700 : #3b8200,
+    800 : #337800,
+    900 : #236700,
+    A100 : #b1ff96,
+    A200 : #8bff63,
+    A400 : #65ff30,
+    A700 : #52ff17,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$manifiesto-primary: mat-palette($mat-indigo);
-$manifiesto-accent: mat-palette($mat-pink, A200, A100, A400);
+$manifiesto-primary: mat-palette($md-primary-manifest);
+$manifiesto-accent: mat-palette($md-warn-manifest, 700, 800, 900);
 
 // The warn palette is optional (defaults to red).
-$manifiesto-warn: mat-palette($mat-red);
+$manifiesto-warn: mat-palette($md-warn-manifest);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $manifiesto-theme: mat-light-theme($manifiesto-primary, $manifiesto-accent, $manifiesto-warn);

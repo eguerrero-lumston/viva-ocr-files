@@ -1,0 +1,9 @@
+<div class="content-body flex items-center justify-center ">
+    <img class="bg" src="./assets/background-gra.png" alt="bg">
+    <div class="error-page flex items-center justify-center column">
+        <h1>
+            404 - Pagina no encontrada
+        </h1>
+        <p *ngIf="path">Es posible que desee ir al <a [routerLink]="'/'">"Inicio"</a></p>
+    </div>
+</div>

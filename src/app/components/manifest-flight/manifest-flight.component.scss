@@ -189,4 +189,11 @@ ng-select{
     display: none;
 }
   
-  
+.folder-name{
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}

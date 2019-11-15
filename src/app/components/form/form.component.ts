@@ -29,6 +29,7 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   licences: string[];
   surcharges: string[];
   manifest = new Manifest();
+  isOrigin = true;
   // manifestForm: FormGroup;
   name: string;
   isConfirmed = false;
@@ -52,12 +53,16 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     this.route.params
       .subscribe((params: Params) => {
         this.manifest.jobId = params.jobId;
+        console.log('params.isConfirmed', params.isConfirmed);
+        this.isConfirmed = params.isConfirmed === 'true';
         this.api.getManifest(this.manifest.jobId).subscribe(data => {
           console.log('data ---->', data);
           this.manifest = data;
           const dateF = moment(this.manifest.formatted_date, this.SERVER_FORMAT)
             .format(this.INPUT_FORMAT);
-          this.manifest.formattedDate = dateF;
+          if (moment(this.manifest.formatted_date, this.SERVER_FORMAT).isValid()) {
+            this.manifest.formattedDate = dateF;
+          }
           this.manifest.matches.acronyms = this.union(this.manifest.acronyms.filter(word => word !== ''), this.manifest.matches.acronyms);
           // this.acronyms = data.acronyms.filter(word => word !== '');
           this.licences = data.licences.filter(word => word !== '');
@@ -66,6 +71,7 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
           if (this.localStorageService.exist(this.manifest.jobId)) {
             this.manifest = this.localStorageService.get(this.manifest.jobId) as Manifest;
           }
+          this.onChange(this.manifest.origin.acronym, true);
         });
       });
     // Observable.of(this.manifest)
@@ -75,6 +81,14 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
       map(value => this._filter(value))
     );
   }
+  onChange(value: string, isOrigin: boolean) {
+    if (isOrigin) {
+      this.isOrigin = this.manifest.airport.acronym === value;
+    } else {
+      this.isOrigin = value === this.manifest.origin.acronym;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     // changes.prop contains the old and the new value...
     console.log(changes);
@@ -100,14 +114,14 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   update() {
     this.formattedManifest();
     console.log(this.manifest);
-    if (this.isFormValid() && !this.isConfirmed) {
+    if (this.isFormValid()) {
       // console.log('it is submit');
       this.api.updateManifest(this.manifest).subscribe(res => {
         console.log('response server--->', res);
         if (res) {
           this.localStorageService.delete(this.manifest.jobId);
           this.localStorageService.delete(this.manifest.key);
-          this.notificationService.showSuccess('Correcto!', 'Se actualizò correctamente');
+          this.notificationService.showSuccess('Correcto!', 'Se actualizó correctamente');
         }
       });
     }
@@ -117,7 +131,7 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     // this.manifestForm.setValue(this.manifest);
     // console.log(this.manifest);
     if (!this.isFormValid()) {
-      this.notificationService.showWarning('Precauciòn', 'Antes de confirmar debes llenar los datos necesarios');
+      this.notificationService.showWarning('Precaución', 'Antes de confirmar debes llenar los datos necesarios');
       return;
     }
     await this.api.updateManifest(this.manifest).toPromise();
@@ -183,7 +197,7 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   isFormValid() {
     return this.manifest.airport.name !== '' &&
       this.manifest.company.name !== '' &&
-      this.manifest.formatted_date !== '' &&
+      this.manifest.formattedDate !== '' &&
       this.manifest.airport.acronym !== '' &&
       this.manifest.company.acronym !== '' &&
       this.manifest.registration !== '' &&
@@ -215,5 +229,9 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.save(this.manifest.jobId, this.manifest);
   }
 
+  onSubmit(form) {
+    console.log(form);
+    // form.preveny
+  }
 
 }

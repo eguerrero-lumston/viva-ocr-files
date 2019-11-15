@@ -1,5 +1,7 @@
+import { PathResolveService } from './../services/path-resolve.service';
+import { NotFoundComponent } from './../components/not-found/not-found.component';
 import { AuthGuard } from '../services/auth.guard';
-import { DatatableComponent } from './../single-components/datatable/datatable.component';
+import { DatatableComponent } from '../components/datatable/datatable.component';
 import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
 import { LoginUserComponent } from './../components/login/login-user.component';
@@ -15,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginUserComponent, outlet: 'primary' },
   {
     path: '', component: HomeComponent, outlet: 'primary',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -52,7 +54,13 @@ const routes: Routes = [
       }
     ]
   },
-
+  {
+    path: '**',
+    resolve: {
+      path: PathResolveService
+    },
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({

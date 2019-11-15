@@ -318,6 +318,10 @@ span.status.danger {
     background-color: $danger;
 }
 
+span.status.pending {
+    background-color: $gray;
+}
+
 mat-card {
     box-shadow: 0 0px 9px rgba(0, 0, 0, 0.18) !important;
 }

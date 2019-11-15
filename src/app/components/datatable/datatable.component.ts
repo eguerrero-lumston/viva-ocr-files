@@ -1,12 +1,12 @@
-import { LocalStorageService } from './../../util/local-storage.service';
+import { LocalStorageService } from '../../util/local-storage.service';
 import { ManifestPaginatorResponse } from '../../model/request/manifest-paginator-response';
-import { GlobalVariable } from './../../global/global';
+import { GlobalVariable } from '../../global/global';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Manifest } from './../../model/manifest/manifest';
-import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.component';
-import { NotificationService } from './../../api/notification.service';
+import { Manifest } from '../../model/manifest/manifest';
+import { DialogConfirmComponent } from '../../single-components/dialog-confirm/dialog-confirm.component';
+import { NotificationService } from '../../api/notification.service';
 import { Router, ActivatedRoute, Event } from '@angular/router';
-import { ConnectServer } from './../../api/connect-server';
+import { ConnectServer } from '../../api/connect-server';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -146,10 +146,10 @@ export class DatatableComponent implements OnInit {
     });
   }
 
-  onEdit(manifest: Manifest) {
+  onEdit(manifest: Manifest, isConfirmed = false) {
     // console.log(row);
     const jobId = manifest.jobId;
-    this.router.navigate(['./form', { jobId }], { relativeTo: this.route });
+    this.router.navigate(['./form', { jobId, isConfirmed }], { relativeTo: this.route });
   }
 
   onConfirmArray() {
@@ -229,6 +229,7 @@ export class DatatableComponent implements OnInit {
   }
 
   changeStatus() {
+    this.manifestToSend.clear();
     const status = [];
     if (this.isYellow) {
       status.push(this.globalVariable.STATUS_YELLOW);

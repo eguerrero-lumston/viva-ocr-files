@@ -29,11 +29,12 @@ import { ManifestFlightComponent } from './components/manifest-flight/manifest-f
 import { AppComponent } from './components/app-root/app.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DragDropDirective } from './directives/drag-drop.directive';
-import { DatatableComponent } from './single-components/datatable/datatable.component';
+import { DatatableComponent } from './components/datatable/datatable.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ToastrModule } from 'ngx-toastr';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ToastrModule } from 'ngx-toastr';
     DialogConfirmComponent,
     LoginUserComponent,
     HomeComponent,
-    ComplianceReportComponent
+    ComplianceReportComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

@@ -27,9 +27,9 @@ export class ComplianceReportComponent implements OnInit {
 
   generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
   dataSourceGeneral = [
-    { name: 'generado', manifest: 195, percent: 96.53 },
-    { name: 'no generado', manifest: 7, percent: 3.47 },
-    { name: 'total', manifest: 201, percent: 100.00 },
+    { name: 'generado', manifest: 0, percent: 0 },
+    { name: 'no generado', manifest: 0, percent: 0 },
+    { name: 'total', manifest: 0, percent: 0 },
   ];
   constructor(
     private router: Router,
@@ -40,7 +40,7 @@ export class ComplianceReportComponent implements OnInit {
       airline: ['VIV', Validators.required],
       start: [new Date(), Validators.required],
       end: [new Date(), Validators.required],
-      manifestType: ['origin', Validators.required]
+      manifestType: ['destination', Validators.required]
     });
 
     this.searchFormReport = this.formBuilder.group({
@@ -117,13 +117,12 @@ export class ComplianceReportComponent implements OnInit {
     // console.log('XLSX', this.table);
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); // converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
 
     /* save to file */
-
     const start = moment(this.searchForm.value.start).format('DD/MM/YYYY');
     const end = moment(this.searchForm.value.end).format('DD/MM/YYYY');
+    console.log(`Reporte-${start} a ${end}.xlsx`);
     XLSX.writeFile(wb, `Reporte-${start} a ${end}.xlsx`);
-
   }
 }

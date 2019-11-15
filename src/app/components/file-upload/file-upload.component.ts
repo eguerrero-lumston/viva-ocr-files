@@ -13,10 +13,10 @@ export class FileUploadComponent implements OnInit {
 
   @ViewChild('fileInput', {static: true}) fileInput;
   public files: Set<File> = new Set();
+  isLoading = false;
 
   progress;
   canBeClosed = true;
-  primaryButtonText = 'Upload';
   showCancelButton = true;
   uploading = false;
   uploadSuccessful = false;
@@ -24,6 +24,15 @@ export class FileUploadComponent implements OnInit {
               private notificationservice: NotificationService) { }
 
   ngOnInit() {
+    // this.isLoading = true;
+    console.log();
+    this.fileInput.nativeElement.value = null;
+    // this.fileInput.nativeElement.files.clean();
+    this.files.clear();
+    this.progress = null;
+    this.canBeClosed = true;
+    this.showCancelButton = true;
+    this.uploading = false;
     // this.notificationservice.showSuccess("safdas", "dvfds");
     // this.notificationservice.showCustom();
   }
@@ -41,15 +50,17 @@ export class FileUploadComponent implements OnInit {
   }
 
   addFiles(event: Event) {
+    this.isLoading = true;
     if (this.uploading) {
-      this.notificationservice.showInfo('Informaciòn', 'Espera a que los archivos seleccionados sean subidos');
+      this.notificationservice.showInfo('Información', 'Espera a que los archivos seleccionados sean subidos');
       return;
     } else {
-      this.notificationservice.showInfo('Informaciòn', 'Iniciando subida de los archivos seleccionados');
+      this.notificationservice.showInfo('Información', 'Iniciando subida de los archivos seleccionados');
     }
 
     // console.log('uploadFile', event, this.fileInput);
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
+    // this.fileInput.nativeElement.value = null;
     console.log('files', files);
     for (const key in files) {
       if (!isNaN(parseInt(key))) {
@@ -96,10 +107,7 @@ export class FileUploadComponent implements OnInit {
       //   complete() { console.log('Finished sequence isFinish'); }
       // });
     }
-
-    // The OK-button should have the text "Finish" now
-    this.primaryButtonText = 'Finish';
-
+    
     // The dialog should not be closed while uploading
     this.canBeClosed = false;
     // this.dialogRef.disableClose = true;
@@ -113,7 +121,7 @@ export class FileUploadComponent implements OnInit {
       // ... the dialog can be closed again...
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;
-
+      this.isLoading = false;
       // ... the upload was successful...
       this.uploadSuccessful = true;
       this.files.clear();
@@ -123,7 +131,7 @@ export class FileUploadComponent implements OnInit {
       // console.log('allProgressObservables are finished with error', error);
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;
-
+      this.isLoading = false;
       // ... the upload was successful...
       this.uploadSuccessful = true;
       this.files.clear();

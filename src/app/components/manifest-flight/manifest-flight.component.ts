@@ -59,8 +59,8 @@ export class ManifestFlightComponent implements OnInit {
     this.isLoading = true;
     this.folders = [];
     this.foldersTemp = [];
-    this.filesTemp = [];
     this.files = [];
+    this.filesTemp = [];
     this.route.params
       .subscribe((params: Params) => {
         // console.log('parametros', params);
@@ -69,19 +69,24 @@ export class ManifestFlightComponent implements OnInit {
           this.restApi.getFolder(this.folderName).subscribe(res => {
             if (res) {
               // console.log(res);
+              this.isLoading = false;
               this.breadcrumbs = this.folderName.split('/').filter(name => name !== '');
               this.folders = res.folders;
               this.files = res.files;
             }
+          }, error => {
+            this.isLoading = false;
           });
         } else {
           this.folderName = '';
+          this.breadcrumbs = [];
           this.restApi.getFolders().subscribe((data) => {
             // console.log('folders--->', data);
-            this.breadcrumbs.length = 0;
+            this.breadcrumbs = [];
             this.isLoading = false;
             this.folders = data.folders;
             this.foldersTemp = data.folders;
+            console.log('this.foldersTemp', this.foldersTemp);
             this.files = data.files;
           }, error => {
             this.isLoading = false;
@@ -108,7 +113,10 @@ export class ManifestFlightComponent implements OnInit {
             return this.restApi.getFoldersFilter(this.searchForm.value);
           } else {
             this.isInFolder = false;
-            this.files.length = 0;
+            this.files = [];
+            this.folderName = '';
+            this.breadcrumbs = [];
+            console.log('this.foldersTemp', this.foldersTemp);
             this.folders = this.foldersTemp;
             return [];
           }
@@ -116,6 +124,7 @@ export class ManifestFlightComponent implements OnInit {
       ).subscribe(res => {
         console.log('res', res);
         this.isInFolder = true;
+        this.folders = [];
         this.files = res;
         if (res) {
           this.filesTemp = res;
@@ -175,7 +184,7 @@ export class ManifestFlightComponent implements OnInit {
       this.searchForm.get('destination').valid;
   }
   configNgSelect() {
-    this.config.notFoundText = 'No se encontraron coincidencias';
+    this.config.notFoundText = 'Vacio';
     this.config.appendTo = 'body';
     this.config.addTagText = 'Agregar';
     // set the bindValue to global config when you use the same

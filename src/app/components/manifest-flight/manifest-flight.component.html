@@ -2,8 +2,9 @@
   <div class="flex items-center">
     <h1 class="grow-1 section-title">Manifiestos de vuelo</h1>
     <div class="flex justify-end">
-        <img style="cursor: pointer;" (click)="ngOnInit()" height="25px" [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
-      </div>
+      <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
+        [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
+    </div>
   </div>
   <div>
     <form [formGroup]="searchForm">
@@ -29,23 +30,27 @@
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Siglas</p>
-          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todas" class="grow-1 select-supervisor" formControlName="acronym"
-            [items]="['Todas', 'Value2', 'Value3', 'Value4', 'Value5']" [clearable]="true"></ng-select>
+          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todas"
+            class="grow-1 select-supervisor" formControlName="acronym"
+            [items]="[]" [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Matricula</p>
-          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todas" class="grow-1 select-supervisor" formControlName="registration"
-            [items]="this.suggestions.registrations" [clearable]="true"></ng-select>
+          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todas"
+            class="grow-1 select-supervisor" formControlName="registration" [items]="this.suggestions.registrations"
+            [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Origen</p>
-          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todos" class="grow-1 select-supervisor" formControlName="origin"
-            [items]="this.suggestions.origins" [clearable]="true"></ng-select>
+          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todos"
+            class="grow-1 select-supervisor" formControlName="origin" [items]="this.suggestions.origins"
+            [clearable]="true"></ng-select>
         </div>
         <div class="flex items-center grow-1">
           <p class="title-search grow-1">Destino</p>
-          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todos" class="grow-1 select-supervisor" formControlName="destination"
-            [items]="this.suggestions.destinations" [clearable]="true"></ng-select>
+          <ng-select [addTag]="true" [ngOptionHighlight]="appUppercase" placeholder="Todos"
+            class="grow-1 select-supervisor" formControlName="destination" [items]="this.suggestions.destinations"
+            [clearable]="true"></ng-select>
         </div>
         <!-- </form> -->
       </div>
@@ -62,7 +67,7 @@
       </span>
       <ol class="breadcrumb">
         <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item " (click)="returnHome(breadcrumb)">
-          <span class="flex items-center" >
+          <span class="flex items-center">
             <mat-icon aria-hidden="false" aria-label="Example home icon">keyboard_arrow_left</mat-icon>
             {{ breadcrumb }}
           </span>
@@ -79,7 +84,7 @@
           </div>
         </div>
       </ng-container>
-      
+
       <div class="col-3" *ngFor="let item of files">
         <div class="flex column items-center item-folder" (click)="viewDataManifest(item)">
           <img class="icon-folder" src="assets/PDF_file_icon.svg" alt="">
@@ -93,9 +98,9 @@
         </ng-container> -->
     </div>
     <ng-container *ngIf="folders.length == 0 && files.length == 0">
-        <div class="flex items-center justify-center">
-          <h3>No hay carpetas para mostrar </h3>
-        </div>
-      </ng-container><br>
+      <div class="flex items-center justify-center">
+        <h3>No hay carpetas para mostrar </h3>
+      </div>
+    </ng-container><br>
   </mat-card>
 </div>
