@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu } = require('electron');
 const electron = require('electron');
 const url = require("url");
 const path = require("path");
+const { session } = require('electron');
 var ipcMain = require('electron').ipcMain;
 const globalShortcut = electron.globalShortcut;
 // this should be placed at top of main.js to handle setup events quickly
@@ -9,17 +10,33 @@ if (handleSquirrelEvent(app)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
 }
+
+// This is just an example url - follow the guide for whatever service you are using
+var authUrl = 'http://localhost:4200/login'
+
 let mainWindow
 function createWindow() {
     
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        'web-security': false,
         webPreferences: {
             nodeIntegration: true
         }
     })
 
+    // mainWindow.loadURL(authUrl);
+    
+//   webRequest.onBeforeRequest(filter, async ({url}) => {
+//     await authService.loadTokens(url);
+//     createAppWindow();
+//     return destroyAuthWin();
+//   });
+
+    mainWindow.on('authenticated', () => {
+        console.log('<-------------------authenticated----------------------->');
+    });
     mainWindow.loadURL(
         url.format({
             pathname: path.join(__dirname, `/dist/index.html`),
@@ -27,15 +44,36 @@ function createWindow() {
             slashes: true
         })
     );
+    // mainWindow.loadURL('https://www.google.com.mx/');
+
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
+
+    mainWindow.webContents.on('will-navigate', function (event, newUrl) {
+        console.log('reedirect ---->', newUrl);
+        const filter = {
+            urls: [authUrl + '*']
+          };
+          
+          // intercept all the requests for that includes my redirect uri
+          session.defaultSession.webRequest.onBeforeRequest(filter, function (details, callback) {
+            const url = details.url;
+            console.log(' details.url ---->',  details.url);
+            // process the callback url and get any param you need
+          
+            // don't forget to let the request proceed
+            callback({
+              cancel: false
+            });
+          });
+        // More complex code to handle tokens goes here
+    });
 
     mainWindow.on('closed', function () {
         mainWindow = null
     })
 
     mainWindow.setMenu(null);
-    mainWindow.maximize();
    
     // mainWindow.setMenu(null);
     mainWindow.maximize();
@@ -53,6 +91,28 @@ function createWindow() {
         mainWindow.loadURL(url.format({ pathname: path.join(__dirname, `/dist/index.html`), protocol: 'file:', slashes: true, }));
     });
 }
+
+function destroyAuthWin() {
+    if (!mainWindow) return;
+    mainWindow.close();
+    mainWindow = null;
+  }
+  
+function createLogoutWindow() {
+    return new Promise(resolve => {
+      const logoutWindow = new BrowserWindow({
+        show: false,
+      });
+  
+    //   logoutWindow.loadURL(authService.getLogOutUrl());
+  
+    //   logoutWindow.on('ready-to-show', async () => {
+    //     logoutWindow.close();
+    //     await authService.logout();
+    //     resolve();
+    //   });
+    });
+  }
 
 function handleSquirrelEvent(application) {
     if (process.argv.length === 1) {

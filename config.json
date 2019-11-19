@@ -1,7 +1,11 @@
 {
-    "dest": "dist/installers/",
-    "icon": "resources/Icon.ico",
-    "tags": [
-      "Utility"
-    ]
-  }
+	"express": {
+		"protocol" : "localhost:4200/login",
+		"port"     : 4200
+	},
+	"auth": {
+		"clientId" : "33ddc4f4-6c10-43cc-85dc-7de834f2ceb7",
+		"tenantId" : "AlexCorp727.onmicrosoft.com",
+		"scope"    : "openid profile offline_access"
+	}
+}

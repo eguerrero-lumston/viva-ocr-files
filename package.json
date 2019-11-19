@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "aplicacion de Manifiestos para Viva aerobus",
   "productName": "manifiesto",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -48,6 +48,7 @@
     "ngx-ui-loader": "^8.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "url-search-params-polyfill": "^7.0.0",
     "xlsx": "^0.15.1",
     "zone.js": "~0.9.1"
   },
