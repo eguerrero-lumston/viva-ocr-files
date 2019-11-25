@@ -120,11 +120,12 @@ class Authenticator {
                     console.log('_accessCode', _accessCode)
 
                     const _state = _params.get('state');
-                    if (_accessCode && _state === authStateIdentifier) {
-                        const tokenRequestUrl = `https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/token`;
+                    if (true) {
+                        const tokenRequestUrl = `https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/v2.0/token`;
                         const tokenRequestBody = {
                             grant_type: 'authorization_code',
                             client_id: config.auth.clientId,
+                            code: _accessCode,
                             redirect_uri: `http://${config.express.protocol}`,
                             scope: config.auth.scope,
                             code_verifier: authPKCEVerifier

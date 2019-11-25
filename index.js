@@ -23,6 +23,7 @@ class Electron {
                 contextIsolation: false
             }
         });
+        mainWindow.maximize();
         // mainWindow.loadFile(`${__dirname}/../../app/electron-angular-auth/dist/electron-angular-auth/index.html`);
         mainWindow.loadURL(
             url.format({

@@ -34,9 +34,9 @@ function createWindow() {
 //     return destroyAuthWin();
 //   });
 
-    mainWindow.on('authenticated', () => {
-        console.log('<-------------------authenticated----------------------->');
-    });
+    // mainWindow.on('authenticated', () => {
+    //     console.log('<-------------------authenticated----------------------->');
+    // });
     mainWindow.loadURL(
         url.format({
             pathname: path.join(__dirname, `/dist/index.html`),
@@ -47,27 +47,27 @@ function createWindow() {
     // mainWindow.loadURL('https://www.google.com.mx/');
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 
-    mainWindow.webContents.on('will-navigate', function (event, newUrl) {
-        console.log('reedirect ---->', newUrl);
-        const filter = {
-            urls: [authUrl + '*']
-          };
+    // mainWindow.webContents.on('will-navigate', function (event, newUrl) {
+    //     console.log('reedirect ---->', newUrl);
+    //     const filter = {
+    //         urls: [authUrl + '*']
+    //       };
           
-          // intercept all the requests for that includes my redirect uri
-          session.defaultSession.webRequest.onBeforeRequest(filter, function (details, callback) {
-            const url = details.url;
-            console.log(' details.url ---->',  details.url);
-            // process the callback url and get any param you need
+    //       // intercept all the requests for that includes my redirect uri
+    //       session.defaultSession.webRequest.onBeforeRequest(filter, function (details, callback) {
+    //         const url = details.url;
+    //         console.log(' details.url ---->',  details.url);
+    //         // process the callback url and get any param you need
           
-            // don't forget to let the request proceed
-            callback({
-              cancel: false
-            });
-          });
-        // More complex code to handle tokens goes here
-    });
+    //         // don't forget to let the request proceed
+    //         callback({
+    //           cancel: false
+    //         });
+    //       });
+    //     // More complex code to handle tokens goes here
+    // });
 
     mainWindow.on('closed', function () {
         mainWindow = null

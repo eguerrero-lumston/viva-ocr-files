@@ -43,7 +43,8 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.adalService.login();
+    // this.adalService.login();
+    this.router.navigate(['/']);
   }
 
   ngAfterViewInit() {

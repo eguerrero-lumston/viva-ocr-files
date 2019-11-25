@@ -48,13 +48,13 @@ export class ManifestViewerComponent implements OnInit {
 
   getPdfFile(key: string, isRepository: boolean) {
     console.log('keeey', key, isRepository);
-    if (this.localStorageService.exist(key)) {
-      this.pdfSrc = this.localStorageService.get(key);
-    } else {
-      this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
-        this.pdfSrc = data.url;
-      });
-    }
+    // if (this.localStorageService.exist(key)) {
+    //   this.pdfSrc = this.localStorageService.get(key);
+    // } else {
+    this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
+      this.pdfSrc = data.url;
+    });
+    // }
   }
 
   openInUrl() {
