@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       if (result) {
         // logout
-        // this.adalService.logOut();
+        this.adalService.logOut();
         this.router.navigate(['/login']);
       }
     });
