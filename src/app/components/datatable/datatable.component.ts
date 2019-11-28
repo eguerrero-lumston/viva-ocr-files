@@ -133,7 +133,6 @@ export class DatatableComponent implements OnInit {
       if (result) {
         this.restApi.deleteManifest(row.jobId).subscribe(res => {
           if (res) {
-            
             this.localStorageService.delete(row.jobId);
             this.localStorageService.delete(row.key);
             this.notificationservice.showSuccess('Correcto', 'se elimino correctamente');

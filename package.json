@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "aplicacion de Manifiestos para Viva aerobus",
   "productName": "manifiesto",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -35,6 +35,7 @@
     "@ng-select/ng-select": "^3.1.0",
     "@swimlane/ngx-datatable": "^16.0.2",
     "adal-angular4": "^4.0.12",
+    "adal-node": "^0.2.1",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "exceljs": "^3.3.1",

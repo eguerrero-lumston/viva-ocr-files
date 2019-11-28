@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+var AuthenticationContext = require('adal-node').AuthenticationContext;
 const config = require("./config.json");
 class ExpressApp {
     constructor() {
@@ -8,6 +9,30 @@ class ExpressApp {
     }
     start() {
         return new Promise(resolve => {
+            this.app.get('/getAToken', function(req, res) {
+                console.log('get token');
+                if (req.cookies.authstate !== req.query.state) {
+                  res.send('error: state does not match');
+                }
+              
+                var authenticationContext = new AuthenticationContext(authorityUrl);
+              
+                authenticationContext.acquireTokenWithAuthorizationCode(
+                  req.query.code,
+                  redirectUri,
+                  resource,
+                  clientId, 
+                  clientSecret,
+                  function(err, response) {
+                    var errorMessage = '';
+                    if (err) {
+                      errorMessage = 'error: ' + err.message + '\n';
+                    }
+                    errorMessage += 'response: ' + JSON.stringify(response);
+                    res.send(errorMessage);
+                  }
+                );
+              });
             this.app.get('*', (req, res) => res.send('Logging In!'));
             this.appServer = this.app.listen(config.express.port, () => {
                 console.log(`\nExpress app listening on port ${config.express.port}!\n`);

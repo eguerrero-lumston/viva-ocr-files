@@ -13,7 +13,8 @@ const electron_1 = require("electron");
 const request = require("request");
 const crypto = require("crypto");
 const rxjs_1 = require("rxjs");
-const URLSearchParams = require('url-search-params-polyfill');
+var AuthenticationContext = require('adal-node').AuthenticationContext;
+const URL = require('url');
 const express_1 = require("./express");
 const config = require("./config.json");
 const authStateIdentifier = Math.random().toString(36).substring(7);
@@ -23,6 +24,22 @@ function base64URLEncode(str) {
         .replace(/\//g, '_')
         .replace(/=/g, '');
 }
+
+var clientId = '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7';
+var clientSecret = 'yourAADIssuedClientSecretHere'
+var authorityHostUrl = 'https://login.windows.net';
+var tenant = 'AlexCorp727.onmicrosoft.com';
+var authorityUrl = authorityHostUrl + '/' + tenant;
+var redirectUri = 'http://localhost:4200/login';
+var resource = '00000002-0000-0000-c000-000000000000';
+var templateAuthzUrl = 'https://login.windows.net/' +
+    tenant +
+    '/oauth2/authorize?response_type=code&client_id=' +
+    clientId +
+    '&redirect_uri=' +
+    redirectUri +
+    '&state=<state>&resource=' +
+    resource;
 const authPKCEVerifier = base64URLEncode(crypto.randomBytes(32));
 function sha256(buffer) {
     return crypto.createHash('sha256').update(buffer).digest();
@@ -96,32 +113,34 @@ class Authenticator {
     authenticate() {
         console.log('authenticate')
         return __awaiter(this, void 0, void 0, function* () {
-            this.authWindow.loadURL(`
-			https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/authorize?
-				client_id=${config.auth.clientId}
-				&response_type=code
-				&redirect_uri=http://${config.express.protocol}
-				&response_mode=query
-				&scope=${config.auth.scope}
-				&state=${authStateIdentifier}
-				&code_challenge_method=S256
-				&code_challenge=${authPKCEChallenge}
-		`);
+                this.authWindow.loadURL(`
+            	https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/authorize?
+            		client_id=${config.auth.clientId}
+            		&response_type=code
+            		&redirect_uri=http://${config.express.protocol}
+            		&response_mode=query
+            		&scope=${config.auth.scope}
+            		&state=${authStateIdentifier}
+            		&code_challenge_method=S256
+            		&code_challenge=${authPKCEChallenge}
+            `);
+            // this.authWindow.loadURL(templateAuthzUrl);
             this.authWindow.webContents.on('did-finish-load', () => {
                 console.log('did-finish-load')
                 electron_1.session.defaultSession.webRequest.onCompleted({ urls: [`http://${config.express.protocol}` + '*'] }, details => {
-                    console.log('session.defaultSession', details)
-                    console.log('authStateIdentifier', authStateIdentifier)
-                    
-                    const _url = details.url.split('?')[1];
-                    console.log('_url', _url)
-                    const _params = new URLSearchParams(_url);
-                    const _accessCode = _params.get('code');
-                    console.log('_accessCode', _accessCode)
+                    // console.log('session.defaultSession', details)
+                    // console.log('authStateIdentifier', authStateIdentifier)
 
-                    const _state = _params.get('state');
-                    if (true) {
-                        const tokenRequestUrl = `https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/v2.0/token`;
+                    const _url = details.url.split('?')[1];
+                    console.log('_url', _url);
+                    // const _params = new URLSearchParams(_url);
+                    const final = JSON.parse('{"' + _url.replace(/&/g, '","')
+                    .replace(/=/g, '":"') + '"}', function (key, value) { return key === "" ? value : decodeURIComponent(value) })
+                    console.log('--------->final ', final);
+                    const _accessCode = final.code;
+                    const _state = final.state;
+                    if (_accessCode && _state === authStateIdentifier) {
+                        const tokenRequestUrl = `https://login.microsoftonline.com/${config.auth.tenantId}/oauth2/token`;
                         const tokenRequestBody = {
                             grant_type: 'authorization_code',
                             client_id: config.auth.clientId,
@@ -140,6 +159,7 @@ class Authenticator {
                             this.expressApp.stop();
                         });
                     }
+
                 });
             });
         });

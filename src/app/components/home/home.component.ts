@@ -13,7 +13,7 @@ import isElectron from 'is-electron';
 export class HomeComponent implements OnInit {
 
   isElectron: boolean;
-  
+
   constructor(
     private router: Router,
     private adalService: AdalService,
