@@ -18,6 +18,14 @@ export class LocalStorageService {
       return JSON.parse(localStorage.getItem(key));
     }
 
+    saveItem(key: string, object: any) {
+      localStorage.setItem(key, object);
+    }
+
+    getItem(key: string) {
+      return localStorage.getItem(key);
+    }
+
     delete(key: string) {
       localStorage.removeItem(key);
     }

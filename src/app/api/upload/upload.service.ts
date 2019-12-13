@@ -39,7 +39,7 @@ export class UploadService {
       const req = new HttpRequest('POST', this.url, formData, {
         reportProgress: true,
         headers: new HttpHeaders({
-          Authorization: `Bearer ${this.localStorageService.get('token')}`,
+          Authorization: `Bearer ${this.localStorageService.getItem('token')}`,
       })
       });
 
