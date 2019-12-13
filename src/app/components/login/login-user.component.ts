@@ -31,7 +31,7 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
       this.resApi.getToken(oid).subscribe(res => {
         console.log('response', res);
         if (res) {
-          this.localStorageService.saveItem('token', res.token);
+          this.localStorageService.save('token', res.token);
           this.router.navigate(['/']);
         }
       });

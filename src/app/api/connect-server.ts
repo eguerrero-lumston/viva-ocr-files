@@ -42,7 +42,7 @@ export class ConnectServer {
     headers = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.localStorageService.getItem('token')}`,
+            Authorization: `Bearer ${this.localStorageService.get('token')}`,
         })
     };
 

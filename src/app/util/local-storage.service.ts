@@ -15,7 +15,11 @@ export class LocalStorageService {
     }
 
     get(key: string) {
-      return JSON.parse(localStorage.getItem(key));
+      if (this.exist(key)) {
+        return JSON.parse(localStorage.getItem(key));
+      } else {
+        return '';
+      }
     }
 
     saveItem(key: string, object: any) {
