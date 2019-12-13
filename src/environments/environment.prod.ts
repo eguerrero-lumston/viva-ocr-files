@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
-  URL_HOST: 'http://viva-ocr.lumstondev.com/api/',
+  URL_HOST: 'http://3.211.146.162:3000/api/',
   adalConfiguration: {
-    tenant: 'AlexCorp727.onmicrosoft.com',
-    clientId: '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7',
-    redirectUri: 'http://localhost:4200/login',
-    postLogoutRedirectUri: 'http://localhost:4200/login',
+    tenant: 'Vivaaerobus.onmicrosoft.com',
+    clientId: '92b14d62-12de-417b-9363-b9f0f0bc8619',
+    redirectUri: 'http://3.211.146.162/login',
+    postLogoutRedirectUri: 'http://3.211.146.162/login',
     cacheLocation: 'localStorage'
   }
 };

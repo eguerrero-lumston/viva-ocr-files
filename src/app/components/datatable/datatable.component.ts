@@ -54,7 +54,7 @@ export class DatatableComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private formBuilder: FormBuilder,
     private notificationservice: NotificationService,
-    private globalVariable: GlobalVariable) {
+    public globalVariable: GlobalVariable) {
     moment.locale('es');
     this.searchForm = this.formBuilder.group({
       nameSearch: this.nameSearch
