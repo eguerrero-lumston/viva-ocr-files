@@ -27,8 +27,8 @@ export class ComplianceReportComponent implements OnInit {
 
   generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
   dataSourceGeneral = [
-    { name: 'generado', manifest: 0, percent: 0 },
-    { name: 'no generado', manifest: 0, percent: 0 },
+    { name: 'escaneado', manifest: 0, percent: 0 },
+    { name: 'no escaneado', manifest: 0, percent: 0 },
     { name: 'total', manifest: 0, percent: 0 },
   ];
   constructor(
@@ -85,9 +85,22 @@ export class ComplianceReportComponent implements OnInit {
         this.configGeneral(res);
       });
 
+    this.dataSource.filterPredicate = this.customFilterPredicate();
     this.nameSearchFilter.valueChanges.subscribe(name => {
-      this.dataSource.filter = name.trim().toLowerCase();
+      this.dataSource.filter = name;
     });
+  }
+
+  customFilterPredicate() {
+    const myFilterPredicate = (data: Report, filter: string): boolean => {
+      const arrayNames = filter.split(',');
+      let filters = arrayNames;
+      filters = filters.map(name => {
+        return name.trim().toLowerCase();
+      });
+      return filters.includes(data.airport.toString().trim().toLowerCase());
+    };
+    return myFilterPredicate;
   }
 
   getClassRow(percent: number) {
@@ -124,5 +137,16 @@ export class ComplianceReportComponent implements OnInit {
     const end = moment(this.searchForm.value.end).format('DD/MM/YYYY');
     console.log(`Reporte-${start} a ${end}.xlsx`);
     XLSX.writeFile(wb, `Reporte-${start} a ${end}.xlsx`);
+  }
+
+  viewNoGenerated(element) {
+    console.log(element);
+    const type = this.searchForm.value.manifestType || 'origin';
+    const start = moment(this.searchForm.value.start);
+    const end = moment(this.searchForm.value.end);
+    this.restApi.getNoGenerated(type, start, end).subscribe(res => {
+      console.log(element, res);
+      this.router.navigate(['./details'], { relativeTo: this.route });
+    });
   }
 }

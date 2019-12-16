@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    console.log('canActivate', this.adal.userInfo.authenticated);
+    // console.log('canActivate', this.adal.userInfo.authenticated);
     if (this.adal.userInfo.authenticated) {
       return true;
     }

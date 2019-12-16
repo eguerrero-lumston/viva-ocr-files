@@ -232,6 +232,28 @@ export class ConnectServer {
             );
     }
 
+    getNoGenerated(type: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportsResponse> {
+        this.helperService.startLoader();
+        let params = new HttpParams();
+        params = params.append('type', type);
+        const SERVER_FORMAT = 'YYYY-MM-DD';
+        if (start) {
+            const formatDate = start.format(SERVER_FORMAT);
+            // console.log('formatDate start---->', formatDate);
+            params = params.append('start', formatDate);
+        }
+        if (end) {
+            const formatDate = end.format(SERVER_FORMAT);
+            // console.log('formatDate end---->', formatDate);
+            params = params.append('end', formatDate);
+        }
+        return this.http.get<ReportsResponse>(this.apiURL + 'reports/not-generated', { headers: this.headers.headers, params })
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
     // Error handling
     handleError(error) {
         let errorMessage = '';

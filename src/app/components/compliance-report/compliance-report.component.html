@@ -59,7 +59,7 @@
     <div class="flex items-center" id="search-item">
       <span class="search-container justify-start">
         <form [formGroup]="searchFormReport">
-          <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+          <input id="namesearch" formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
         </form>
         <img class="search-icon" src="assets/searchbar.svg" alt="">
       </span>
@@ -117,14 +117,14 @@
         </ng-container>
 
         <ng-container matColumnDef="noGenerated">
-          <th mat-header-cell *matHeaderCellDef> SIN GENERAR </th>
-          <td  mat-cell *matCellDef="let element"> {{element.noGenerated | number}} </td>
+          <th mat-header-cell *matHeaderCellDef> SIN ESCANEAR </th>
+          <td (click)="viewNoGenerated(element)" mat-cell class="row-selectable" *matCellDef="let element"> {{element.noGenerated | number}} </td>
           <!-- class="row-selectable" -->
         </ng-container>
 
 
         <ng-container matColumnDef="generated">
-          <th mat-header-cell *matHeaderCellDef> GENERADO </th>
+          <th mat-header-cell *matHeaderCellDef> ESCANEADO </th>
           <td mat-cell *matCellDef="let element"> {{element.generated | number}} </td>
         </ng-container>
 
@@ -145,4 +145,7 @@
     </div>
   </div>
   </mat-card>
+</div>
+<div class="window">
+  <router-outlet></router-outlet>
 </div>
