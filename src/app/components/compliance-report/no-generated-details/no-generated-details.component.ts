@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ReportDetail } from './../../../model/report-detail';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-no-generated-details',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoGeneratedDetailsComponent implements OnInit {
 
+  @Input() details: ReportDetail[] = [];
   constructor() { }
 
   ngOnInit() {

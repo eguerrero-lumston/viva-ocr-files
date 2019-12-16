@@ -2,7 +2,8 @@
   <div class="flex items-center">
     <h1 class="grow-1 section-title">Reportes de cumplimiento</h1>
     <div class="flex justify-end">
-      <img style="cursor: pointer;" (click)="ngOnInit()" height="25px" [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
+      <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
+        [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
     </div>
   </div>
   <div class="">
@@ -25,12 +26,13 @@
               </select>
             </mat-form-field>
           </div> -->
-          <!-- <ng-select placeholder="VIV" class="select-supervisor" formControlName="airline"
+        <!-- <ng-select placeholder="VIV" class="select-supervisor" formControlName="airline"
             [items]="['VIV']"></ng-select> -->
         <div class="grow-1 date-picker flex items-end col-3">
           <label class="title-search ">Inicio</label>
           <mat-form-field appearance="outline">
-            <input [matDatepickerFilter]="dateFilter" formControlName="start" matInput [matDatepicker]="pickerStart" placeholder="Inicio">
+            <input [matDatepickerFilter]="dateFilter" formControlName="start" matInput [matDatepicker]="pickerStart"
+              placeholder="Inicio">
             <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
             <mat-datepicker #pickerStart></mat-datepicker>
           </mat-form-field>
@@ -38,13 +40,14 @@
         <div class="date-picker flex grow-1 items-end col-3">
           <label class="title-search ">Fin</label>
           <mat-form-field appearance="outline">
-            <input [matDatepickerFilter]="dateFilter" formControlName="end" matInput [matDatepicker]="picker" placeholder="Fin">
+            <input [matDatepickerFilter]="dateFilter" formControlName="end" matInput [matDatepicker]="picker"
+              placeholder="Fin">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-3 flex grow-1 items-star">
-          <label class="title-search title">Manifiestos</label> 
+          <label class="title-search title">Manifiestos</label>
           <mat-radio-group formControlName="manifestType" aria-label="Select an option">
             <mat-radio-button value="destination">Entrada</mat-radio-button>
             <mat-radio-button value="origin">Salida</mat-radio-button>
@@ -64,88 +67,95 @@
         <img class="search-icon" src="assets/searchbar.svg" alt="">
       </span>
     </div>
-        <div class="flex justify-end end">
-            <button mat-raised-button color="primary" (click)="exportAsExcel()">Exportar a Excel</button>
-        </div>
+    <div class="flex justify-end end">
+      <button mat-raised-button color="primary" (click)="exportAsExcel()">Exportar a Excel</button>
+    </div>
     <br>
     <div #TABLE>
-    <div class="flex grid" >
-      <div class="col-3"></div>
-      <div class="col-6">
-        <table mat-table [dataSource]="dataSourceGeneral" class="mat-elevation-z1">
+      <div class="flex grid">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <table mat-table [dataSource]="dataSourceGeneral" class="mat-elevation-z1">
 
-          <!--- Note that these columns can be defined in any order.
+            <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell class="name-colum" *matCellDef="let element"> {{element.name}} </td>
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell class="name-colum" *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="manifest">
+              <th mat-header-cell class="name-colum" *matHeaderCellDef> Manifest </th>
+              <td mat-cell *matCellDef="let element"> {{element.manifest | number }} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="percent">
+              <th mat-header-cell class="name-colum" *matHeaderCellDef> % </th>
+              <td mat-cell *matCellDef="let element"> {{element.percent | number }}%
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="generalDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: generalDisplayedColumns;"></tr>
+          </table>
+
+        </div>
+        <div class="col-3"></div>
+
+      </div>
+      <br>
+      <div class="flex grid items-center">
+        <table #tabledata mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+
+          <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+          <ng-container matColumnDef="airport">
+            <th mat-header-cell *matHeaderCellDef> AEROPUERTO </th>
+            <td mat-cell *matCellDef="let element"> {{element.airport}} </td>
           </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="manifest">
-            <th mat-header-cell class="name-colum" *matHeaderCellDef> Manifest </th>
-            <td mat-cell *matCellDef="let element"> {{element.manifest | number }} </td>
+          <ng-container matColumnDef="noGenerated">
+            <th mat-header-cell *matHeaderCellDef> SIN ESCANEAR </th>
+            <td (click)="viewNoGenerated(element)" mat-cell class="row-selectable" *matCellDef="let element">
+              {{element.noGenerated | number}} </td>
+            <!-- class="row-selectable" -->
           </ng-container>
 
-          <!-- Weight Column -->
+
+          <ng-container matColumnDef="generated">
+            <th mat-header-cell *matHeaderCellDef> ESCANEADO </th>
+            <td mat-cell *matCellDef="let element"> {{element.generated | number}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> TOTAL VUELOS </th>
+            <td mat-cell *matCellDef="let element"> {{element.total | number}} </td>
+          </ng-container>
+
           <ng-container matColumnDef="percent">
-            <th mat-header-cell class="name-colum" *matHeaderCellDef> % </th>
-            <td mat-cell *matCellDef="let element"> {{element.percent | number }}%
-            </td>
+            <th mat-header-cell *matHeaderCellDef> PORCENTAJE </th>
+            <td class="flex items-center" mat-cell *matCellDef="let element" [className]="getClassRow(element.percent)">
+              {{element.percent | number}}% </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="generalDisplayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: generalDisplayedColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
       </div>
-      <div class="col-3"></div>
-
     </div>
-    <br>
-    <div class="flex grid items-center" >
-      <table #tabledata mat-table [dataSource]="dataSource" class="mat-elevation-z1">
-
-        <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-
-        <ng-container matColumnDef="airport">
-          <th mat-header-cell *matHeaderCellDef> AEROPUERTO </th>
-          <td mat-cell *matCellDef="let element"> {{element.airport}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="noGenerated">
-          <th mat-header-cell *matHeaderCellDef> SIN ESCANEAR </th>
-          <td (click)="viewNoGenerated(element)" mat-cell class="row-selectable" *matCellDef="let element"> {{element.noGenerated | number}} </td>
-          <!-- class="row-selectable" -->
-        </ng-container>
-
-
-        <ng-container matColumnDef="generated">
-          <th mat-header-cell *matHeaderCellDef> ESCANEADO </th>
-          <td mat-cell *matCellDef="let element"> {{element.generated | number}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef> TOTAL VUELOS </th>
-          <td mat-cell *matCellDef="let element"> {{element.total | number}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="percent">
-          <th mat-header-cell *matHeaderCellDef> PORCENTAJE </th>
-          <td class="flex items-center" mat-cell *matCellDef="let element" [className]="getClassRow(element.percent)"> {{element.percent | number}}% </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-
-    </div>
-  </div>
   </mat-card>
 </div>
-<div class="window">
-  <router-outlet></router-outlet>
+<div class="window" *ngIf="isReportView">
+  <mat-card>
+      <div class="flex justify-end" >
+        <button class="btn cancel" (click)="isReportView = false">Cerrar</button>
+      </div>
+    <app-no-generated-details [details]=reportsDetails></app-no-generated-details>
+  </mat-card>
 </div>

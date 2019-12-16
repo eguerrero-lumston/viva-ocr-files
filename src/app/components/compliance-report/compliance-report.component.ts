@@ -1,3 +1,4 @@
+import { ReportDetail } from './../../model/report-detail';
 import { MatTableDataSource } from '@angular/material/table';
 import { Report } from './../../model/report';
 import { debounceTime, switchMap } from 'rxjs/operators';
@@ -24,6 +25,9 @@ export class ComplianceReportComponent implements OnInit {
   dataSource = new MatTableDataSource<Report>();
   dataSourceTemp: Report[];
   @ViewChild('TABLE', { static: true }) table: ElementRef;
+
+  reportsDetails: ReportDetail[] = [];
+  isReportView = false;
 
   generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
   dataSourceGeneral = [
@@ -144,9 +148,11 @@ export class ComplianceReportComponent implements OnInit {
     const type = this.searchForm.value.manifestType || 'origin';
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);
-    this.restApi.getNoGenerated(type, start, end).subscribe(res => {
-      console.log(element, res);
-      this.router.navigate(['./details'], { relativeTo: this.route });
+    const airport = element.airport;
+    this.restApi.getNoGenerated(type, start, end, airport).subscribe(res => {
+      // console.log(element, res);
+      this.reportsDetails = res;
+      this.isReportView = true;
     });
   }
 }
