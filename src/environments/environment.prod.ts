@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   URL_HOST: 'https://44.228.27.23:3000/api/',
   adalConfiguration: {
-    tenant: 'AlexCorp727.onmicrosoft.com',
-    clientId: '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7',
+    tenant: 'Vivaaerobus.onmicrosoft.com',
+    clientId: '92b14d62-12de-417b-9363-b9f0f0bc8619',
     redirectUri: 'https://44.228.27.23/login',
     postLogoutRedirectUri: 'https://44.228.27.23/login',
     cacheLocation: 'localStorage'

@@ -21,7 +21,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit, OnDestroy, OnChanges {
+export class FormComponent implements OnInit, OnDestroy {
   airportName = new FormControl();
   // manifestForm2: FormGroup;
   dateOptions: string[];
@@ -54,10 +54,10 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     this.route.params
       .subscribe((params: Params) => {
         this.manifest.jobId = params.jobId;
-        console.log('params.isConfirmed', params.isConfirmed);
+        // console.log('params.isConfirmed', params.isConfirmed);
         this.isConfirmed = params.isConfirmed === 'true';
         this.api.getManifest(this.manifest.jobId).subscribe(data => {
-          console.log('data ---->', data);
+          // console.log('data ---->', data);
           this.manifest = data;
           const dateF = moment(this.manifest.formatted_date, this.SERVER_FORMAT)
             .format(this.INPUT_FORMAT);
@@ -90,11 +90,6 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // changes.prop contains the old and the new value...
-    console.log(changes);
-  }
-
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -114,11 +109,11 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   }
   update() {
     this.formattedManifest();
-    console.log(this.manifest);
+    // console.log(this.manifest);
     if (this.isFormValid()) {
       // console.log('it is submit');
       this.api.updateManifest(this.manifest).subscribe(res => {
-        console.log('response server--->', res);
+        // console.log('response server--->', res);
         if (res) {
           this.localStorageService.delete(this.manifest.jobId);
           this.localStorageService.delete(this.manifest.key);
@@ -162,12 +157,12 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  viewManifest(event: MouseEvent) {
-    this.bottomSheet.open(ManifestViewerComponent, {
-      data: { key: this.manifest.key },
-    });
-    // this.key = this.manifest.key;
-    // this.isPdfHidden = false;
+  viewManifest() {
+    // this.bottomSheet.open(ManifestViewerComponent, {
+    //   data: { key: this.manifest.key },
+    // });
+    this.key = this.manifest.key;
+    this.isPdfHidden = false;
   }
 
   public onCancel = () => {

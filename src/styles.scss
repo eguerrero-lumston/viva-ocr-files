@@ -387,3 +387,11 @@ table {
 ::-webkit-scrollbar-thumb:hover {
     background: $green;
 }
+
+.window{
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    margin: 5px;
+    max-height: 100%;
+}

@@ -8,8 +8,8 @@ export const environment = {
   adalConfiguration: {
     tenant: 'AlexCorp727.onmicrosoft.com',
     clientId: '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7',
-    redirectUri: 'https://44.228.27.23/login',
-    postLogoutRedirectUri: 'https://44.228.27.23/login',
+    redirectUri: 'http://localhost:4200/login',
+    postLogoutRedirectUri: 'http://localhost:4200/login',
     cacheLocation: 'localStorage'
   }
 };

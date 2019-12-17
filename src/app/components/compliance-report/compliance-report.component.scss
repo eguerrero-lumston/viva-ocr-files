@@ -7,6 +7,7 @@ $date-picker-bg-color: white;
 .container{
     margin: 1rem;
     margin-top: 0;
+    // overflow: auto;
 }
 // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
@@ -157,12 +158,4 @@ ng-select{
 .row-selectable:hover{
     background-color: lightgray;
     
-}
-
-.window{
-     position: fixed;
-     bottom: 0;
-     width: 80%;
-     margin: 10px;
-     max-height: 50%;
 }

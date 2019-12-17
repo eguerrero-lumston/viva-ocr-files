@@ -83,7 +83,7 @@
             <!-- Position Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> </th>
-              <td mat-cell class="name-colum" *matCellDef="let element"> {{element.name}} </td>
+              <td mat-cell class="name-colum" *matCellDef="let element" > {{element.name}} </td>
             </ng-container>
 
             <!-- Name Column -->
@@ -109,13 +109,13 @@
       </div>
       <br>
       <div class="flex grid items-center">
-        <table #tabledata mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+        <table #tabledata mat-table matSort matSortActive="airport" matSortDirection="asc" [dataSource]="dataSource" class="mat-elevation-z1">
 
           <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
 
           <ng-container matColumnDef="airport">
-            <th mat-header-cell *matHeaderCellDef> AEROPUERTO </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [start]="'asc'"> AEROPUERTO </th>
             <td mat-cell *matCellDef="let element"> {{element.airport}} </td>
           </ng-container>
 
