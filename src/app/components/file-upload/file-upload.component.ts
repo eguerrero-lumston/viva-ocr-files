@@ -62,7 +62,7 @@ export class FileUploadComponent implements OnInit {
     // this.fileInput.nativeElement.value = null;
     // console.log('files', files);
     for (const key in files) {
-      if (!isNaN(parseInt(key))) {
+      if (!isNaN(parseInt(key, NaN))) {
         this.files.add(files[key]);
       }
     }
@@ -106,7 +106,7 @@ export class FileUploadComponent implements OnInit {
       //   complete() { console.log('Finished sequence isFinish'); }
       // });
     }
-    
+
     // The dialog should not be closed while uploading
     this.canBeClosed = false;
     // this.dialogRef.disableClose = true;

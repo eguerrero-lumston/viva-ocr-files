@@ -136,8 +136,8 @@ export class ManifestFlightComponent implements OnInit {
         this.files = this.filesTemp.filter(file => {
           file.name.includes(name);
         });
-        this.folders = this.foldersTemp.filter(name => {
-          name.includes(name);
+        this.folders = this.foldersTemp.filter(nameF => {
+          name.includes(nameF);
         });
       } else {
         this.files = this.filesTemp;
@@ -161,7 +161,7 @@ export class ManifestFlightComponent implements OnInit {
     // console.log(breadcrumb);
     // this.location.back();
     // this.folderName
-    let qp = { name: link };
+    const qp = { name: link };
     // this.router.navigate(['/view'], {  queryParams: qp,skipLocationChange: true });
     if (breads.length !== 1) {
       this.router.navigate(['/repository'], { queryParams: qp, relativeTo: this.route, skipLocationChange: true });
