@@ -77,6 +77,7 @@ export class ManifestViewerComponent implements OnInit {
 
   onError(error: any) {
     // do anything
+    this.closeWindow.emit(null);
     this.helperService.stopLoader(this.loaderId);
     this.notificationService.showError('Error', 'No se pudo cargar el archivo ' + error);
   }
