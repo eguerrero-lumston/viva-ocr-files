@@ -149,7 +149,7 @@ export class ComplianceReportComponent implements OnInit {
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);
     const airport = element.airport;
-    this.restApi.getNoGenerated(type, start, end, airport).subscribe(res => {
+    this.restApi.getNoGenerated(type, airport, start, end).subscribe(res => {
       // console.log(element, res);
       this.reportsDetails = res;
       this.isReportView = true;

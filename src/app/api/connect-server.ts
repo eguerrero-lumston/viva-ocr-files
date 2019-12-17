@@ -233,7 +233,7 @@ export class ConnectServer {
             );
     }
 
-    getNoGenerated(type: string, start?: moment.Moment, end?: moment.Moment, airport: string): Observable<ReportDetail[]> {
+    getNoGenerated(type: string, airport: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportDetail[]> {
         this.helperService.startLoader();
         let params = new HttpParams();
         params = params.append('type', type);
