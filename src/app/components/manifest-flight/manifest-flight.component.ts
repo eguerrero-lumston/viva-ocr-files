@@ -86,7 +86,7 @@ export class ManifestFlightComponent implements OnInit {
             this.isLoading = false;
             this.folders = data.folders;
             this.foldersTemp = data.folders;
-            console.log('this.foldersTemp', this.foldersTemp);
+            // console.log('this.foldersTemp', this.foldersTemp);
             this.files = data.files;
           }, error => {
             this.isLoading = false;
@@ -106,8 +106,8 @@ export class ManifestFlightComponent implements OnInit {
       .pipe(
         debounceTime(500),
         switchMap(values => {
-          console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
-          console.log('this.validateValues()', this.validateValues());
+          // console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
+          // console.log('this.validateValues()', this.validateValues());
           if (this.validateValues()) {
             //   this.nameSearch.setValue(name);
             return this.restApi.getFoldersFilter(this.searchForm.value);
@@ -116,13 +116,13 @@ export class ManifestFlightComponent implements OnInit {
             this.files = [];
             this.folderName = '';
             this.breadcrumbs = [];
-            console.log('this.foldersTemp', this.foldersTemp);
+            // console.log('this.foldersTemp', this.foldersTemp);
             this.folders = this.foldersTemp;
             return [];
           }
         })
       ).subscribe(res => {
-        console.log('res', res);
+        // console.log('res', res);
         this.isInFolder = true;
         this.folders = [];
         this.files = res;
@@ -171,7 +171,7 @@ export class ManifestFlightComponent implements OnInit {
   }
 
   viewDataManifest(file: File) {
-    console.log('fileeee', file);
+    // console.log('fileeee', file);
     this.router.navigate(['./manifest-viewer', { key: file.key, isRepository: true }], { queryParams: {}, relativeTo: this.route });
   }
 
