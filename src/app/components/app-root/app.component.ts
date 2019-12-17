@@ -14,8 +14,8 @@ export class AppComponent {
   constructor(
     private adal: AdalService,
     platformLocation: PlatformLocation) {
-    environment.adalConfiguration.redirectUri = (platformLocation as any).location.origin + '/login';
-    environment.adalConfiguration.postLogoutRedirectUri = (platformLocation as any).location.origin + '/login';
+    // environment.adalConfiguration.redirectUri = (platformLocation as any).location.origin + '/login';
+    // environment.adalConfiguration.postLogoutRedirectUri = (platformLocation as any).location.origin + '/login';
     this.adal.init(environment.adalConfiguration);
   }
 }
