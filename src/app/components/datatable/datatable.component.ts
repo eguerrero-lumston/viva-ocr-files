@@ -75,7 +75,7 @@ export class DatatableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.restApi.getManifests().subscribe((data) => {
-      console.log('ngOnInit', data);
+      // console.log('ngOnInit', data);
       this.temp = data;
       this.isLoading = false;
       this.dataSource.data = data.docs;
@@ -152,7 +152,7 @@ export class DatatableComponent implements OnInit {
   }
 
   onConfirmArray() {
-    console.log('onConfirmArray');
+    // console.log('onConfirmArray');
     if (this.manifestToSend.size <= 0) {
       return;
     }
@@ -215,10 +215,10 @@ export class DatatableComponent implements OnInit {
       this.page = 1;
       this.total = this.paginator.pageSize;
     }
-    console.log('getManifestFilter', this.page, this.status.toString());
+    // console.log('getManifestFilter', this.page, this.status.toString());
     this.restApi.getManifestFilter(this.paginator,
       this.nameSearch.value, this.status.toString()).subscribe(res => {
-        console.log('filter', res);
+        // console.log('filter', res);
         // this.temp.data = this.dataSource.data;
         this.total = res.total;
         this.limit = res.limit;
@@ -245,7 +245,7 @@ export class DatatableComponent implements OnInit {
       status.push(this.globalVariable.STATUS_CONFIRMED);
     }
     this.status = status;
-    console.log('this.status', this.status);
+    // console.log('this.status', this.status);
     if (this.status.length > 0) {
       this.getManifestFilter();
     } else {

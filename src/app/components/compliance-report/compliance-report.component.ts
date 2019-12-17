@@ -1,3 +1,4 @@
+import { ReportDetail } from './../../model/report-detail';
 import { MatTableDataSource } from '@angular/material/table';
 import { Report } from './../../model/report';
 import { debounceTime, switchMap } from 'rxjs/operators';
@@ -25,10 +26,13 @@ export class ComplianceReportComponent implements OnInit {
   dataSourceTemp: Report[];
   @ViewChild('TABLE', { static: true }) table: ElementRef;
 
+  reportsDetails: ReportDetail[] = [];
+  isReportView = false;
+
   generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
   dataSourceGeneral = [
-    { name: 'generado', manifest: 0, percent: 0 },
-    { name: 'no generado', manifest: 0, percent: 0 },
+    { name: 'escaneado', manifest: 0, percent: 0 },
+    { name: 'no escaneado', manifest: 0, percent: 0 },
     { name: 'total', manifest: 0, percent: 0 },
   ];
   constructor(
@@ -85,9 +89,22 @@ export class ComplianceReportComponent implements OnInit {
         this.configGeneral(res);
       });
 
+    this.dataSource.filterPredicate = this.customFilterPredicate();
     this.nameSearchFilter.valueChanges.subscribe(name => {
-      this.dataSource.filter = name.trim().toLowerCase();
+      this.dataSource.filter = name;
     });
+  }
+
+  customFilterPredicate() {
+    const myFilterPredicate = (data: Report, filter: string): boolean => {
+      const arrayNames = filter.split(',');
+      let filters = arrayNames;
+      filters = filters.map(name => {
+        return name.trim().toLowerCase();
+      });
+      return filters.includes(data.airport.toString().trim().toLowerCase());
+    };
+    return myFilterPredicate;
   }
 
   getClassRow(percent: number) {
@@ -124,5 +141,18 @@ export class ComplianceReportComponent implements OnInit {
     const end = moment(this.searchForm.value.end).format('DD/MM/YYYY');
     console.log(`Reporte-${start} a ${end}.xlsx`);
     XLSX.writeFile(wb, `Reporte-${start} a ${end}.xlsx`);
+  }
+
+  viewNoGenerated(element) {
+    console.log(element);
+    const type = this.searchForm.value.manifestType || 'origin';
+    const start = moment(this.searchForm.value.start);
+    const end = moment(this.searchForm.value.end);
+    const airport = element.airport;
+    this.restApi.getNoGenerated(type, airport, start, end).subscribe(res => {
+      // console.log(element, res);
+      this.reportsDetails = res;
+      this.isReportView = true;
+    });
   }
 }

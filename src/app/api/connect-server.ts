@@ -1,3 +1,4 @@
+import { ReportDetail } from './../model/report-detail';
 import { LocalStorageService } from './../util/local-storage.service';
 import { ReportsResponse } from './../model/request/reports-response';
 import { ManifestPaginatorResponse } from './../model/request/manifest-paginator-response';
@@ -226,6 +227,29 @@ export class ConnectServer {
             params = params.append('end', formatDate);
         }
         return this.http.get<ReportsResponse>(this.apiURL + 'reports', { headers: this.headers.headers, params })
+            .pipe(
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getNoGenerated(type: string, airport: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportDetail[]> {
+        this.helperService.startLoader();
+        let params = new HttpParams();
+        params = params.append('type', type);
+        params = params.append('airport', airport);
+        const SERVER_FORMAT = 'YYYY-MM-DD';
+        if (start) {
+            const formatDate = start.format(SERVER_FORMAT);
+            // console.log('formatDate start---->', formatDate);
+            params = params.append('start', formatDate);
+        }
+        if (end) {
+            const formatDate = end.format(SERVER_FORMAT);
+            // console.log('formatDate end---->', formatDate);
+            params = params.append('end', formatDate);
+        }
+        return this.http.get<ReportDetail[]>(this.apiURL + 'reports/not-generated', { headers: this.headers.headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
