@@ -35,7 +35,8 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   isConfirmed = false;
   SERVER_FORMAT = 'DD/MM/YYYY';
   INPUT_FORMAT = 'YYYY-MM-DD';
-
+  isPdfHidden = true;
+  key = '';
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -165,6 +166,8 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     this.bottomSheet.open(ManifestViewerComponent, {
       data: { key: this.manifest.key },
     });
+    // this.key = this.manifest.key;
+    // this.isPdfHidden = false;
   }
 
   public onCancel = () => {

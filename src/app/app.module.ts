@@ -35,6 +35,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NoGeneratedDetailsComponent } from './components/compliance-report/no-generated-details/no-generated-details.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     LoginUserComponent,
     HomeComponent,
     ComplianceReportComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NoGeneratedDetailsComponent
   ],
   imports: [
     BrowserModule,

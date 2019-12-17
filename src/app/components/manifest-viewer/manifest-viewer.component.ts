@@ -3,7 +3,7 @@ import { NotificationService } from './../../api/notification.service';
 import { HelperService } from './../../api/helper.service';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Component, OnInit, Inject, Optional, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, Optional, OnDestroy, Input } from '@angular/core';
 import { MatBottomSheetRef, MatBottomSheet, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import * as uuid from 'uuid';
 
@@ -14,6 +14,7 @@ import * as uuid from 'uuid';
 })
 export class ManifestViewerComponent implements OnInit {
 
+  @Input() key = '';
   color = '#7EC636';
   loaderId = uuid.v4();
   isBottomSheet = false;
@@ -34,8 +35,8 @@ export class ManifestViewerComponent implements OnInit {
   ngOnInit() {
     this.helperService.startLoader(this.loaderId);
     console.log(this.data);
-    if (this.data) {
-      this.getPdfFile(this.data.key, false);
+    if (this.key) {
+      this.getPdfFile(this.key, false);
     }
     this.route.params
       .subscribe((params: Params) => {

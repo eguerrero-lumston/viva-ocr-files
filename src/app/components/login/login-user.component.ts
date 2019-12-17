@@ -19,17 +19,16 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
     private router: Router,
     private adalService: AdalService
   ) {
-
     //   this.adalService.init(environment.adalConfiguration);
     this.adalService.handleWindowCallback();
-    console.log('this.adalService.userInfo.authenticated',
-      this.adalService.userInfo.authenticated, this.adalService.userInfo.profile.oid);
-    console.log('userinfo', this.adalService.userInfo);
+    // console.log('this.adalService.userInfo.authenticated',
+      // this.adalService.userInfo.authenticated, this.adalService.userInfo.profile.oid);
+    // console.log('userinfo', this.adalService.userInfo);
     if (this.adalService.userInfo.authenticated) {
       const oid = this.adalService.userInfo.profile.oid;
-      console.log('oid', oid);
+      // console.log('oid', oid);
       this.resApi.getToken(oid).subscribe(res => {
-        console.log('response', res);
+        // console.log('response', res);
         if (res) {
           this.localStorageService.save('token', res.token);
           this.router.navigate(['/']);

@@ -1,3 +1,4 @@
+import { NoGeneratedDetailsComponent } from './../components/compliance-report/no-generated-details/no-generated-details.component';
 import { PathResolveService } from './../services/path-resolve.service';
 import { NotFoundComponent } from './../components/not-found/not-found.component';
 import { AuthGuard } from '../services/auth.guard';
@@ -49,7 +50,11 @@ const routes: Routes = [
       {
         path: 'compliance-report',
         children: [
-          { path: '', component: ComplianceReportComponent }
+          { path: '', component: ComplianceReportComponent,
+          children : [
+            { path: 'details', component: NoGeneratedDetailsComponent }
+          ]
+        }
         ]
       }
     ]

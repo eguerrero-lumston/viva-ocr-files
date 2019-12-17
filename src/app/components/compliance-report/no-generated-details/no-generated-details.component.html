@@ -1,0 +1,9 @@
+<div class="list">
+    <mat-list>
+        <mat-list-item *ngFor="let detail of details">
+            <mat-icon matListIcon>flight</mat-icon>
+            <h4 matLine>Vuelo: {{ detail.flightNumber || '0'}}</h4>
+            <p matLine class="demo-2"> De: {{ detail.from || ''}} - A: {{ detail.to || ''}} </p> 
+        </mat-list-item>
+    </mat-list>
+</div>
