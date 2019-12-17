@@ -14,7 +14,7 @@
     "run:electron": "electron .",
     "start:electron": "ng build --base-href ./ && electron .",
     "packager": "electron-packager . WinApp --platform=win32 --arch=all",
-    "compile:electron": "ng build --base-href ./ && electron-packager . --platform=win32 --no-prune --ignore=/node_modules --ignore=/e2e --ignore=/src --overwrite",
+    "compile:electron": "ng build --prod --base-href ./ && electron-packager . --platform=win32 --no-prune --ignore=/node_modules --ignore=/e2e --ignore=/src --overwrite",
     "pack:electron": "ng build --base-href ./ && node packager.js",
     "package-win": "node build.js"
   },

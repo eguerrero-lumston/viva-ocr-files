@@ -20,7 +20,7 @@
           <h4>{{ manifest.name }}</h4>
         </div>
         <div class="grow-1 flex justify-end">
-          <button type="button" class="btn send-manifest" (click)="viewManifest(event)">Ver manifiesto</button>
+          <button type="button" class="btn send-manifest" (click)="viewManifest($event)">Ver manifiesto</button>
         </div>
       </div>
       <div class="grid">
@@ -73,7 +73,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input (ngModelChange)="onChange($event, 0)" [disabled]="isConfirmed" required name="manifest.airport.acronym" [(ngModel)]="manifest.airport.acronym" appUppercase
+              <input (ngModelChange)="onChange($event, false)" [disabled]="isConfirmed" required name="manifest.airport.acronym" [(ngModel)]="manifest.airport.acronym" appUppercase
                 matInput placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
                 <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">
@@ -375,7 +375,7 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Siglas</mat-label>
-              <input (ngModelChange)="onChange($event, 1)" [disabled]="isConfirmed" required name="manifest.origin.acronym" [(ngModel)]="manifest.origin.acronym" appUppercase matInput
+              <input (ngModelChange)="onChange($event, true)" [disabled]="isConfirmed" required name="manifest.origin.acronym" [(ngModel)]="manifest.origin.acronym" appUppercase matInput
                 placeholder="Siglas" maxlength="3" [matAutocomplete]="acronymAC">
               <mat-autocomplete #acronymAC="matAutocomplete">
                 <mat-option *ngFor="let option of manifest.matches.acronyms" [value]="option">

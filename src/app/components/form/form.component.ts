@@ -187,7 +187,7 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public hasError = (value: string) => {
+  public hasError = (value: any) => {
     return value === '' || value == null;
   }
 

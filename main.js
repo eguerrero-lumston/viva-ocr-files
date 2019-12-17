@@ -12,9 +12,6 @@ if (handleSquirrelEvent(app)) {
 }
 
 // This is just an example url - follow the guide for whatever service you are using
-var authUrl = 'http://localhost:4200/login';
-
-
 let mainWindow
 function createWindow() {
     
@@ -97,28 +94,6 @@ function createWindow() {
     });
 }
 
-function destroyAuthWin() {
-    if (!mainWindow) return;
-    mainWindow.close();
-    mainWindow = null;
-  }
-  
-function createLogoutWindow() {
-    return new Promise(resolve => {
-      const logoutWindow = new BrowserWindow({
-        show: false,
-      });
-  
-    //   logoutWindow.loadURL(authService.getLogOutUrl());
-  
-    //   logoutWindow.on('ready-to-show', async () => {
-    //     logoutWindow.close();
-    //     await authService.logout();
-    //     resolve();
-    //   });
-    });
-  }
-
 function handleSquirrelEvent(application) {
     if (process.argv.length === 1) {
         return false;
@@ -191,8 +166,3 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
     if (mainWindow === null) createWindow()
 })
-
-function createAuthorizationUrl(state) {
-    return templateAuthzUrl.replace('<state>', state);
-  }
-  
