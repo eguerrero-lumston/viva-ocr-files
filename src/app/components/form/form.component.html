@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'padding-window': !isPdfHidden}">
   <div class="flex items-center">
       <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
           <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
@@ -432,6 +432,6 @@
     </form>
   </mat-card>
 </div>
-<!-- <div class="window" *ngIf="!isPdfHidden">
-  <app-manifest-viewer [key]="key"></app-manifest-viewer>
-</div> -->
+<div class="window" *ngIf="!isPdfHidden">
+  <app-manifest-viewer [isBottomSheet]="true" [key]="key" (closeWindow)="isPdfHidden = true"></app-manifest-viewer>
+</div>

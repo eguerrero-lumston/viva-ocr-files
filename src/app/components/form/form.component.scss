@@ -71,14 +71,16 @@ textarea.mat-input-element {
 .mat-form-field {
     width: 100%;
     margin-top: 1.5rem;
+    
+}
+.padding-window{
+    padding-bottom: 500px;
 }
 
-.float-window {}
-
-.window{
-    position: fixed;
-    bottom: 0;
-    width: 80%;
-    margin: 10px;
-    max-height: 50%;
+.window {
+    overflow-y: auto;
+    max-height: 500px;
+    height: 100%;
+    /* width: 80%; */
+    // position: relative;
 }

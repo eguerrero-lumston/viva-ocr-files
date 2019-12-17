@@ -25,7 +25,6 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit() {
     // this.isLoading = true;
-    console.log();
     this.fileInput.nativeElement.value = null;
     // this.fileInput.nativeElement.files.clean();
     this.files.clear();
@@ -61,13 +60,13 @@ export class FileUploadComponent implements OnInit {
     // console.log('uploadFile', event, this.fileInput);
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
     // this.fileInput.nativeElement.value = null;
-    console.log('files', files);
+    // console.log('files', files);
     for (const key in files) {
       if (!isNaN(parseInt(key))) {
         this.files.add(files[key]);
       }
     }
-    console.log('files ---', files);
+    // console.log('files ---', files);
     if (this.files.size > 0) {
       this.uploadFiles();
 
@@ -77,7 +76,7 @@ export class FileUploadComponent implements OnInit {
   uploadFiles() {
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
-      console.log('It is already to close');
+      // console.log('It is already to close');
       // return this.dialogRef.close();
     }
 
@@ -117,7 +116,7 @@ export class FileUploadComponent implements OnInit {
 
     // When all progress-observables are completed...
     forkJoin(allProgressObservables).subscribe(end => {
-      console.log('allProgressObservables are finished', end);
+      // console.log('allProgressObservables are finished', end);
       // ... the dialog can be closed again...
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;

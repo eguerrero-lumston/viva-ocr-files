@@ -1,3 +1,4 @@
+import { MatSort } from '@angular/material/sort';
 import { ReportDetail } from './../../model/report-detail';
 import { MatTableDataSource } from '@angular/material/table';
 import { Report } from './../../model/report';
@@ -25,6 +26,7 @@ export class ComplianceReportComponent implements OnInit {
   dataSource = new MatTableDataSource<Report>();
   dataSourceTemp: Report[];
   @ViewChild('TABLE', { static: true }) table: ElementRef;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   reportsDetails: ReportDetail[] = [];
   isReportView = false;
@@ -54,12 +56,14 @@ export class ComplianceReportComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
+    this.sort.start = 'asc';
+    this.dataSource.sort = this.sort;
     const type = this.searchForm.value.manifestType ? this.searchForm.value.manifestType : 'origin';
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);
     // console.log(type, start.format(), end.format());
     this.restApi.getReports(type, start, end).subscribe(res => {
-      console.log('res', res);
+      // console.log('res', res);
       this.dataSource.data = res.flights;
       this.dataSourceTemp = res.flights;
       this.configGeneral(res);
@@ -144,7 +148,7 @@ export class ComplianceReportComponent implements OnInit {
   }
 
   viewNoGenerated(element) {
-    console.log(element);
+    // console.log(element);
     const type = this.searchForm.value.manifestType || 'origin';
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);

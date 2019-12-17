@@ -3,7 +3,7 @@ import { NotificationService } from './../../api/notification.service';
 import { HelperService } from './../../api/helper.service';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Component, OnInit, Inject, Optional, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Inject, Optional, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { MatBottomSheetRef, MatBottomSheet, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import * as uuid from 'uuid';
 
@@ -17,7 +17,8 @@ export class ManifestViewerComponent implements OnInit {
   @Input() key = '';
   color = '#7EC636';
   loaderId = uuid.v4();
-  isBottomSheet = false;
+  @Input() isBottomSheet = false;
+  @Output() closeWindow = new EventEmitter();
   pdfSrc = '';
   constructor(
     private router: Router,
@@ -60,11 +61,12 @@ export class ManifestViewerComponent implements OnInit {
 
   openInUrl() {
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['/manifest/manifest-viewer', { key: this.data.key, isRepository: false }]);
+    this.router.navigate(['/manifest/manifest-viewer', { key: this.key, isRepository: false }]);
   }
 
   close() {
-    this.bottomSheetRef.dismiss();
+    this.closeWindow.emit(null);
+    // this.bottomSheetRef.dismiss();
   }
 
   afterLoadPdf() {

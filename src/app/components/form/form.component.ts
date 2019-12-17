@@ -163,11 +163,11 @@ export class FormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   viewManifest() {
-    this.bottomSheet.open(ManifestViewerComponent, {
-      data: { key: this.manifest.key },
-    });
-    // this.key = this.manifest.key;
-    // this.isPdfHidden = false;
+    // this.bottomSheet.open(ManifestViewerComponent, {
+    //   data: { key: this.manifest.key },
+    // });
+    this.key = this.manifest.key;
+    this.isPdfHidden = false;
   }
 
   public onCancel = () => {
