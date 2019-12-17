@@ -45,7 +45,7 @@ function createWindow() {
     // mainWindow.loadURL('https://www.google.com.mx/');
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 
     // mainWindow.webContents.on('will-navigate', function (event, newUrl) {
     //     console.log('reedirect ---->', newUrl);

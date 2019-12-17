@@ -5,7 +5,7 @@ const options = {
   src: 'manifiesto-win32-x64/',
   dest: 'dist/installers/',
   authors: ['Lumston', 'Erick'],
-  loadingGif: 'build/loader.gif',
+  // loadingGif: 'build/loader.gif',
   setupExe: 'intaller-manifest',
   noMsi: true
 }
@@ -20,7 +20,7 @@ var settings = {
   authors: ['Lumston', 'Erick'],
   // The name of the executable of your built
   exe: './manifiesto.exe',
-  loadingGif: 'build/loader.gif',
+  // loadingGif: 'build/loader.gif',
   setupExe: 'intaller-manifest.exe',
 };
 
