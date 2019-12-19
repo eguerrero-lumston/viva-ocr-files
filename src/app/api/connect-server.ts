@@ -51,10 +51,11 @@ export class ConnectServer {
     };
 
     // HttpClient API post() method => Get token app
-    getToken(oid: string): Observable<any> {
+    getToken(oid: string, email?: string): Observable<any> {
         this.helperService.startLoader();
         const params = {
-            tkn_az: oid
+            tkn_az: oid,
+            email
         };
         return this.http.post<any>(this.apiURL + 'auth', params)
             .pipe(

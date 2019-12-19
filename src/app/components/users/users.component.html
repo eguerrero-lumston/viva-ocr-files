@@ -3,7 +3,7 @@
             <h1 class="grow-1 section-title">Usuarios</h1>
             <div class="flex justify-end">
                 <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
-                    [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
+                [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
             </div>
         </div>
         <br>
@@ -17,7 +17,16 @@
             </div>
             <br> -->
     <mat-card>
-        <div class="flex items-center justify-end">
+        <div class="flex items-center ">
+            <span class="search-container">
+                <form [formGroup]="searchForm">
+                    <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+                </form>
+                <img class="search-icon" src="assets/searchbar.svg" alt="">
+            </span>
+            
+            <div class="grow-1"></div>
+            <div class="grow-1"></div>
             <div class="flex ">
                 <button [routerLink]="['./new']" class="btn send-manifest">Agregar usuario</button>
             </div>

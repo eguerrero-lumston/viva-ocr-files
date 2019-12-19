@@ -1,3 +1,5 @@
+import { UsersRequest } from './../../model/request/users-request';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { User } from 'src/app/model/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogConfirmComponent } from '../../single-components/dialog-confirm/dialog-confirm.component';
@@ -22,6 +24,7 @@ export class UsersComponent implements OnInit {
   page = 0;
   isLoading = false;
   searchForm: FormGroup;
+  temp = new UsersRequest();
   nameSearch = new FormControl();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -62,18 +65,43 @@ export class UsersComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.restApi.getUsers().subscribe((res) => {
-      // this.temp = data;
+      this.temp = res;
       this.isLoading = false;
       this.dataSource.data = res.docs;
       this.total = res.total;
       this.limit = res.limit;
       this.page = res.page - 1;
     });
+    this.nameSearch.valueChanges
+      .pipe(
+        debounceTime(1000),
+        switchMap(name => {
+          if (name !== '') {
+            this.nameSearch.setValue(name);
+            return this.restApi.getUsersFilter(this.paginator, this.nameSearch.value);
+          } else {
+            this.configDefault();
+          }
+          return [];
+        })
+      ).subscribe(res => {
+        this.total = res.total;
+        this.limit = res.limit;
+        this.page = res.page - 1;
+        this.dataSource.data = res.docs;
+      });
   }
 
   getDateFormat(date: string) {
     const dateRaw = moment(date);
     return dateRaw.format('DD-MM-YYYY');
+  }
+
+  configDefault() {
+    this.dataSource.data = this.temp.docs;
+    this.total = this.temp.total;
+    this.limit = this.temp.limit;
+    this.page = this.temp.page - 1;
   }
 
   pager(event?: PageEvent) {
