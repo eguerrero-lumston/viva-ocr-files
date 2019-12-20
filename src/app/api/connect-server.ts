@@ -374,6 +374,6 @@ export class ConnectServer {
     }
 
     print(name, data) {
-        console.log('data from ' + name + ':------->', data);
+        // console.log('data from ' + name + ':------->', data);
     }
 }
