@@ -1,3 +1,4 @@
+import { NewUserComponent } from './components/users/new-user/new-user.component';
 import { AuthGuard } from './services/auth.guard';
 import { AdalService, AdalInterceptor } from 'adal-angular4';
 import { AppRoutingModule } from './routing/app-routing.module';
@@ -36,6 +37,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NoGeneratedDetailsComponent } from './components/compliance-report/no-generated-details/no-generated-details.component';
+import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { NoGeneratedDetailsComponent } from './components/compliance-report/no-g
     HomeComponent,
     ComplianceReportComponent,
     NotFoundComponent,
-    NoGeneratedDetailsComponent
+    NoGeneratedDetailsComponent,
+    UsersComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,

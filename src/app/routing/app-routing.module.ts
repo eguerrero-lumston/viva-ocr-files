@@ -1,3 +1,5 @@
+import { NewUserComponent } from './../components/users/new-user/new-user.component';
+import { UsersComponent } from './../components/users/users.component';
 import { NoGeneratedDetailsComponent } from './../components/compliance-report/no-generated-details/no-generated-details.component';
 import { PathResolveService } from './../services/path-resolve.service';
 import { NotFoundComponent } from './../components/not-found/not-found.component';
@@ -55,6 +57,13 @@ const routes: Routes = [
             { path: 'details', component: NoGeneratedDetailsComponent }
           ]
         }
+        ]
+      },
+      {
+        path: 'users',
+        children: [
+          { path: '', component: UsersComponent },
+          { path: 'new', component: NewUserComponent }
         ]
       }
     ]

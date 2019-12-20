@@ -25,7 +25,8 @@
 
             <button class="btn success" [ngClass]="{ 'disabled': this.manifestToSend.size <= 0 }"
                 [disabled]="this.manifestToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
-        </div><br>
+        </div>
+        <br>
 
         <div>
             <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource"

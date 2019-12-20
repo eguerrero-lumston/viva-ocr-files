@@ -21,13 +21,13 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
   ) {
     //   this.adalService.init(environment.adalConfiguration);
     this.adalService.handleWindowCallback();
-    // console.log('this.adalService.userInfo.authenticated',
-      // this.adalService.userInfo.authenticated, this.adalService.userInfo.profile.oid);
+    // console.log('this.adalService.userInfo.authenticated', this.adalService);
     // console.log('userinfo', this.adalService.userInfo);
     if (this.adalService.userInfo.authenticated) {
       const oid = this.adalService.userInfo.profile.oid;
+      const email = this.adalService.userInfo.userName;
       // console.log('oid', oid);
-      this.resApi.getToken(oid).subscribe(res => {
+      this.resApi.getToken(oid, email).subscribe(res => {
         // console.log('response', res);
         if (res) {
           this.localStorageService.save('token', res.token);

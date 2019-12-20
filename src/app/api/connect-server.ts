@@ -1,3 +1,6 @@
+import { ServerError } from './server-error';
+import { UsersRequest } from './../model/request/users-request';
+import { User } from 'src/app/model/user';
 import { ReportDetail } from './../model/report-detail';
 import { LocalStorageService } from './../util/local-storage.service';
 import { ReportsResponse } from './../model/request/reports-response';
@@ -48,10 +51,11 @@ export class ConnectServer {
     };
 
     // HttpClient API post() method => Get token app
-    getToken(oid: string): Observable<any> {
+    getToken(oid: string, email?: string): Observable<any> {
         this.helperService.startLoader();
         const params = {
-            tkn_az: oid
+            tkn_az: oid,
+            email
         };
         return this.http.post<any>(this.apiURL + 'auth', params)
             .pipe(
@@ -256,13 +260,101 @@ export class ConnectServer {
             );
     }
 
+    /*========================================
+                    Users
+    =========================================*/
+    // HttpClient API get() method => Fetch users list
+    getUsers(): Observable<UsersRequest> {
+        this.helperService.startLoader();
+        return this.http.get<UsersRequest>(this.apiURL + 'users', this.headers)
+            .pipe(
+                tap(data => this.print('getUsers', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API get() method => Fetch user
+    getUser(id: string): Observable<User> {
+        const params = new HttpParams()
+            .set('id', id);
+        return this.http.get<User>(this.apiURL + 'users', { headers: this.headers.headers, params })
+            .pipe(
+                tap(data => this.print('getUser', data)),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API post() method => update one user
+    newUser(user: User) {
+        this.helperService.startLoader();
+        return this.http.post<User>(this.apiURL + 'users', user, this.headers)
+            .pipe(
+                tap(data => this.print('newUser', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API delete() method => update one user
+    deleteUser(id: string) {
+        this.helperService.startLoader();
+        return this.http.delete<User>(this.apiURL + 'users/' + id,  this.headers)
+            .pipe(
+                tap(data => this.print('deleteUser', data)),
+                tap(data => {
+                    this.helperService.stopLoader();
+                }),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API put() method => update one category
+    updateUser(user: User) {
+        this.helperService.startLoader();
+        return this.http.put<User>(this.apiURL + 'users', user, this.headers)
+            .pipe(
+                tap(data => this.print('updateUser', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getUsersFilter(paginator: MatPaginator, name?: string, status?: string): Observable<UsersRequest> {
+        // this.helperService.startLoader();
+        let params = new HttpParams();
+        const page = paginator.pageIndex + 1;
+        params = params.append('limit', String(paginator.pageSize));
+        params = params.append('page', String(page));
+        if (name) {
+            params = params.append('name', name);
+        }
+        if (status) {
+            params = params.append('checkStatus', status);
+        }
+
+        return this.http.get<UsersRequest>(this.apiURL + 'users/filter/table', { headers: this.headers.headers, params })
+            .pipe(
+                // tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
     // Error handling
     handleError(error) {
         let errorMessage = '';
-        console.log(error);
-        if (error.error instanceof ErrorEvent) {
+        const serror = new ServerError(error.error);
+        console.log('serror', serror);
+        if (serror.error) {
             // Get client-side error
-            errorMessage = error.error.message;
+            if (error.status === 401) {
+                // this.logout();
+            }
+            if (serror.error.code === 11000){
+                errorMessage = 'El correo ya esta siendo utilizado';
+            } else {
+                errorMessage = serror.message;
+            }
         } else {
             // Get server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
@@ -281,4 +373,7 @@ export class ConnectServer {
         return throwError(errorMessage);
     }
 
+    print(name, data) {
+        console.log('data from ' + name + ':------->', data);
+    }
 }
