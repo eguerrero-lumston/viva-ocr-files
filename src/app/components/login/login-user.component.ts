@@ -30,8 +30,7 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
       this.resApi.getToken(oid, email).subscribe(res => {
         // console.log('response', res);
         if (res) {
-          this.localStorageService.save('token', res.token);
-          this.router.navigate(['/']);
+          this.loginHandle(res.token);
         }
       });
     }
@@ -41,6 +40,10 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
 
   }
 
+  async loginHandle(token) {
+    await this.localStorageService.save('token', token);
+    this.router.navigate(['/']);
+  }
   login() {
     this.adalService.login();
     // this.router.navigate(['/']);

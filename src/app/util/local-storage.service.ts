@@ -27,7 +27,7 @@ export class LocalStorageService {
     }
 
     getItem(key: string) {
-      return localStorage.getItem(key);
+      return this.exist(key) ? localStorage.getItem(key) : '';
     }
 
     delete(key: string) {

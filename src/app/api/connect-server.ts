@@ -1,3 +1,4 @@
+import { AdalService } from 'adal-angular4';
 import { ServerError } from './server-error';
 import { UsersRequest } from './../model/request/users-request';
 import { User } from 'src/app/model/user';
@@ -35,7 +36,7 @@ export class ConnectServer {
         private notificationService: NotificationService,
         private localStorageService: LocalStorageService,
         private helperService: HelperService,
-        private snackBar: MatSnackBar) {
+        private adalService: AdalService) {
     }
 
     /*========================================
@@ -43,12 +44,20 @@ export class ConnectServer {
     =========================================*/
 
     // Http Options
-    headers = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.localStorageService.get('token')}`,
-        })
-    };
+    headers() {
+        let header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.getStoredToken()}`,
+            })
+        };
+        return header;
+    }
+
+    getStoredToken(): string {
+        // console.log('token', this.localStorageService.get('token'));
+        return this.localStorageService.exist('token') ? this.localStorageService.get('token') : '';
+    }
 
     // HttpClient API post() method => Get token app
     getToken(oid: string, email?: string): Observable<any> {
@@ -67,7 +76,7 @@ export class ConnectServer {
     // HttpClient API get() method => Fetch manifest list
     getManifests(): Observable<ManifestPaginatorResponse> {
         this.helperService.startLoader();
-        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/', this.headers)
+        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/', this.headers())
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -79,7 +88,7 @@ export class ConnectServer {
         this.helperService.startLoader();
         const params = new HttpParams()
             .set('jobId', jobId);
-        return this.http.get<Manifest>(this.apiURL + 'docs', { headers: this.headers.headers, params })
+        return this.http.get<Manifest>(this.apiURL + 'docs', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -99,7 +108,7 @@ export class ConnectServer {
             params = params.append('checkStatus', status);
         }
 
-        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/filter/table', { headers: this.headers.headers, params })
+        return this.http.get<ManifestPaginatorResponse>(this.apiURL + 'docs/filter/table', { headers: this.headers().headers, params })
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -109,7 +118,7 @@ export class ConnectServer {
     // HttpClient API put() method => update one manifest
     updateManifest(manifest: Manifest) {
         this.helperService.startLoader();
-        return this.http.put<Manifest>(this.apiURL + 'docs', JSON.stringify(manifest), this.headers)
+        return this.http.put<Manifest>(this.apiURL + 'docs', JSON.stringify(manifest), this.headers())
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 retry(1),
@@ -120,7 +129,7 @@ export class ConnectServer {
     // HttpClient API delete() method => delete one manifest
     deleteManifest(id: string) {
         this.helperService.startLoader();
-        return this.http.delete<Manifest>(this.apiURL + 'docs/' + id, this.headers)
+        return this.http.delete<Manifest>(this.apiURL + 'docs/' + id, this.headers())
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 retry(1),
@@ -134,7 +143,7 @@ export class ConnectServer {
         const params = {
             jobId: id
         };
-        return this.http.post<Manifest>(this.apiURL + 'docs/confirm', params, this.headers)
+        return this.http.post<Manifest>(this.apiURL + 'docs/confirm', params, this.headers())
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 retry(1),
@@ -144,7 +153,7 @@ export class ConnectServer {
 
     getFolders(): Observable<FoldersRequest> {
         this.helperService.startLoader();
-        return this.http.get<FoldersRequest>(this.apiURL + 'folders/', this.headers)
+        return this.http.get<FoldersRequest>(this.apiURL + 'folders/', this.headers())
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -178,7 +187,7 @@ export class ConnectServer {
             params = params.append('destination', filter.destination);
         }
 
-        return this.http.get<File[]>(this.apiURL + 'docs/filter', { headers: this.headers.headers, params })
+        return this.http.get<File[]>(this.apiURL + 'docs/filter', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -187,7 +196,7 @@ export class ConnectServer {
 
     getFolder(name: string): Observable<FoldersRequest> {
         this.helperService.startLoader();
-        return this.http.get<FoldersRequest>(this.apiURL + `folders${name}/`, { headers: this.headers.headers })
+        return this.http.get<FoldersRequest>(this.apiURL + `folders${name}/`, { headers: this.headers().headers })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -195,7 +204,7 @@ export class ConnectServer {
     }
 
     getSuggestions(): Observable<Suggestions> {
-        return this.http.get<Suggestions>(this.apiURL + 'docs/filter/suggestions', { headers: this.headers.headers })
+        return this.http.get<Suggestions>(this.apiURL + 'docs/filter/suggestions', { headers: this.headers().headers })
             .pipe(
                 catchError(error => this.handleError(error))
             );
@@ -207,7 +216,7 @@ export class ConnectServer {
         // console.log(isRepository, bucket);
         const params = new HttpParams()
             .set('key', name);
-        return this.http.get<Pdf>(this.apiURL + 'docs/pdf' + bucket, { headers: this.headers.headers, params })
+        return this.http.get<Pdf>(this.apiURL + 'docs/pdf' + bucket, { headers: this.headers().headers, params })
             .pipe(
                 publishReplay(1),
                 refCount(),
@@ -230,7 +239,7 @@ export class ConnectServer {
             // console.log('formatDate end---->', formatDate);
             params = params.append('end', formatDate);
         }
-        return this.http.get<ReportsResponse>(this.apiURL + 'reports', { headers: this.headers.headers, params })
+        return this.http.get<ReportsResponse>(this.apiURL + 'reports', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -253,7 +262,7 @@ export class ConnectServer {
             // console.log('formatDate end---->', formatDate);
             params = params.append('end', formatDate);
         }
-        return this.http.get<ReportDetail[]>(this.apiURL + 'reports/not-generated', { headers: this.headers.headers, params })
+        return this.http.get<ReportDetail[]>(this.apiURL + 'reports/not-generated', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -266,7 +275,7 @@ export class ConnectServer {
     // HttpClient API get() method => Fetch users list
     getUsers(): Observable<UsersRequest> {
         this.helperService.startLoader();
-        return this.http.get<UsersRequest>(this.apiURL + 'users', this.headers)
+        return this.http.get<UsersRequest>(this.apiURL + 'users', this.headers())
             .pipe(
                 tap(data => this.print('getUsers', data)),
                 tap(data => this.helperService.stopLoader()),
@@ -278,7 +287,7 @@ export class ConnectServer {
     getUser(id: string): Observable<User> {
         const params = new HttpParams()
             .set('id', id);
-        return this.http.get<User>(this.apiURL + 'users', { headers: this.headers.headers, params })
+        return this.http.get<User>(this.apiURL + 'users', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.print('getUser', data)),
                 catchError(error => this.handleError(error))
@@ -288,7 +297,7 @@ export class ConnectServer {
     // HttpClient API post() method => update one user
     newUser(user: User) {
         this.helperService.startLoader();
-        return this.http.post<User>(this.apiURL + 'users', user, this.headers)
+        return this.http.post<User>(this.apiURL + 'users', user, this.headers())
             .pipe(
                 tap(data => this.print('newUser', data)),
                 tap(data => this.helperService.stopLoader()),
@@ -299,7 +308,7 @@ export class ConnectServer {
     // HttpClient API delete() method => update one user
     deleteUser(id: string) {
         this.helperService.startLoader();
-        return this.http.delete<User>(this.apiURL + 'users/' + id,  this.headers)
+        return this.http.delete<User>(this.apiURL + 'users/' + id,  this.headers())
             .pipe(
                 tap(data => this.print('deleteUser', data)),
                 tap(data => {
@@ -312,7 +321,7 @@ export class ConnectServer {
     // HttpClient API put() method => update one category
     updateUser(user: User) {
         this.helperService.startLoader();
-        return this.http.put<User>(this.apiURL + 'users', user, this.headers)
+        return this.http.put<User>(this.apiURL + 'users', user, this.headers())
             .pipe(
                 tap(data => this.print('updateUser', data)),
                 tap(data => this.helperService.stopLoader()),
@@ -333,7 +342,7 @@ export class ConnectServer {
             params = params.append('checkStatus', status);
         }
 
-        return this.http.get<UsersRequest>(this.apiURL + 'users/filter/table', { headers: this.headers.headers, params })
+        return this.http.get<UsersRequest>(this.apiURL + 'users/filter/table', { headers: this.headers().headers, params })
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -347,9 +356,6 @@ export class ConnectServer {
         console.log('serror', serror);
         if (serror.error) {
             // Get client-side error
-            if (error.status === 401) {
-                // this.logout();
-            }
             if (serror.error.code === 11000){
                 errorMessage = 'El correo ya esta siendo utilizado';
             } else {
@@ -357,7 +363,16 @@ export class ConnectServer {
             }
         } else {
             // Get server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            if (error.status === 401) {
+                this.notificationService.showWarning('Advertencia', 'Sera reedireccionado al inicio');
+                setTimeout (() => {
+                    this.adalService.logOut();
+                }, 5000);
+                errorMessage = `Error Code: ${error.status} \n Message: Error de autorizacion`;
+
+            } else {
+                errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            }
         }
         this.helperService.stopLoader();
         // console.log(errorMessage);
