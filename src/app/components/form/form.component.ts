@@ -120,6 +120,8 @@ export class FormComponent implements OnInit, OnDestroy {
           this.notificationService.showSuccess('Correcto!', 'Se actualizó correctamente');
         }
       });
+    } else {
+      this.notificationService.showWarning('Advertencia', 'Compruebe todos los campos');
     }
   }
 
@@ -196,6 +198,7 @@ export class FormComponent implements OnInit, OnDestroy {
     return this.manifest.airport.name !== '' &&
       this.manifest.company.name !== '' &&
       this.manifest.formattedDate !== '' &&
+      moment(this.manifest.formattedDate, this.INPUT_FORMAT).isValid() &&
       this.manifest.airport.acronym !== '' &&
       this.manifest.company.acronym !== '' &&
       this.manifest.registration !== '' &&

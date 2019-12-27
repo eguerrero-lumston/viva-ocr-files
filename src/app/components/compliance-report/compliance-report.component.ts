@@ -88,7 +88,7 @@ export class ComplianceReportComponent implements OnInit {
           return this.restApi.getReports(type, start, end);
         })
       ).subscribe(res => {
-        console.log('res', res);
+        // console.log('res', res);
         this.dataSource.data = res.flights;
         this.configGeneral(res);
       });
