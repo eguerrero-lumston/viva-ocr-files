@@ -364,11 +364,11 @@ export class ConnectServer {
         } else {
             // Get server-side error
             if (error.status === 401) {
-                this.notificationService.showWarning('Advertencia', 'Sera reedireccionado al inicio');
-                setTimeout (() => {
-                    this.adalService.logOut();
-                }, 5000);
-                errorMessage = `Error Code: ${error.status} \n Message: Error de autorizacion`;
+                // this.notificationService.showWarning('Advertencia', 'Sera reedireccionado al inicio');
+                // setTimeout (() => {
+                //     this.adalService.logOut();
+                // }, 5000);
+                errorMessage = `Error Code: ${error.status} \n Message: Error de autenticación`;
 
             } else {
                 errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
@@ -389,6 +389,6 @@ export class ConnectServer {
     }
 
     print(name, data) {
-        console.log('data from ' + name + ':------->', data);
+        // console.log('data from ' + name + ':------->', data);
     }
 }
