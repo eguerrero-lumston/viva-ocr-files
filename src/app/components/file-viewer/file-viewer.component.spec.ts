@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ManifestFlightComponent } from './manifest-flight.component';
+import { FileViewerComponent } from './file-viewer.component';
 
-describe('ManifestFlightComponent', () => {
-  let component: ManifestFlightComponent;
-  let fixture: ComponentFixture<ManifestFlightComponent>;
+describe('FileViewerComponent', () => {
+  let component: FileViewerComponent;
+  let fixture: ComponentFixture<FileViewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManifestFlightComponent ]
+      declarations: [ FileViewerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManifestFlightComponent);
+    fixture = TestBed.createComponent(FileViewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

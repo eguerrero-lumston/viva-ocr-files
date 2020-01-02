@@ -3,17 +3,17 @@ import { LocalStorageService } from './../../util/local-storage.service';
 import { DialogConfirmComponent } from './../../single-components/dialog-confirm/dialog-confirm.component';
 import { NotificationService } from './../../api/notification.service';
 import { ConnectServer } from './../../api/connect-server';
-import { ManifestViewerComponent } from './../manifest-viewer/manifest-viewer.component';
+import { FileViewerComponent } from './../file-viewer/file-viewer.component';
 import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Manifest } from 'src/app/model/manifest/manifest';
+import { File } from 'src/app/model/file/file';
 import { MatBottomSheetRef, MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
-import { MatchesManifest } from 'src/app/model/manifest/matches-manifest';
-import { ManifestObject } from 'src/app/model/manifest/manifest-object';
+import { MatchesFile } from 'src/app/model/file/matches-file';
+import { FileObject } from 'src/app/model/file/file-object';
 import { startWith, map } from 'rxjs/operators';
 
 @Component({
@@ -23,14 +23,14 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class FormComponent implements OnInit, OnDestroy {
   airportName = new FormControl();
-  // manifestForm2: FormGroup;
+  // fileForm2: FormGroup;
   dateOptions: string[];
   acronyms: string[];
   licences: string[];
   surcharges: string[];
-  manifest = new Manifest();
+  file = new File();
   isOrigin = true;
-  // manifestForm: FormGroup;
+  // fileForm: FormGroup;
   name: string;
   isConfirmed = false;
   SERVER_FORMAT = 'DD/MM/YYYY';
@@ -47,35 +47,36 @@ export class FormComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService) {
-    this.manifest.matches = new MatchesManifest();
+    this.file.matches = new MatchesFile();
   }
 
   ngOnInit() {
     this.route.params
       .subscribe((params: Params) => {
-        this.manifest.jobId = params.jobId;
+        this.file.jobId = params.jobId;
         // console.log('params.isConfirmed', params.isConfirmed);
         this.isConfirmed = params.isConfirmed === 'true';
-        this.api.getManifest(this.manifest.jobId).subscribe(data => {
+        this.api.getFile(this.file.jobId).subscribe(data => {
           // console.log('data ---->', data);
-          this.manifest = data;
-          const dateF = moment(this.manifest.formatted_date, this.SERVER_FORMAT)
+          this.file = data;
+          const dateF = moment(this.file.formatted_date, this.SERVER_FORMAT)
             .format(this.INPUT_FORMAT);
-          if (moment(this.manifest.formatted_date, this.SERVER_FORMAT).isValid()) {
-            this.manifest.formattedDate = dateF;
+          if (moment(this.file.formatted_date, this.SERVER_FORMAT).isValid()) {
+            this.file.formattedDate = dateF;
           }
-          this.manifest.matches.acronyms = this.union(this.manifest.acronyms.filter(word => word !== ''), this.manifest.matches.acronyms);
+
+          // this.file.matches.acronyms = this.union(this.file.acronyms.filter(word => word !== ''), this.file.matches.acronyms);
           // this.acronyms = data.acronyms.filter(word => word !== '');
-          this.licences = data.licences.filter(word => word !== '');
-          this.surcharges = data.surcharges.filter(word => word !== '');
-          // console.log('manifest ---->', this.manifest);
-          if (this.localStorageService.exist(this.manifest.jobId)) {
-            this.manifest = this.localStorageService.get(this.manifest.jobId) as Manifest;
-          }
-          this.onChange(this.manifest.origin.acronym, true);
+          // this.licences = data.licences.filter(word => word !== '');
+          // this.surcharges = data.surcharges.filter(word => word !== '');
+          // console.log('file ---->', this.file);
+          // if (this.localStorageService.exist(this.file.jobId)) {
+          //   this.file = this.localStorageService.get(this.file.jobId) as File;
+          // }
+          // this.onChange(this.file.origin.acronym, true);
         });
       });
-    // Observable.of(this.manifest)
+    // Observable.of(this.file)
     this.airportName.valueChanges
     .pipe(
       startWith(''),
@@ -84,16 +85,16 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   onChange(value: string, isOrigin: boolean) {
     if (isOrigin) {
-      this.isOrigin = this.manifest.airport.acronym === value;
+      this.isOrigin = this.file.airport.acronym === value;
     } else {
-      this.isOrigin = value === this.manifest.origin.acronym;
+      this.isOrigin = value === this.file.origin.acronym;
     }
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.manifest.matches.names.filter(option => option.toLowerCase().includes(filterValue));
+    return this.file.matches.names.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   union(...iterables: string[][]) {
@@ -108,15 +109,15 @@ export class FormComponent implements OnInit, OnDestroy {
     return Array.from(set);
   }
   update() {
-    this.formattedManifest();
-    // console.log(this.manifest);
+    this.formattedFile();
+    // console.log(this.file);
     if (this.isFormValid()) {
       // console.log('it is submit');
-      this.api.updateManifest(this.manifest).subscribe(res => {
+      this.api.updateFile(this.file).subscribe(res => {
         // console.log('response server--->', res);
         if (res) {
-          this.localStorageService.delete(this.manifest.jobId);
-          this.localStorageService.delete(this.manifest.key);
+          this.localStorageService.delete(this.file.jobId);
+          this.localStorageService.delete(this.file.key);
           this.notificationService.showSuccess('Correcto!', 'Se actualizó correctamente');
         }
       });
@@ -125,18 +126,18 @@ export class FormComponent implements OnInit, OnDestroy {
     }
   }
 
-  async loadManifest() {
-    // this.manifestForm.setValue(this.manifest);
-    // console.log(this.manifest);
+  async loadFile() {
+    // this.fileForm.setValue(this.file);
+    // console.log(this.file);
     if (!this.isFormValid()) {
       this.notificationService.showWarning('Precaución', 'Antes de confirmar debes llenar los datos necesarios');
       return;
     }
-    await this.api.updateManifest(this.manifest).toPromise();
+    await this.api.updateFile(this.file).toPromise();
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirmar',
-        message: `¿Deseas confirmar el manifiesto ${this.manifest.name}?,\n
+        message: `¿Deseas confirmar el expediente ${this.file.name}?,\n
          al finalizar regresaras a la pantalla anterior`,
         btnOkText: 'Si, confirmar',
         btnCancelText: 'No'
@@ -146,10 +147,10 @@ export class FormComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
       if (result) {
-        this.api.confirmManifest(this.manifest.jobId).subscribe(res => {
+        this.api.confirmFile(this.file.jobId).subscribe(res => {
           if (res) {
-            this.localStorageService.delete(this.manifest.jobId);
-            this.localStorageService.delete(this.manifest.key);
+            this.localStorageService.delete(this.file.jobId);
+            this.localStorageService.delete(this.file.key);
             this.isConfirmed = true;
             this.notificationService.showSuccess('Correcto!', 'Se ha confirmado correctamente');
             this.location.back();
@@ -159,11 +160,11 @@ export class FormComponent implements OnInit, OnDestroy {
     });
   }
 
-  viewManifest() {
-    // this.bottomSheet.open(ManifestViewerComponent, {
-    //   data: { key: this.manifest.key },
+  viewFile() {
+    // this.bottomSheet.open(FileViewerComponent, {
+    //   data: { key: this.file.key },
     // });
-    this.key = this.manifest.key;
+    this.key = this.file.key;
     this.isPdfHidden = false;
   }
 
@@ -195,27 +196,27 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   isFormValid() {
-    return this.manifest.airport.name !== '' &&
-      this.manifest.company.name !== '' &&
-      this.manifest.formattedDate !== '' &&
-      moment(this.manifest.formattedDate, this.INPUT_FORMAT).isValid() &&
-      this.manifest.airport.acronym !== '' &&
-      this.manifest.company.acronym !== '' &&
-      this.manifest.registration !== '' &&
-      this.manifest.flightNumber !== null &&
-      this.manifest.origin.name !== '' &&
-      this.manifest.destination.name !== '' &&
-      this.manifest.intineraryHour !== '' &&
-      this.manifest.origin.acronym !== '' &&
-      this.manifest.destination.acronym;
+    return this.file.airport.name !== '' &&
+      this.file.company.name !== '' &&
+      this.file.formattedDate !== '' &&
+      moment(this.file.formattedDate, this.INPUT_FORMAT).isValid() &&
+      this.file.airport.acronym !== '' &&
+      this.file.company.acronym !== '' &&
+      this.file.registration !== '' &&
+      this.file.flightNumber !== null &&
+      this.file.origin.name !== '' &&
+      this.file.destination.name !== '' &&
+      this.file.intineraryHour !== '' &&
+      this.file.origin.acronym !== '' &&
+      this.file.destination.acronym;
   }
 
-  formattedManifest() {
-    if (this.manifest.formattedDate) {
-      const dateRaw = moment(this.manifest.formattedDate, this.INPUT_FORMAT);
+  formattedFile() {
+    if (this.file.formattedDate) {
+      const dateRaw = moment(this.file.formattedDate, this.INPUT_FORMAT);
       const formatDate = dateRaw.format(this.SERVER_FORMAT);
       // console.log('formatDate---->', formatDate);
-      this.manifest.formatted_date = formatDate;
+      this.file.formatted_date = formatDate;
     }
   }
 
@@ -227,7 +228,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.localStorageService.save(this.manifest.jobId, this.manifest);
+    this.localStorageService.save(this.file.jobId, this.file);
   }
 
   onSubmit(form) {

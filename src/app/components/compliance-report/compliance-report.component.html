@@ -47,8 +47,8 @@
           </mat-form-field>
         </div>
         <div class="col-3 flex grow-1 items-star">
-          <label class="title-search title">Manifiestos</label>
-          <mat-radio-group formControlName="manifestType" aria-label="Select an option">
+          <label class="title-search title">Expedientes</label>
+          <mat-radio-group formControlName="fileType" aria-label="Select an option">
             <mat-radio-button value="destination">Entrada</mat-radio-button>
             <mat-radio-button value="origin">Salida</mat-radio-button>
           </mat-radio-group>
@@ -87,9 +87,9 @@
             </ng-container>
 
             <!-- Name Column -->
-            <ng-container matColumnDef="manifest">
-              <th mat-header-cell class="name-colum" *matHeaderCellDef> Manifest </th>
-              <td mat-cell *matCellDef="let element"> {{element.manifest | number }} </td>
+            <ng-container matColumnDef="file">
+              <th mat-header-cell class="name-colum" *matHeaderCellDef> File </th>
+              <td mat-cell *matCellDef="let element"> {{element.file | number }} </td>
             </ng-container>
 
             <!-- Weight Column -->

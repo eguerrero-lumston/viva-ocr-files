@@ -1,4 +1,4 @@
-export class MatchesManifest {
+export class MatchesFile {
     acronyms: string[];
     dates: string[];
     destinations: string[];

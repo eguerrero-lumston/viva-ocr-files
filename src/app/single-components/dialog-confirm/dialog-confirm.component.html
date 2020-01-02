@@ -7,8 +7,8 @@
 </div>
 <mat-dialog-actions>
     <div class="flex items-end">
-      <button class="btn cancel-manifest" (click)="decline()"></button>
-      <button class="btn send-manifest" (click)="accept()">{{ data.btnOkText }}</button>
+      <button class="btn cancel-file" (click)="decline()"></button>
+      <button class="btn send-file" (click)="accept()">{{ data.btnOkText }}</button>
     </div>
 
 </mat-dialog-actions> -->
@@ -17,7 +17,7 @@
 <mat-dialog-content>{{ data.message }}</mat-dialog-content>
 <br>
 <mat-dialog-actions align="end">
-  <button class="btn margin cancel-manifest" (click)="decline()">{{ data.btnCancelText }}</button>
+  <button class="btn margin cancel-file" (click)="decline()">{{ data.btnCancelText }}</button>
   <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  <button class="btn margin send-manifest" (click)="accept()" [mat-dialog-close]="true">{{ data.btnOkText }}</button>
+  <button class="btn margin send-file" (click)="accept()" [mat-dialog-close]="true">{{ data.btnOkText }}</button>
 </mat-dialog-actions>

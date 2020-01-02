@@ -256,11 +256,11 @@ mat-card {
   margin: 1rem;
   margin-top: 0;
 }
-.cancel-manifest {
+.cancel-file {
   background-color: transparent;
   color: #7ec636;
 }
-.send-manifest {
+.send-file {
   background-color: #7ec636;
   color: white;
 }
@@ -268,7 +268,7 @@ mat-card {
   background-color: #d00241;
   color: white;
 }
-.load-manifest {
+.load-file {
   background-color: #0079ff;
   color: white;
 }

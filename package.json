@@ -1,8 +1,8 @@
 {
-  "name": "manifiesto",
+  "name": "expediente",
   "version": "2.1.0",
-  "description": "aplicacion de Manifiestos para Viva aerobus",
-  "productName": "manifiesto",
+  "description": "aplicacion de Expedientes para Viva aerobus",
+  "productName": "expediente",
   "main": "main.js",
   "scripts": {
     "ng": "ng",

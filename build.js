@@ -2,26 +2,26 @@ const installer = require('electron-installer-windows');
 var electronInstaller = require('electron-winstaller');
 
 const options = {
-  src: 'manifiesto-win32-x64/',
+  src: 'expediente-win32-x64/',
   dest: 'dist/installers/',
   authors: ['Lumston', 'Erick'],
   // loadingGif: 'build/loader.gif',
-  setupExe: 'intaller-manifest',
+  setupExe: 'intaller-file',
   noMsi: true
 }
 
 // In this case, we can use relative paths
 var settings = {
   // Specify the folder where the built app is located
-  appDirectory: './manifiesto-win32-x64',
+  appDirectory: './expediente-win32-x64',
   // Specify the existing folder where 
   outputDirectory: './dist/installers/',
   // The name of the Author of the app (the name of your company)
   authors: ['Lumston', 'Erick'],
   // The name of the executable of your built
-  exe: './manifiesto.exe',
+  exe: './expediente.exe',
   // loadingGif: 'build/loader.gif',
-  setupExe: 'intaller-manifest.exe',
+  setupExe: 'intaller-file.exe',
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);

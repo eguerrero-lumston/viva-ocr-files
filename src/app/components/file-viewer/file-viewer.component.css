@@ -1,0 +1,10 @@
+.container {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+.clickable{
+    cursor: pointer;
+    transform: scale(1.5);
+    margin: 5px;
+    align: left;
+}

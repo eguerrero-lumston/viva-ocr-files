@@ -31,11 +31,11 @@ export class ComplianceReportComponent implements OnInit {
   reportsDetails: ReportDetail[] = [];
   isReportView = false;
 
-  generalDisplayedColumns: string[] = ['name', 'manifest', 'percent'];
+  generalDisplayedColumns: string[] = ['name', 'file', 'percent'];
   dataSourceGeneral = [
-    { name: 'escaneado', manifest: 0, percent: 0 },
-    { name: 'no escaneado', manifest: 0, percent: 0 },
-    { name: 'total', manifest: 0, percent: 0 },
+    { name: 'escaneado', file: 0, percent: 0 },
+    { name: 'no escaneado', file: 0, percent: 0 },
+    { name: 'total', file: 0, percent: 0 },
   ];
   constructor(
     private router: Router,
@@ -46,7 +46,7 @@ export class ComplianceReportComponent implements OnInit {
       airline: ['VIV', Validators.required],
       start: [new Date(), Validators.required],
       end: [new Date(), Validators.required],
-      manifestType: ['destination', Validators.required]
+      fileType: ['destination', Validators.required]
     });
 
     this.searchFormReport = this.formBuilder.group({
@@ -58,7 +58,7 @@ export class ComplianceReportComponent implements OnInit {
     this.isLoading = true;
     this.sort.start = 'asc';
     this.dataSource.sort = this.sort;
-    const type = this.searchForm.value.manifestType ? this.searchForm.value.manifestType : 'origin';
+    const type = this.searchForm.value.fileType ? this.searchForm.value.fileType : 'origin';
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);
     // console.log(type, start.format(), end.format());
@@ -82,7 +82,7 @@ export class ComplianceReportComponent implements OnInit {
         switchMap(values => {
           // console.log('values------>', values, this.searchForm.valid, this.searchForm.invalid);
           // console.log('this.validateValues()', values.start);
-          const type = values.manifestType ? values.manifestType : 'origin';
+          const type = values.fileType ? values.fileType : 'origin';
           const start = moment(this.searchForm.value.start);
           const end = moment(this.searchForm.value.end);
           return this.restApi.getReports(type, start, end);
@@ -126,11 +126,11 @@ export class ComplianceReportComponent implements OnInit {
   }
 
   configGeneral(res: any) {
-    this.dataSourceGeneral[0].manifest = res.general.generated.manifest;
+    this.dataSourceGeneral[0].file = res.general.generated.file;
     this.dataSourceGeneral[0].percent = res.general.generated.percent;
-    this.dataSourceGeneral[1].manifest = res.general.noGenerated.manifest;
+    this.dataSourceGeneral[1].file = res.general.noGenerated.file;
     this.dataSourceGeneral[1].percent = res.general.noGenerated.percent;
-    this.dataSourceGeneral[2].manifest = res.general.total.manifest;
+    this.dataSourceGeneral[2].file = res.general.total.file;
     this.dataSourceGeneral[2].percent = res.general.total.percent;
   }
 
@@ -149,7 +149,7 @@ export class ComplianceReportComponent implements OnInit {
 
   viewNoGenerated(element) {
     // console.log(element);
-    const type = this.searchForm.value.manifestType || 'origin';
+    const type = this.searchForm.value.fileType || 'origin';
     const start = moment(this.searchForm.value.start);
     const end = moment(this.searchForm.value.end);
     const airport = element.airport;

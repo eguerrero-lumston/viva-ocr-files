@@ -1,8 +1,8 @@
 import { LocalStorageService } from '../../util/local-storage.service';
-import { ManifestPaginatorResponse } from '../../model/request/manifest-paginator-response';
+import { FilePaginatorResponse } from '../../model/request/file-paginator-response';
 import { GlobalVariable } from '../../global/global';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Manifest } from '../../model/manifest/manifest';
+import { File } from '../../model/file/file';
 import { DialogConfirmComponent } from '../../single-components/dialog-confirm/dialog-confirm.component';
 import { NotificationService } from '../../api/notification.service';
 import { Router, ActivatedRoute, Event } from '@angular/router';
@@ -25,10 +25,10 @@ import { Observable } from 'rxjs';
   providers: [GlobalVariable]
 })
 export class DatatableComponent implements OnInit {
-  dataSource = new MatTableDataSource<Manifest>();
-  temp = new ManifestPaginatorResponse();
+  dataSource = new MatTableDataSource<File>();
+  temp = new FilePaginatorResponse();
   isLoading = false;
-  manifestToSend = new Set<Manifest>();
+  fileToSend = new Set<File>();
   displayedColumns: string[] = [
     'year',
     'fatherLastname',
@@ -81,7 +81,7 @@ export class DatatableComponent implements OnInit {
     this.status = [''];
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.restApi.getManifests().subscribe((data) => {
+    this.restApi.getFiles().subscribe((data) => {
       // console.log('ngOnInit', data);
       this.temp = data;
       this.isLoading = false;
@@ -99,7 +99,7 @@ export class DatatableComponent implements OnInit {
         switchMap(name => {
           if (name !== '') {
             this.nameSearch.setValue(name);
-            return this.restApi.getManifestFilter(this.paginator, this.nameSearch.value, this.status.toString());
+            return this.restApi.getFileFilter(this.paginator, this.nameSearch.value, this.status.toString());
           } else {
             this.configDefault();
           }
@@ -124,12 +124,12 @@ export class DatatableComponent implements OnInit {
     return dateRaw.format('DD-MM-YYYY');
   }
 
-  onDelete(row: Manifest) {
+  onDelete(row: File) {
     // console.log(row);
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirma',
-        message: `¿Deseas eliminar el manifiesto ${row.name}?`,
+        message: `¿Deseas eliminar el expediente ${row.name}?`,
         btnOkText: 'Si, eliminar',
         btnCancelText: 'No, mantener'
       }
@@ -138,7 +138,7 @@ export class DatatableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
       if (result) {
-        this.restApi.deleteManifest(row.jobId).subscribe(res => {
+        this.restApi.deleteFile(row.jobId).subscribe(res => {
           if (res) {
             this.localStorageService.delete(row.jobId);
             this.localStorageService.delete(row.key);
@@ -152,21 +152,21 @@ export class DatatableComponent implements OnInit {
     });
   }
 
-  onEdit(manifest: Manifest, isConfirmed = false) {
+  onEdit(file: File, isConfirmed = false) {
     // console.log(row);
-    const jobId = manifest.jobId;
+    const jobId = file.jobId;
     this.router.navigate(['./form', { jobId, isConfirmed }], { relativeTo: this.route });
   }
 
   onConfirmArray() {
     // console.log('onConfirmArray');
-    if (this.manifestToSend.size <= 0) {
+    if (this.fileToSend.size <= 0) {
       return;
     }
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirma',
-        message: `¿Deseas confirmar ${this.manifestToSend.size} manifiesto${this.manifestToSend.size > 1 ? 's' : ''}?`,
+        message: `¿Deseas confirmar ${this.fileToSend.size} expediente${this.fileToSend.size > 1 ? 's' : ''}?`,
         btnOkText: 'Si, confirmar',
         btnCancelText: 'No'
       }
@@ -175,13 +175,13 @@ export class DatatableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
       if (result) {
-        this.manifestToSend.forEach(manifest => {
-          if (manifest.checkStatus === this.globalVariable.STATUS_GREEN) {
-            this.restApi.confirmManifest(manifest.jobId).subscribe(res => {
+        this.fileToSend.forEach(file => {
+          if (file.checkStatus === this.globalVariable.STATUS_GREEN) {
+            this.restApi.confirmFile(file.jobId).subscribe(res => {
               if (res) {
-                this.notificationservice.showSuccess('Correcto!', `Se ha confirmado ${manifest.name} correctamente`);
-                this.manifestToSend.delete(manifest);
-                const index = this.dataSource.data.indexOf(manifest);
+                this.notificationservice.showSuccess('Correcto!', `Se ha confirmado ${file.name} correctamente`);
+                this.fileToSend.delete(file);
+                const index = this.dataSource.data.indexOf(file);
                 this.dataSource.data.splice(index, 1);
                 this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
               }
@@ -197,24 +197,24 @@ export class DatatableComponent implements OnInit {
 
   }
 
-  onCheckIsPressed(manifest: Manifest, check: MatCheckbox) {
-    // console.log(manifest, check.checked);
-    if (manifest.checkStatus !== this.globalVariable.STATUS_GREEN) {
+  onCheckIsPressed(file: File, check: MatCheckbox) {
+    // console.log(file, check.checked);
+    if (file.checkStatus !== this.globalVariable.STATUS_GREEN) {
       return;
     }
     if (check.checked) {
-      this.manifestToSend.delete(manifest);
+      this.fileToSend.delete(file);
     } else {
-      this.manifestToSend.add(manifest);
+      this.fileToSend.add(file);
     }
-    // console.log(this.manifestToSend);
+    // console.log(this.fileToSend);
   }
 
   updateFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  getManifestFilter(event?: PageEvent) {
+  getFileFilter(event?: PageEvent) {
     if (event) {
       this.page = event.pageIndex + 1;
       this.total = event.pageSize;
@@ -222,8 +222,8 @@ export class DatatableComponent implements OnInit {
       this.page = 1;
       this.total = this.paginator.pageSize;
     }
-    // console.log('getManifestFilter', this.page, this.status.toString());
-    this.restApi.getManifestFilter(this.paginator,
+    // console.log('getFileFilter', this.page, this.status.toString());
+    this.restApi.getFileFilter(this.paginator,
       this.nameSearch.value, this.status.toString()).subscribe(res => {
         // console.log('filter', res);
         // this.temp.data = this.dataSource.data;
@@ -235,7 +235,7 @@ export class DatatableComponent implements OnInit {
   }
 
   changeStatus() {
-    this.manifestToSend.clear();
+    this.fileToSend.clear();
     const status = [];
     if (this.isYellow) {
       status.push(this.globalVariable.STATUS_YELLOW);
@@ -254,7 +254,7 @@ export class DatatableComponent implements OnInit {
     this.status = status;
     // console.log('this.status', this.status);
     if (this.status.length > 0) {
-      this.getManifestFilter();
+      this.getFileFilter();
     } else {
       this.configDefault();
     }

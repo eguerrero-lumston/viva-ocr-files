@@ -1,4 +1,4 @@
-export class File {
+export class Files {
     name: string;
     key: string;
     jobId: string;

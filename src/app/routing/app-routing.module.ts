@@ -8,8 +8,7 @@ import { DatatableComponent } from '../components/datatable/datatable.component'
 import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
 import { LoginUserComponent } from './../components/login/login-user.component';
-import { ManifestViewerComponent } from '../components/manifest-viewer/manifest-viewer.component';
-import { ManifestFlightComponent } from '../components/manifest-flight/manifest-flight.component';
+import { FileViewerComponent } from '../components/file-viewer/file-viewer.component';
 import { FormComponent } from '../components/form/form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -28,19 +27,11 @@ const routes: Routes = [
         redirectTo: 'upload'
       },
       {
-        path: 'repository',
-        children: [
-          { path: '', component: ManifestFlightComponent },
-          { path: 'form', component: FormComponent },
-          { path: 'manifest-viewer', component: ManifestViewerComponent }
-        ]
-      },
-      {
-        path: 'manifest',
+        path: 'file',
         children: [
           { path: '', component: DatatableComponent },
           { path: 'form', component: FormComponent },
-          { path: 'manifest-viewer', component: ManifestViewerComponent }
+          { path: 'file-viewer', component: FileViewerComponent }
         ]
       },
       {

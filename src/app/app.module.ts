@@ -25,8 +25,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
 import { FormComponent } from './components/form/form.component';
-import { ManifestViewerComponent } from './components/manifest-viewer/manifest-viewer.component';
-import { ManifestFlightComponent } from './components/manifest-flight/manifest-flight.component';
+import { FileViewerComponent } from './components/file-viewer/file-viewer.component';
 import { AppComponent } from './components/app-root/app.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DragDropDirective } from './directives/drag-drop.directive';
@@ -43,12 +42,11 @@ import { UsersComponent } from './components/users/users.component';
   declarations: [
     AppComponent,
     FormComponent,
-    ManifestFlightComponent,
     FileUploadComponent,
     DragDropDirective,
     UppercaseDirective,
     DelayInputDirective,
-    ManifestViewerComponent,
+    FileViewerComponent,
     DatatableComponent,
     ToastNotificationComponent,
     DialogConfirmComponent,
@@ -81,7 +79,7 @@ import { UsersComponent } from './components/users/users.component';
   ],
   entryComponents: [
     FormComponent, // THE MAGIC HAPPENDS HERE
-    ManifestViewerComponent,
+    FileViewerComponent,
     ToastNotificationComponent,
     DialogConfirmComponent
   ],

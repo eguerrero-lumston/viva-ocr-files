@@ -8,14 +8,15 @@ import { MatBottomSheetRef, MatBottomSheet, MAT_BOTTOM_SHEET_DATA } from '@angul
 import * as uuid from 'uuid';
 
 @Component({
-  selector: 'app-manifest-viewer',
-  templateUrl: './manifest-viewer.component.html',
-  styleUrls: ['./manifest-viewer.component.css']
+  selector: 'app-file-viewer',
+  templateUrl: './file-viewer.component.html',
+  styleUrls: ['./file-viewer.component.css']
 })
-export class ManifestViewerComponent implements OnInit {
+export class FileViewerComponent implements OnInit {
 
   @Input() key = '';
   color = '#7EC636';
+  rotation =  0;
   loaderId = uuid.v4();
   @Input() isBottomSheet = false;
   @Output() closeWindow = new EventEmitter();
@@ -50,19 +51,19 @@ export class ManifestViewerComponent implements OnInit {
 
   getPdfFile(key: string, isRepository: boolean) {
     // console.log('keeey', key, isRepository);
-    if (this.localStorageService.exist(key)) {
-      this.pdfSrc = this.localStorageService.get(key);
-    } else {
+    // if (this.localStorageService.exist(key)) {
+    //   this.pdfSrc = this.localStorageService.get(key);
+    // } else {
       this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
         this.localStorageService.save(key, data.url);
         this.pdfSrc = data.url;
       });
-    }
+    // }
   }
 
   openInUrl() {
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['/manifest/manifest-viewer', { key: this.key, isRepository: false }]);
+    this.router.navigate(['/file/file-viewer', { key: this.key, isRepository: false }]);
   }
 
   close() {

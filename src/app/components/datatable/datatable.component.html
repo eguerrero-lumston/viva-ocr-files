@@ -1,6 +1,6 @@
 <div class="container">
     <div class="flex items-center">
-        <h1 class="grow-1 section-title">Manifiestos de vuelo</h1>
+        <h1 class="grow-1 section-title">Expedientes</h1>
         <div class="flex justify-end">
             <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
                 [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
@@ -23,8 +23,8 @@
                 <mat-checkbox [(ngModel)]="isPurple" (ngModelChange)="changeStatus()">Mostrar confirmados</mat-checkbox>
             </div>
 
-            <button class="btn success" [ngClass]="{ 'disabled': this.manifestToSend.size <= 0 }"
-                [disabled]="this.manifestToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
+            <button class="btn success" [ngClass]="{ 'disabled': this.fileToSend.size <= 0 }"
+                [disabled]="this.fileToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
         </div>
         <br>
 
@@ -57,7 +57,7 @@
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex grow-1 justify-start">
-                            <div>
+                            <div class="capitalize">
                                 {{ element.fatherLastname }}
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex grow-1 justify-start">
-                            <div>
+                            <div class="capitalize">
                                 {{ element.motherLastname }}
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="text-center">Nombre</div>
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center">
-                        <div>
+                        <div class="capitalize">
                             {{element.name}}
                         </div>
                     </td>
@@ -136,7 +136,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <mat-paginator #paginator [length]="total" [pageSizeOptions]="[10, 25, 100]" [pageSize]="limit"
-                [pageIndex]="page" (page)="getManifestFilter($event)" showFirstLastButtons></mat-paginator>
+                [pageIndex]="page" (page)="getFileFilter($event)" showFirstLastButtons></mat-paginator>
 
         </div>
 
