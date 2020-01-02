@@ -8,6 +8,10 @@ export class Manifest {
     jobId: string;
     jobStatus: string;
     name: string;
+    fatherLastname: string;
+    motherLastname: string;
+    year: number;
+    
     uploadedAt: string;
     _id: string;
 

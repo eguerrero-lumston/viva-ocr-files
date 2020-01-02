@@ -29,7 +29,14 @@ export class DatatableComponent implements OnInit {
   temp = new ManifestPaginatorResponse();
   isLoading = false;
   manifestToSend = new Set<Manifest>();
-  displayedColumns: string[] = ['name', 'uploaded_at', 'checkStatus', 'actions'];
+  displayedColumns: string[] = [
+    'year',
+    'fatherLastname',
+    'motherLastname',
+    'name',
+    'checkStatus',
+    'actions'
+  ];
   total = 0;
   limit = 10;
   page = 0;
