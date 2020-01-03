@@ -2,7 +2,6 @@ import { NewUserComponent } from './components/users/new-user/new-user.component
 import { AuthGuard } from './services/auth.guard';
 import { AdalService, AdalInterceptor } from 'adal-angular4';
 import { AppRoutingModule } from './routing/app-routing.module';
-import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginUserComponent } from './components/login/login-user.component';
 import { GlobalVariable } from './global/global';
@@ -35,8 +34,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { NoGeneratedDetailsComponent } from './components/compliance-report/no-generated-details/no-generated-details.component';
 import { UsersComponent } from './components/users/users.component';
+import { DocTypeComponent } from './components/doc-type/doc-type.component';
+import { NewDocTypeComponent } from './components/doc-type/new-doc-type/new-doc-type.component';
 
 @NgModule({
   declarations: [
@@ -52,11 +52,11 @@ import { UsersComponent } from './components/users/users.component';
     DialogConfirmComponent,
     LoginUserComponent,
     HomeComponent,
-    ComplianceReportComponent,
     NotFoundComponent,
-    NoGeneratedDetailsComponent,
     UsersComponent,
-    NewUserComponent
+    NewUserComponent,
+    DocTypeComponent,
+    NewDocTypeComponent
   ],
   imports: [
     BrowserModule,

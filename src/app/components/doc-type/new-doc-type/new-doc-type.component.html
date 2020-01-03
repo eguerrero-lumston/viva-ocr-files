@@ -1,0 +1,56 @@
+<div class="container" [ngClass]="{ 'padding-window': !isPdfHidden }">
+  <div class="flex items-center title-container">
+    <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
+      <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
+    </div>
+    <h1 class="grow-1 sub-section-title">
+      {{ isUpdate ? "Modificar" : "Nuevo" }} usuario
+    </h1>
+  </div>
+
+  <mat-card>
+    <form [formGroup]="docTypeForm">
+      <div class="grid">
+        <div class="col-6">
+          <div class=" flex column items-center justify-center">
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Nombre del documento</mat-label>
+              <input required placeholder="Nombre del documento" name="name" formControlName="name" matInput />
+            </mat-form-field>
+
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Puesto</mat-label>
+              <mat-select formControlName="position">
+                <mat-option *ngFor="let food of [1, 2, 3, 4]" [value]="food">
+                  {{ food }}
+                </mat-option>
+              </mat-select>
+              <!-- <input required type="text" required name="position" formControlName="position"
+                matInput placeholder="Puesto" /> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="flex column items-center justify-center">
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Texto a reconocer</mat-label>
+              <input required name="textToRecognize" formControlName="textToRecognize" matInput
+                placeholder="Texto a reconocer" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <br />
+
+      <mat-card-actions style="text-align: end;">
+        <button class="btn send-file margin" type="submit" (click)="onSubmit()">
+          {{ isUpdate ? "Modificar" : "Agregar" }}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

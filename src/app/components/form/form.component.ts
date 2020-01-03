@@ -29,7 +29,6 @@ export class FormComponent implements OnInit, OnDestroy {
   licences: string[];
   surcharges: string[];
   file = new File();
-  isOrigin = true;
   // fileForm: FormGroup;
   name: string;
   isConfirmed = false;
@@ -82,13 +81,6 @@ export class FormComponent implements OnInit, OnDestroy {
       startWith(''),
       map(value => this._filter(value))
     );
-  }
-  onChange(value: string, isOrigin: boolean) {
-    if (isOrigin) {
-      this.isOrigin = this.file.airport.acronym === value;
-    } else {
-      this.isOrigin = value === this.file.origin.acronym;
-    }
   }
 
   private _filter(value: string): string[] {

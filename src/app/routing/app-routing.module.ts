@@ -1,11 +1,11 @@
+import { NewDocTypeComponent } from './../components/doc-type/new-doc-type/new-doc-type.component';
+import { DocTypeComponent } from './../components/doc-type/doc-type.component';
 import { NewUserComponent } from './../components/users/new-user/new-user.component';
 import { UsersComponent } from './../components/users/users.component';
-import { NoGeneratedDetailsComponent } from './../components/compliance-report/no-generated-details/no-generated-details.component';
 import { PathResolveService } from './../services/path-resolve.service';
 import { NotFoundComponent } from './../components/not-found/not-found.component';
 import { AuthGuard } from '../services/auth.guard';
 import { DatatableComponent } from '../components/datatable/datatable.component';
-import { ComplianceReportComponent } from './../components/compliance-report/compliance-report.component';
 import { HomeComponent } from './../components/home/home.component';
 import { LoginUserComponent } from './../components/login/login-user.component';
 import { FileViewerComponent } from '../components/file-viewer/file-viewer.component';
@@ -41,13 +41,10 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'compliance-report',
+        path: 'doc-types',
         children: [
-          { path: '', component: ComplianceReportComponent,
-          children : [
-            { path: 'details', component: NoGeneratedDetailsComponent }
-          ]
-        }
+          { path: '', component: DocTypeComponent },
+          { path: 'new', component: NewDocTypeComponent }
         ]
       },
       {

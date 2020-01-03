@@ -1,3 +1,5 @@
+import { DocType } from './../model/doc-type';
+import { DocTypesRequest } from './../model/request/doc-types-request';
 import { AdalService } from 'adal-angular4';
 import { ServerError } from './server-error';
 import { UsersRequest } from './../model/request/users-request';
@@ -164,51 +166,6 @@ export class ConnectServer {
             );
     }
 
-    getReports(type: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportsResponse> {
-        this.helperService.startLoader();
-        let params = new HttpParams();
-        params = params.append('type', type);
-        const SERVER_FORMAT = 'YYYY-MM-DD';
-        if (start) {
-            const formatDate = start.format(SERVER_FORMAT);
-            // console.log('formatDate start---->', formatDate);
-            params = params.append('start', formatDate);
-        }
-        if (end) {
-            const formatDate = end.format(SERVER_FORMAT);
-            // console.log('formatDate end---->', formatDate);
-            params = params.append('end', formatDate);
-        }
-        return this.http.get<ReportsResponse>(this.apiURL + 'reports', { headers: this.headers().headers, params })
-            .pipe(
-                tap(data => this.helperService.stopLoader()),
-                catchError(error => this.handleError(error))
-            );
-    }
-
-    getNoGenerated(type: string, airport: string, start?: moment.Moment, end?: moment.Moment): Observable<ReportDetail[]> {
-        this.helperService.startLoader();
-        let params = new HttpParams();
-        params = params.append('type', type);
-        params = params.append('airport', airport);
-        const SERVER_FORMAT = 'YYYY-MM-DD';
-        if (start) {
-            const formatDate = start.format(SERVER_FORMAT);
-            // console.log('formatDate start---->', formatDate);
-            params = params.append('start', formatDate);
-        }
-        if (end) {
-            const formatDate = end.format(SERVER_FORMAT);
-            // console.log('formatDate end---->', formatDate);
-            params = params.append('end', formatDate);
-        }
-        return this.http.get<ReportDetail[]>(this.apiURL + 'reports/not-generated', { headers: this.headers().headers, params })
-            .pipe(
-                tap(data => this.helperService.stopLoader()),
-                catchError(error => this.handleError(error))
-            );
-    }
-
     /*========================================
                     Users
     =========================================*/
@@ -283,6 +240,82 @@ export class ConnectServer {
         }
 
         return this.http.get<UsersRequest>(this.apiURL + 'users/filter/table', { headers: this.headers().headers, params })
+            .pipe(
+                // tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    /*========================================
+                    DocType
+    =========================================*/
+    // HttpClient API get() method => Fetch users list
+    getDocTypes(): Observable<DocTypesRequest> {
+        this.helperService.startLoader();
+        return this.http.get<DocTypesRequest>(this.apiURL + 'docs-type', this.headers())
+            .pipe(
+                tap(data => this.print('getDocTypes', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API get() method => Fetch user
+    getDocType(id: string): Observable<DocType> {
+        const params = new HttpParams()
+            .set('id', id);
+        return this.http.get<DocType>(this.apiURL + 'docs-type', { headers: this.headers().headers, params })
+            .pipe(
+                tap(data => this.print('getDocType', data)),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API post() method => update one docType
+    newDocType(docType: DocType) {
+        this.helperService.startLoader();
+        return this.http.post<DocType>(this.apiURL + 'docs-type', docType, this.headers())
+            .pipe(
+                tap(data => this.print('newDocType', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API delete() method => delete one doc type
+    deleteDocType(id: string) {
+        this.helperService.startLoader();
+        return this.http.delete<DocType>(this.apiURL + 'docs-type/' + id,  this.headers())
+            .pipe(
+                tap(data => this.print('deleteDocType', data)),
+                tap(data => {
+                    this.helperService.stopLoader();
+                }),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    // HttpClient API put() method => update one category
+    updateDocType(docType: DocType) {
+        this.helperService.startLoader();
+        return this.http.put<DocType>(this.apiURL + 'docs-type', docType, this.headers())
+            .pipe(
+                tap(data => this.print('updateDocType', data)),
+                tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getDocTypesFilter(paginator: MatPaginator, name?: string): Observable<DocTypesRequest> {
+        // this.helperService.startLoader();
+        let params = new HttpParams();
+        const page = paginator.pageIndex + 1;
+        params = params.append('limit', String(paginator.pageSize));
+        params = params.append('page', String(page));
+        if (name) {
+            params = params.append('name', name);
+        }
+        return this.http.get<DocTypesRequest>(this.apiURL + 'docs-type/filter/table', { headers: this.headers().headers, params })
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))

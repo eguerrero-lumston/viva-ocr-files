@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="flex items-center">
+        <h1 class="grow-1 section-title">Tipo de documento</h1>
+        <div class="flex justify-end">
+            <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
+                [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
+        </div>
+    </div>
+    <mat-card>
+        <div class="flex items-center">
+            <span class="search-container">
+                <form [formGroup]="searchForm">
+                    <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+                </form>
+                <img class="search-icon" src="assets/searchbar.svg" alt="">
+            </span>
+            <div class="grow-1"></div>
+            <div class="grow-1"></div>
+            <button class="btn success" [routerLink]="['./new']">Nuevo tipo de documento</button>
+        </div>
+        <br>
+        <div>
+            <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource"
+                class="mat-elevation-z1">
+
+
+                <!-- name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+                        <div class="text-center"> Tipo de documento</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex grow-1 justify-start">
+                            <div>                                
+                                {{ element.name }}
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- positionName Column -->
+                <ng-container matColumnDef="positionName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+                        <div class="text-center"> Puesto</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex grow-1 justify-start">
+                            <div class="capitalize">
+                                {{ element.positionName }}
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="table-title">
+                        <div class="text-center"> Acciones </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="items-center">
+                        <div class="flex justify-center grow-1">
+                            <button class="btn small info" (click)='onEdit(element)'>
+                                <img width="15px" height="15px" src="assets/edit.svg" alt="">
+                            </button>
+                            <button class="btn small danger" (click)='onDelete(element)'>
+                                <img width="15px" height="15px" src="assets/delete.svg" alt="">
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator #paginator [length]="total" [pageSizeOptions]="[10, 25, 100]" [pageSize]="limit"
+                [pageIndex]="page" (page)="getDocTypeFilter($event)" showFirstLastButtons></mat-paginator>
+
+        </div>
+
+    </mat-card>
+</div>
