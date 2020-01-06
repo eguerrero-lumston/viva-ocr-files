@@ -1,144 +1,155 @@
 <div class="container">
-    <div class="flex items-center">
-        <h1 class="grow-1 section-title">Expedientes</h1>
-        <div class="flex justify-end">
-            <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
-                [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
-        </div>
+  <div class="flex items-center">
+    <h1 class="grow-1 section-title">Expedientes</h1>
+    <div class="flex justify-end">
+      <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
+        [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
     </div>
-    <mat-card>
-        <div class="flex items-center">
-            <span class="search-container">
-                <form [formGroup]="searchForm">
-                    <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
-                </form>
-                <img class="search-icon" src="assets/searchbar.svg" alt="">
-            </span>
+  </div>
+  <mat-card>
+    <div class="flex items-center">
+      <span class="search-container">
+        <form [formGroup]="searchForm">
+          <input formControlName="nameSearch" type="text" class="search" placeholder="Buscar">
+        </form>
+        <img class="search-icon" src="assets/searchbar.svg" alt="">
+      </span>
 
-            <div class="grow-1"></div>
-            <div class="grow-1">
-                <mat-checkbox [(ngModel)]="isYellow" (ngModelChange)="changeStatus()">Amarillo</mat-checkbox>
-                <mat-checkbox [(ngModel)]="isBlue" (ngModelChange)="changeStatus()">Azul</mat-checkbox>
-                <mat-checkbox [(ngModel)]="isGreen" (ngModelChange)="changeStatus()">Verde</mat-checkbox>
-                <mat-checkbox [(ngModel)]="isPurple" (ngModelChange)="changeStatus()">Mostrar confirmados</mat-checkbox>
+      <div class="grow-1"></div>
+      <div class="grow-1">
+        <mat-checkbox [(ngModel)]="isYellow" (ngModelChange)="changeStatus()">Amarillo</mat-checkbox>
+        <mat-checkbox [(ngModel)]="isBlue" (ngModelChange)="changeStatus()">Azul</mat-checkbox>
+        <mat-checkbox [(ngModel)]="isGreen" (ngModelChange)="changeStatus()">Verde</mat-checkbox>
+        <mat-checkbox [(ngModel)]="isPurple" (ngModelChange)="changeStatus()">Mostrar confirmados</mat-checkbox>
+      </div>
+
+      <button class="btn success" [ngClass]="{ 'disabled': this.fileToSend.size <= 0 }"
+        [disabled]="this.fileToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
+    </div>
+    <br>
+
+    <div>
+      <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource" class="mat-elevation-z1">
+
+
+        <!-- year Column -->
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center"> Año</div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="flex grow-1 justify-start">
+              <div>
+                <mat-checkbox #check (click)="onCheckIsPressed(element, check)"
+                  [disabled]="element.checkStatus != globalVariable.STATUS_GREEN"
+                  *ngIf="!(element.checkStatus == globalVariable.STATUS_CONFIRMED || element.checkStatus == globalVariable.STATUS_TO_UPDATE)">
+                </mat-checkbox>
+                {{ element.year }}
+              </div>
             </div>
+          </td>
+        </ng-container>
 
-            <button class="btn success" [ngClass]="{ 'disabled': this.fileToSend.size <= 0 }"
-                [disabled]="this.fileToSend.size <= 0" (click)='onConfirmArray()'>Confirmar archivos</button>
-        </div>
-        <br>
+        <!-- Father lastname Column -->
+        <ng-container matColumnDef="fatherLastname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center"> Apellido Paterno</div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="flex grow-1 justify-start">
+              <div class="capitalize">
+                {{ element.fatherLastname }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
 
-        <div>
-            <table mat-table matSort (matSortChange)="customSort($event)" [dataSource]="dataSource"
-                class="mat-elevation-z1">
+        <!-- Mother lastname Column -->
+        <ng-container matColumnDef="motherLastname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center"> Apellido Materno</div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="flex grow-1 justify-start">
+              <div class="capitalize">
+                {{ element.motherLastname }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
 
+        <!-- name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center">Nombre</div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="capitalize">
+              {{element.name}}
+            </div>
+          </td>
+        </ng-container>
 
-                <!-- year Column -->
-                <ng-container matColumnDef="year">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Año</div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="flex grow-1 justify-start">
-                            <div>                                
-                                <mat-checkbox #check (click)="onCheckIsPressed(element, check)"
-                                [disabled]="element.checkStatus != globalVariable.STATUS_GREEN"
-                                *ngIf="!(element.checkStatus == globalVariable.STATUS_CONFIRMED || element.checkStatus == globalVariable.STATUS_TO_UPDATE)"></mat-checkbox>
-                                {{ element.year }}
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
+        <!-- course name Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center">Curso</div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="capitalize">
+              {{ element.course?.name || '--' }}
+            </div>
+          </td>
+        </ng-container>
 
-                <!-- Father lastname Column -->
-                <ng-container matColumnDef="fatherLastname">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Apellido Paterno</div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="flex grow-1 justify-start">
-                            <div class="capitalize">
-                                {{ element.fatherLastname }}
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
+        <!-- status Column -->
+        <ng-container matColumnDef="checkStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
+            <div class="text-center"> Estatus </div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="flex items-center justify-center grow-1">
+              <span title="Analizando" *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE"
+                class="status pending"></span>
+              <span title="Faltan campos por analizar" *ngIf="element.checkStatus == globalVariable.STATUS_YELLOW"
+                class="status warning"></span>
+              <span title="Analizado, falta revisar campos" *ngIf="element.checkStatus == globalVariable.STATUS_BLUE"
+                class="status primary"></span>
+              <span title="Revisado, listo para confirmar"
+                *ngIf="element.checkStatus == globalVariable.STATUS_GREEN || element.checkStatus == globalVariable.STATUS_CONFIRMED"
+                class="status success"></span>
+            </div>
+          </td>
+        </ng-container>
 
-                <!-- Mother lastname Column -->
-                <ng-container matColumnDef="motherLastname">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Apellido Materno</div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="flex grow-1 justify-start">
-                            <div class="capitalize">
-                                {{ element.motherLastname }}
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
+        <!-- actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="table-title">
+            <div class="text-center"> Acciones </div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="items-center">
+            <div class="flex justify-center grow-1">
+              <button *ngIf="element.checkStatus !== globalVariable.STATUS_TO_UPDATE" class="btn small info"
+                (click)='onEdit(element, element.checkStatus == globalVariable.STATUS_CONFIRMED)'>
+                <img width="15px" height="15px" src="assets/edit.svg" alt="">
+              </button>
+              <button
+                *ngIf="!(element.checkStatus == globalVariable.STATUS_CONFIRMED || element.checkStatus == globalVariable.STATUS_TO_UPDATE)"
+                class="btn small danger" (click)='onDelete(element)'>
+                <img width="15px" height="15px" src="assets/delete.svg" alt="">
+              </button>
+              <label *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE" for="">Analizando</label>
+            </div>
+          </td>
+        </ng-container>
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center">Nombre</div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="capitalize">
-                            {{element.name}}
-                        </div>
-                    </td>
-                </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator #paginator [length]="total" [pageSizeOptions]="[10, 25, 100]" [pageSize]="limit" [pageIndex]="page"
+        (page)="getFileFilter($event)" showFirstLastButtons></mat-paginator>
 
-                <!-- Weight Column -->
-                <ng-container matColumnDef="checkStatus">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Estatus </div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="flex items-center justify-center grow-1">
-                            <span title="Analizando" *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE"
-                                class="status pending"></span>
-                            <span title="Faltan campos por analizar"
-                                *ngIf="element.checkStatus == globalVariable.STATUS_YELLOW"
-                                class="status warning"></span>
-                            <span title="Analizado, falta revisar campos"
-                                *ngIf="element.checkStatus == globalVariable.STATUS_BLUE" class="status primary"></span>
-                            <span title="Revisado, listo para confirmar"
-                                *ngIf="element.checkStatus == globalVariable.STATUS_GREEN || element.checkStatus == globalVariable.STATUS_CONFIRMED"
-                                class="status success"></span>
-                        </div>
-                    </td>
-                </ng-container>
+    </div>
 
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="table-title">
-                        <div class="text-center"> Acciones </div>
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="items-center">
-                        <div class="flex justify-center grow-1">
-                            <button
-                                *ngIf="element.checkStatus !== globalVariable.STATUS_TO_UPDATE"
-                             class="btn small info" (click)='onEdit(element, element.checkStatus == globalVariable.STATUS_CONFIRMED)'>
-                                <img width="15px" height="15px" src="assets/edit.svg" alt="">
-                            </button>
-                            <button *ngIf="!(element.checkStatus == globalVariable.STATUS_CONFIRMED || element.checkStatus == globalVariable.STATUS_TO_UPDATE)"
-                                class="btn small danger" (click)='onDelete(element)'>
-                                <img width="15px" height="15px" src="assets/delete.svg" alt="">
-                            </button>
-                            <label *ngIf="element.checkStatus == globalVariable.STATUS_TO_UPDATE" for="">Analizando</label>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <mat-paginator #paginator [length]="total" [pageSizeOptions]="[10, 25, 100]" [pageSize]="limit"
-                [pageIndex]="page" (page)="getFileFilter($event)" showFirstLastButtons></mat-paginator>
-
-        </div>
-
-    </mat-card>
+  </mat-card>
 </div>

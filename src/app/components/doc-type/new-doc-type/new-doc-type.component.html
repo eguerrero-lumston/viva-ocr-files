@@ -4,7 +4,7 @@
       <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
     </div>
     <h1 class="grow-1 sub-section-title">
-      {{ isUpdate ? "Modificar" : "Nuevo" }} usuario
+      {{ isUpdate ? "Modificar" : "Nuevo" }} tipo de documento
     </h1>
   </div>
 
@@ -35,7 +35,7 @@
           <div class="flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Texto a reconocer</mat-label>
-              <input required name="textToRecognize" formControlName="textToRecognize" matInput
+              <input appDiacritic required name="textToRecognize" formControlName="textToRecognize" matInput
                 placeholder="Texto a reconocer" />
             </mat-form-field>
           </div>

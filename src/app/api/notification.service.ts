@@ -10,7 +10,7 @@ export class NotificationService {
   private readonly notifier: ToastrService;
   private readonly options: Partial<IndividualConfig> = {
     timeOut: 5000,
-    progressBar: true,
+    progressBar: false,
     progressAnimation: 'increasing',
     positionClass: 'toast-bottom-left',
   };

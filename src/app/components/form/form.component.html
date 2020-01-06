@@ -33,7 +33,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Apellido Paterno</mat-label>
-              <input  [disabled]="isConfirmed" required appUppercase name="file.fatherLastname" [(ngModel)]="file.fatherLastname" matInput
+              <input  [disabled]="isConfirmed" required name="file.fatherLastname" [(ngModel)]="file.fatherLastname" matInput
                 placeholder="Apellido Paterno"
                 >
                 <!-- [matAutocomplete]="names" -->
@@ -46,7 +46,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Nombre(s)</mat-label>
-              <input  [disabled]="isConfirmed" required appUppercase name="file.name" [(ngModel)]="file.name" matInput
+              <input  [disabled]="isConfirmed" required name="file.name" [(ngModel)]="file.name" matInput
                 placeholder="Nombre(s)" >
               <!-- <mat-autocomplete #names="matAutocomplete">
                 [matAutocomplete]="names"
@@ -70,7 +70,7 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Apellido Materno</mat-label>
-              <input [disabled]="isConfirmed" required name="file.motherLastname" [(ngModel)]="file.motherLastname" appUppercase
+              <input [disabled]="isConfirmed" required name="file.motherLastname" [(ngModel)]="file.motherLastname"
                 matInput placeholder="Apellido Materno" >
               <!-- <mat-autocomplete #acronymAC="matAutocomplete">  [matAutocomplete]="acronymAC"
                 <mat-option *ngFor="let option of file.matches.acronyms" [value]="option">

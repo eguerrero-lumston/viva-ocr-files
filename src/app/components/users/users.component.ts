@@ -112,9 +112,9 @@ export class UsersComponent implements OnInit {
       this.page = 1;
       this.total = this.paginator.pageSize;
     }
-    console.log('pager', this.page);
+    // console.log('pager', this.page);
     this.restApi.getUsersFilter(this.paginator).subscribe(res => {
-      console.log('filter', res);
+      // console.log('filter', res);
       // this.temp.data = this.dataSource.data;
       this.total = res.total;
       this.limit = res.limit;

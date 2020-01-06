@@ -34,6 +34,7 @@ export class DatatableComponent implements OnInit {
     'fatherLastname',
     'motherLastname',
     'name',
+    'position',
     'checkStatus',
     'actions'
   ];

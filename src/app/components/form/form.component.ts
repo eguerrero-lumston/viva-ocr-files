@@ -21,7 +21,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit, OnDestroy {
+export class FormComponent implements OnInit {
   airportName = new FormControl();
   // fileForm2: FormGroup;
   dateOptions: string[];
@@ -46,7 +46,7 @@ export class FormComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService) {
-    this.file.matches = new MatchesFile();
+    // this.file.matches = new MatchesFile();
   }
 
   ngOnInit() {
@@ -58,35 +58,8 @@ export class FormComponent implements OnInit, OnDestroy {
         this.api.getFile(this.file.jobId).subscribe(data => {
           // console.log('data ---->', data);
           this.file = data;
-          const dateF = moment(this.file.formatted_date, this.SERVER_FORMAT)
-            .format(this.INPUT_FORMAT);
-          if (moment(this.file.formatted_date, this.SERVER_FORMAT).isValid()) {
-            this.file.formattedDate = dateF;
-          }
-
-          // this.file.matches.acronyms = this.union(this.file.acronyms.filter(word => word !== ''), this.file.matches.acronyms);
-          // this.acronyms = data.acronyms.filter(word => word !== '');
-          // this.licences = data.licences.filter(word => word !== '');
-          // this.surcharges = data.surcharges.filter(word => word !== '');
-          // console.log('file ---->', this.file);
-          // if (this.localStorageService.exist(this.file.jobId)) {
-          //   this.file = this.localStorageService.get(this.file.jobId) as File;
-          // }
-          // this.onChange(this.file.origin.acronym, true);
         });
       });
-    // Observable.of(this.file)
-    this.airportName.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.file.matches.names.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   union(...iterables: string[][]) {
@@ -101,7 +74,7 @@ export class FormComponent implements OnInit, OnDestroy {
     return Array.from(set);
   }
   update() {
-    this.formattedFile();
+    // this.formattedFile();
     // console.log(this.file);
     if (this.isFormValid()) {
       // console.log('it is submit');
@@ -181,51 +154,11 @@ export class FormComponent implements OnInit, OnDestroy {
     return value === '' || value == null;
   }
 
-  getHour(time: string) {
-    // console.log(time);
-    const dateRaw = moment(time);
-    return dateRaw.format('HH:mm');
-  }
-
   isFormValid() {
-    return this.file.airport.name !== '' &&
-      this.file.company.name !== '' &&
-      this.file.formattedDate !== '' &&
-      moment(this.file.formattedDate, this.INPUT_FORMAT).isValid() &&
-      this.file.airport.acronym !== '' &&
-      this.file.company.acronym !== '' &&
-      this.file.registration !== '' &&
-      this.file.flightNumber !== null &&
-      this.file.origin.name !== '' &&
-      this.file.destination.name !== '' &&
-      this.file.intineraryHour !== '' &&
-      this.file.origin.acronym !== '' &&
-      this.file.destination.acronym;
-  }
-
-  formattedFile() {
-    if (this.file.formattedDate) {
-      const dateRaw = moment(this.file.formattedDate, this.INPUT_FORMAT);
-      const formatDate = dateRaw.format(this.SERVER_FORMAT);
-      // console.log('formatDate---->', formatDate);
-      this.file.formatted_date = formatDate;
-    }
-  }
-
-  formatDate(date: string) {
-    const dateRaw = moment(date, this.SERVER_FORMAT);
-    const formatDate = dateRaw.format(this.INPUT_FORMAT);
-    // console.log('formatDate---->', formatDate);
-    return formatDate;
-  }
-
-  ngOnDestroy(): void {
-    this.localStorageService.save(this.file.jobId, this.file);
-  }
-
-  onSubmit(form) {
-    console.log(form);
-    // form.preveny
+    return this.file.name !== '' &&
+      this.file.fatherLastname !== '' &&
+      this.file.motherLastname !== '' &&
+      this.file.course._id !== '';
   }
 
 }

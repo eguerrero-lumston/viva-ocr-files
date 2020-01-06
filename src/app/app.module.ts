@@ -1,3 +1,4 @@
+import { DiacriticDirective } from './directives/diacritc.directive';
 import { NewUserComponent } from './components/users/new-user/new-user.component';
 import { AuthGuard } from './services/auth.guard';
 import { AdalService, AdalInterceptor } from 'adal-angular4';
@@ -45,6 +46,7 @@ import { NewDocTypeComponent } from './components/doc-type/new-doc-type/new-doc-
     FileUploadComponent,
     DragDropDirective,
     UppercaseDirective,
+    DiacriticDirective,
     DelayInputDirective,
     FileViewerComponent,
     DatatableComponent,
@@ -85,6 +87,7 @@ import { NewDocTypeComponent } from './components/doc-type/new-doc-type/new-doc-
   ],
   exports: [
     UppercaseDirective,
+    DiacriticDirective,
     DelayInputDirective,
   ],
   providers: [
