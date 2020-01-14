@@ -1,10 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+// textract-console-us-west-2-a41d8f37-bfda-4836-9c0d-e2da098ff9a2 en us-west-2
 
 export const environment = {
   production: false,
-  URL_HOST: 'https://viva-ocr.lumstondev.com/api/',
+  URL_HOST: 'http://10.1.39.151:3000/api/',
   adalConfiguration: {
     tenant: 'AlexCorp727.onmicrosoft.com',
     clientId: '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7',

@@ -7,8 +7,8 @@ export class DragDropDirective {
 
   @Output() onFileDropped = new EventEmitter<any>();
 
- /*  @HostBinding('style.background-color') private background = '#f5fcff'
-  @HostBinding('style.opacity') private opacity = '1' */
+  /*  @HostBinding('style.background-color') private background = '#f5fcff'
+   @HostBinding('style.opacity') private opacity = '1' */
 
   // Dragover listener
   @HostListener('dragover', ['$event']) onDragOver(evt: any) {
@@ -31,12 +31,24 @@ export class DragDropDirective {
     /* this.background = '#f5fcff'
     this.opacity = '1' */
     const files = evt.dataTransfer.files;
-    if (files.length > 0) {
-      this.onFileDropped.emit(files);
-    }
+      // console.log('value', evt.dataTransfer);
+
+    const filesAccepted1 = [];
+    // for (var i = 0; i < files.length; i++) {
+
+    //   // get item
+    //   var file = files.item(i);
+    //   // console.log('value', file);
+    //   if (this.isAcceptable(file.name)){
+    //     filesAccepted1.push(file);
+    //   }
+    // }
+    // const filesAccepted = new FileList(filesAccepted1);
+    // if (filesAccepted.length > 0) {
+    this.onFileDropped.emit(files);
+    // }
 
   }
-
   constructor() { }
 
 }
