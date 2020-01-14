@@ -16,10 +16,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { state } from '@angular/animations';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'datatable',
+  selector: 'app-datatable',
   templateUrl: './datatable.component.html',
   styleUrls: ['./datatable.component.scss'],
   providers: [GlobalVariable]

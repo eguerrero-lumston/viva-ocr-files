@@ -1,3 +1,4 @@
+import { Position } from './../../../model/position';
 import { DocType } from './../../../model/doc-type';
 import { DialogConfirmComponent } from './../../../single-components/dialog-confirm/dialog-confirm.component';
 import { LocalStorageService } from './../../../util/local-storage.service';
@@ -21,6 +22,7 @@ export class NewDocTypeComponent implements OnInit {
   dateOptions: string[];
   acronyms: string[];
   licences: string[];
+  positions: Position[] = [];
   isUpdate = false;
   surcharges: string[];
   docType = new DocType();
@@ -37,12 +39,15 @@ export class NewDocTypeComponent implements OnInit {
     private localStorageService: LocalStorageService) {
     this.docTypeForm = this.fb.group({
       name: [null, Validators.required],
-      position: [null, Validators.required],
+      positionId: [null, Validators.required],
       textToRecognize: [null, Validators.required ]
     });
   }
 
   ngOnInit() {
+    this.api.getAllPositions().subscribe(res => {
+      this.positions = res;
+    });
     this.route.params
       .subscribe((params: Params) => {
         if (params.id) {
@@ -51,6 +56,7 @@ export class NewDocTypeComponent implements OnInit {
             if (!res) { return; }
             this.docType = res;
             this.docTypeForm.patchValue( this.docType);
+            this.docTypeForm.patchValue( { positionId: this.docType.position._id });
             this.isUpdate = true;
           });
         }
@@ -62,6 +68,7 @@ export class NewDocTypeComponent implements OnInit {
     console.log(this.docType);
     if (this.docTypeForm.valid) {
       const docType = new DocType(this.docTypeForm.value);
+      docType.positionId = this.docTypeForm.value.positionId;
       if (this.isUpdate) {
         docType._id = this.docType._id;
         this.api.updateDocType(docType).subscribe(res => {

@@ -1,3 +1,4 @@
+import { DocType } from './../../model/doc-type';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './../../util/local-storage.service';
 import { DialogConfirmComponent } from './../../single-components/dialog-confirm/dialog-confirm.component';
@@ -29,6 +30,7 @@ export class FormComponent implements OnInit {
   licences: string[];
   surcharges: string[];
   file = new File();
+  docTypes: DocType[];
   // fileForm: FormGroup;
   name: string;
   isConfirmed = false;
@@ -57,25 +59,18 @@ export class FormComponent implements OnInit {
         this.isConfirmed = params.isConfirmed === 'true';
         this.api.getFile(this.file.jobId).subscribe(data => {
           // console.log('data ---->', data);
-          this.file = data;
+          this.file = data.doc;
+          if (data.doc.course) {
+            this.file.courseId = data.doc.course._id;
+          }
+          this.docTypes = data.typeDoc;
         });
       });
   }
 
-  union(...iterables: string[][]) {
-    const set = new Set<string>();
-
-    for (const iterable of iterables) {
-      for (const item of iterable) {
-        set.add(item);
-      }
-    }
-
-    return Array.from(set);
-  }
   update() {
     // this.formattedFile();
-    // console.log(this.file);
+    // console.log(this.file, this.isFormValid());
     if (this.isFormValid()) {
       // console.log('it is submit');
       this.api.updateFile(this.file).subscribe(res => {
@@ -158,7 +153,7 @@ export class FormComponent implements OnInit {
     return this.file.name !== '' &&
       this.file.fatherLastname !== '' &&
       this.file.motherLastname !== '' &&
-      this.file.course._id !== '';
+      (this.file.courseId !== '' && this.file.courseId !== null && this.file.courseId !== undefined);
   }
 
 }

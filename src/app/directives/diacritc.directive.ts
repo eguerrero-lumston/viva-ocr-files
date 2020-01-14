@@ -37,5 +37,5 @@ export class DiacriticDirective {
     r = r.replace(new RegExp(/[ýÿ]/g), 'y');
     // r = r.replace(new RegExp(/\W/g), '');
     return r;
-};
+  }
 }

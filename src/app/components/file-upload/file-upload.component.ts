@@ -118,6 +118,8 @@ export class FileUploadComponent implements OnInit {
     forkJoin(allProgressObservables).subscribe(end => {
       // console.log('allProgressObservables are finished', end);
       // ... the dialog can be closed again...
+      this.fileInput.nativeElement.value = null;
+
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;
       this.isLoading = false;
@@ -127,6 +129,8 @@ export class FileUploadComponent implements OnInit {
       // ... and the component is no longer uploading
       this.uploading = false;
     }, error => {
+      this.fileInput.nativeElement.value = null;
+
       // console.log('allProgressObservables are finished with error', error);
       this.canBeClosed = true;
       // this.dialogRef.disableClose = false;

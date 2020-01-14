@@ -1,3 +1,4 @@
+import { DocTypeRequest } from './../model/request/doc-type-request';
 import { DocType } from './../model/doc-type';
 import { DocTypesRequest } from './../model/request/doc-types-request';
 import { AdalService } from 'adal-angular4';
@@ -25,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
+import { Position } from '../model/position';
 
 @Injectable({
     providedIn: 'root'
@@ -85,11 +87,11 @@ export class ConnectServer {
     }
 
     // HttpClient API get() method => Fetch one file
-    getFile(jobId: string): Observable<File> {
+    getFile(jobId: string): Observable<DocTypeRequest> {
         this.helperService.startLoader();
         const params = new HttpParams()
             .set('jobId', jobId);
-        return this.http.get<File>(this.apiURL + 'docs', { headers: this.headers().headers, params })
+        return this.http.get<DocTypeRequest>(this.apiURL + 'docs', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
@@ -262,11 +264,13 @@ export class ConnectServer {
 
     // HttpClient API get() method => Fetch user
     getDocType(id: string): Observable<DocType> {
+        this.helperService.startLoader();
         const params = new HttpParams()
             .set('id', id);
         return this.http.get<DocType>(this.apiURL + 'docs-type', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.print('getDocType', data)),
+                tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))
             );
     }
@@ -318,6 +322,19 @@ export class ConnectServer {
         return this.http.get<DocTypesRequest>(this.apiURL + 'docs-type/filter/table', { headers: this.headers().headers, params })
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+
+    /*========================================
+                    Positions
+    =========================================*/
+    // HttpClient API get() method => Fetch users list
+    getAllPositions(): Observable<Position[]> {
+        return this.http.get<Position[]>(this.apiURL + 'positions-all', this.headers())
+            .pipe(
+                tap(data => this.print('getAllPositions', data)),
                 catchError(error => this.handleError(error))
             );
     }

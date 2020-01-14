@@ -13,6 +13,7 @@ export class File {
     motherLastname: string;
     year: number;
     course: Course;
+    courseId: string;
     uploadedAt: string;
     _id: string;
 

@@ -1,8 +1,8 @@
 <div class="container" [ngClass]="{'padding-window': !isPdfHidden}">
   <div class="flex items-center">
-      <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
-          <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
-      </div>
+    <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
+      <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
+    </div>
     <h1 class="grow-1">Expediente</h1>
     <!-- <div class="flex justify-end grow-1" id="search-item">
       <span class="search-container">
@@ -13,7 +13,7 @@
   </div>
 
   <mat-card>
-    <form (ngSubmit)="onSubmit">
+    <form (ngSubmit)="update()">
       <div class="flex items-center" style="width: 100%;">
 
         <div class="grow-1 flex justify-start">
@@ -28,15 +28,17 @@
           <div class=" flex column items-center justify-center">
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Año</mat-label>
-              <input [disabled]="isConfirmed" name="file.year" [(ngModel)]="file.year" matInput placeholder="Año">
+              <input required [disabled]="isConfirmed" name="file.year" [(ngModel)]="file.year" matInput
+                placeholder="Año">
+              <mat-error *ngIf="hasError(file.year)">Ingrese año</mat-error> 
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Apellido Paterno</mat-label>
-              <input  [disabled]="isConfirmed" required name="file.fatherLastname" [(ngModel)]="file.fatherLastname" matInput
-                placeholder="Apellido Paterno"
-                >
-                <!-- [matAutocomplete]="names" -->
+              <input [disabled]="isConfirmed" required name="file.fatherLastname" [(ngModel)]="file.fatherLastname"
+                matInput placeholder="Apellido Paterno">
+              <mat-error *ngIf="hasError(file.fatherLastname)">Ingrese apellido paterno</mat-error>
+              <!-- [matAutocomplete]="names" -->
               <!-- <mat-autocomplete #names="matAutocomplete">
                 <mat-option *ngFor="let option of file.matches.names" [value]="option">
                   {{option}}
@@ -46,8 +48,9 @@
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Nombre(s)</mat-label>
-              <input  [disabled]="isConfirmed" required name="file.name" [(ngModel)]="file.name" matInput
-                placeholder="Nombre(s)" >
+              <input [disabled]="isConfirmed" required name="file.name" [(ngModel)]="file.name" matInput
+                placeholder="Nombre(s)">
+                <mat-error *ngIf="hasError(file.name)">Ingrese nombre(s)</mat-error>
               <!-- <mat-autocomplete #names="matAutocomplete">
                 [matAutocomplete]="names"
                 <mat-option *ngFor="let option of file.matches.names" [value]="option">
@@ -63,21 +66,26 @@
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Curso</mat-label>
 
-              <input type="text" [disabled]="isConfirmed" required appDateFormat name="file.courseName"
-                [(ngModel)]="file.courseName" matInput placeholder="Curso" >
-              <mat-error *ngIf="hasError(file.courseName)">Ingrese curso</mat-error>
+              <!-- <input type="text" [disabled]="isConfirmed" required appDateFormat name="file.courseName"
+                [(ngModel)]="file.courseName" matInput placeholder="Curso" > -->
+              <mat-select  [disabled]="isConfirmed" required [(ngModel)]="file.courseId" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let type of docTypes" [value]="type._id">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="hasError(file.courseId)">Ingrese curso</mat-error>
             </mat-form-field>
 
             <mat-form-field [floatLabel]="'always'">
               <mat-label class="custom-mat-form-field-label">Apellido Materno</mat-label>
               <input [disabled]="isConfirmed" required name="file.motherLastname" [(ngModel)]="file.motherLastname"
-                matInput placeholder="Apellido Materno" >
+                matInput placeholder="Apellido Materno">
               <!-- <mat-autocomplete #acronymAC="matAutocomplete">  [matAutocomplete]="acronymAC"
                 <mat-option *ngFor="let option of file.matches.acronyms" [value]="option">
                   {{option}}
                 </mat-option>
               </mat-autocomplete> -->
-              <mat-error *ngIf="hasError(file.motherLastname)">Ingrese apellido</mat-error>
+              <mat-error *ngIf="hasError(file.motherLastname)">Ingrese apellido materno</mat-error>
             </mat-form-field>
 
           </div>
@@ -92,7 +100,7 @@
         <button type="button" class="btn margin cancel-file" (click)="onCancel()">Cancelar</button>
         <button type="button" *ngIf="!isConfirmed" class="btn margin load-file" (click)="loadFile()">Confirmar
           expediente</button>
-        <button class="btn margin send-file" type="submit" (click)="update()">Actualizar</button>
+        <button class="btn margin send-file" type="submit" >Actualizar</button>
       </mat-card-actions>
     </form>
   </mat-card>

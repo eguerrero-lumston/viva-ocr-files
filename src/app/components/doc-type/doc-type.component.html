@@ -46,7 +46,7 @@
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex grow-1 justify-start">
                             <div class="capitalize">
-                                {{ element.positionName }}
+                                {{ element.position.name || '--' }}
                             </div>
                         </div>
                     </td>
