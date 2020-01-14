@@ -63,7 +63,6 @@ export class NewDocTypeComponent implements OnInit {
       });
   }
 
-
   onSubmit() {
     console.log(this.docType);
     if (this.docTypeForm.valid) {
