@@ -38,15 +38,15 @@
                     </td>
                 </ng-container>
 
-                <!-- positionName Column -->
-                <ng-container matColumnDef="positionName">
+                <!-- textToRecognize Column -->
+                <ng-container matColumnDef="textToRecognize">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Puesto</div>
+                        <div class="text-center"> Texto a reconocer</div>
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center">
                         <div class="flex grow-1 justify-start">
                             <div class="capitalize">
-                                {{ element.position.name || '--' }}
+                                {{ element.textToRecognize || '--' }}
                             </div>
                         </div>
                     </td>

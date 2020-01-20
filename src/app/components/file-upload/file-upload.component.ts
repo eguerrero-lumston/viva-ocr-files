@@ -1,3 +1,5 @@
+import { Position } from './../../model/position';
+import { ConnectServer } from './../../api/connect-server';
 import { NotificationService } from './../../api/notification.service';
 import { UploadService } from './../../api/upload/upload.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -11,17 +13,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class FileUploadComponent implements OnInit {
 
-  @ViewChild('fileInput', {static: true}) fileInput;
+  @ViewChild('fileInput', { static: true }) fileInput;
   public files: Set<File> = new Set();
   isLoading = false;
 
+  type = '';
+  positions: Position[];
   progress;
   canBeClosed = true;
   showCancelButton = true;
   uploading = false;
   uploadSuccessful = false;
-  constructor(public uploadService: UploadService,
-              private notificationservice: NotificationService) { }
+  constructor(
+    public uploadService: UploadService,
+    private notificationservice: NotificationService,
+    private api: ConnectServer) { }
 
   ngOnInit() {
     // this.isLoading = true;
@@ -32,8 +38,18 @@ export class FileUploadComponent implements OnInit {
     this.canBeClosed = true;
     this.showCancelButton = true;
     this.uploading = false;
+
+    this.api.getAllPositions().subscribe(res => {
+      this.positions = res;
+      this.type = this.positions[0]._id || '';
+      // console.log(this.positions, this.type);
+    });
     // this.notificationservice.showSuccess("safdas", "dvfds");
     // this.notificationservice.showCustom();
+  }
+
+  oo(){
+    console.log(this.type);
   }
 
   uploadFile(event) {
@@ -46,6 +62,30 @@ export class FileUploadComponent implements OnInit {
   onThumbnailSelected(event) {
     // console.log('is from selected', event);
     this.addFiles(event);
+  }
+
+  getExtension(name) {
+    const basename = name.split('.');
+    const ext = basename[basename.length - 1];
+    return ext;
+  }
+
+  isAllowed(fileName: string){
+    const ext = this.getExtension(fileName).toLowerCase();
+    switch (ext) {
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+      case 'png':
+      case 'pdf':
+        return true;
+        break;
+      default:
+        return false;
+        break;
+    }
+    return false;
   }
 
   addFiles(event: Event) {
@@ -62,7 +102,7 @@ export class FileUploadComponent implements OnInit {
     // this.fileInput.nativeElement.value = null;
     // console.log('files', files);
     for (const key in files) {
-      if (!isNaN(parseInt(key, NaN))) {
+      if (!isNaN(parseInt(key, NaN)) && this.isAllowed(files[key].name)) {
         this.files.add(files[key]);
       }
     }
@@ -70,6 +110,8 @@ export class FileUploadComponent implements OnInit {
     if (this.files.size > 0) {
       this.uploadFiles();
 
+    } else {
+      this.isLoading = false;
     }
   }
 
@@ -84,7 +126,7 @@ export class FileUploadComponent implements OnInit {
     this.uploading = true;
 
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.files);
+    this.progress = this.uploadService.upload(this.files, this.type);
     // console.log(this.progress);
     // convert the progress map into an array
     const allProgressObservables = [];

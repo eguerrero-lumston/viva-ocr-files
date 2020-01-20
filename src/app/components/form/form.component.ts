@@ -107,6 +107,7 @@ export class FormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
       if (result) {
+        this.file.checkStatus = 3;
         this.api.confirmFile(this.file.jobId).subscribe(res => {
           if (res) {
             this.localStorageService.delete(this.file.jobId);

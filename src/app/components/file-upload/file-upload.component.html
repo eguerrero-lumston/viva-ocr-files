@@ -1,34 +1,44 @@
 <div class="container">
-    <div class="flex items-center">
-        <h1 class="grow-1 section-title">Expediente</h1>
-        <div class="flex justify-end">
-            <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
-                [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
-        </div>
+  <div class="flex items-center">
+    <h1 class="grow-1 section-title">Expediente</h1>
+    <div class="flex justify-end">
+      <img style="cursor: pointer;" (click)="ngOnInit()" height="25px"
+        [src]="isLoading ? 'assets/loading4.gif' : 'assets/reload.svg'" alt="">
     </div>
-    <mat-dialog-content fxFlex>
-        <mat-list>
-            <mat-list-item *ngFor="let file of files">
-                <h4 mat-line>{{file.name}}</h4>
-                <mat-progress-bar *ngIf="progress" mode="indeterminate" [value]="progress[file.name].progress | async">
-                </mat-progress-bar>
-                <!-- <mat-icon *ngIf="progress[file.name].isFinish" aria-hidden="false" aria-label="Example home icon">check_circle</mat-icon> -->
-            </mat-list-item>
-        </mat-list>
-    </mat-dialog-content>
-    <mat-card>
-        <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
-            (onFileDropped)="uploadFile($event)">
-            <input multiple hidden accept="application/pdf" type="file" #fileInput
-                (change)="onThumbnailSelected($event)">
-            <div class="flex inline column items-center">
-                <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px"
-                    height="130px" alt="">
-                <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus
-                    archivos</span>
-                <span class="drop-subtitle">Agrega los archivos (.pdf)</span>
-            </div>
-        </div>
-    </mat-card>
+  </div>
+  <mat-dialog-content fxFlex>
+    <mat-list>
+      <mat-list-item *ngFor="let file of files">
+        <h4 mat-line>{{file.name}}</h4>
+        <mat-progress-bar *ngIf="progress" mode="indeterminate" [value]="progress[file.name].progress | async">
+        </mat-progress-bar>
+        <!-- <mat-icon *ngIf="progress[file.name].isFinish" aria-hidden="false" aria-label="Example home icon">check_circle</mat-icon> -->
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  <mat-card>
+    <div class="flex items-center justify-center">
+      <mat-button-toggle-group [(ngModel)]="type" #group="matButtonToggleGroup" (change)="oo()">
+        <!-- <mat-button-toggle value="sobrecargos" aria-label="Text align left">
+          sobrecargos
+        </mat-button-toggle> -->
+        <mat-button-toggle [value]="position._id" aria-label="Text align left" *ngFor="let position of positions">
+            {{ position.name }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
+      (onFileDropped)="uploadFile($event)">
+      <input multiple hidden accept="application/pdf" type="file" #fileInput (change)="onThumbnailSelected($event)">
+      <div class="flex inline column items-center">
+        <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px" height="130px"
+          alt="">
+        <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus
+          archivos</span>
+        <span class="drop-subtitle">Agrega los archivos (.pdf)</span>
+      </div>
+    </div>
+  </mat-card>
 
 </div>

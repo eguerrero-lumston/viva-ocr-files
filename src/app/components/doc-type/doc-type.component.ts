@@ -29,7 +29,7 @@ export class DocTypeComponent implements OnInit {
   isLoading = false;
   displayedColumns: string[] = [
     'name',
-    'positionName',
+    'textToRecognize',
     'actions'
   ];
   total = 0;

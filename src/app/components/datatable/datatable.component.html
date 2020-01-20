@@ -44,7 +44,7 @@
                   [disabled]="element.checkStatus != globalVariable.STATUS_GREEN"
                   *ngIf="!(element.checkStatus == globalVariable.STATUS_CONFIRMED || element.checkStatus == globalVariable.STATUS_TO_UPDATE)">
                 </mat-checkbox>
-                {{ element.year }}
+                {{ element.year || '--' }}
               </div>
             </div>
           </td>
@@ -58,7 +58,7 @@
           <td mat-cell *matCellDef="let element" class="items-center">
             <div class="flex grow-1 justify-start">
               <div class="capitalize">
-                {{ element.fatherLastname }}
+                {{ element.fatherLastname || '--' }}
               </div>
             </div>
           </td>
@@ -72,7 +72,7 @@
           <td mat-cell *matCellDef="let element" class="items-center">
             <div class="flex grow-1 justify-start">
               <div class="capitalize">
-                {{ element.motherLastname }}
+                {{ element.motherLastname || '--' }}
               </div>
             </div>
           </td>
@@ -85,7 +85,7 @@
           </th>
           <td mat-cell *matCellDef="let element" class="items-center">
             <div class="capitalize">
-              {{element.name}}
+              {{element.name || '--' }}
             </div>
           </td>
         </ng-container>
