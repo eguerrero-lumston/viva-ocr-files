@@ -17,6 +17,7 @@ export class FileUploadComponent implements OnInit {
   public files: Set<File> = new Set();
   isLoading = false;
 
+  sheets = '1';
   type = '';
   positions: Position[];
   progress;
@@ -46,10 +47,6 @@ export class FileUploadComponent implements OnInit {
     });
     // this.notificationservice.showSuccess("safdas", "dvfds");
     // this.notificationservice.showCustom();
-  }
-
-  oo(){
-    console.log(this.type);
   }
 
   uploadFile(event) {
@@ -126,7 +123,7 @@ export class FileUploadComponent implements OnInit {
     this.uploading = true;
 
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.files, this.type);
+    this.progress = this.uploadService.upload(this.files, this.type, this.sheets);
     // console.log(this.progress);
     // convert the progress map into an array
     const allProgressObservables = [];

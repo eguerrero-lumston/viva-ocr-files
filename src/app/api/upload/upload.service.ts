@@ -23,7 +23,8 @@ export class UploadService {
     private localStorageService: LocalStorageService,
     private notifierService: NotificationService) { }
 
-  public upload(files: Set<File>, position: string): { [key: string]: { progress: Observable<number>, isFinish: Observable<boolean> } } {
+  public upload(files: Set<File>, position: string, sheets: string):
+  { [key: string]: { progress: Observable<number>, isFinish: Observable<boolean> } } {
 
     // this will be the our resulting map
     const status: { [key: string]: { progress: Observable<number>, isFinish: Observable<boolean> } } = {};
@@ -34,6 +35,7 @@ export class UploadService {
       // console.log('document', file, file.name);
       formData.append('document', file, file.name);
       formData.append('position', position);
+      formData.append('sheets', sheets);
 
       // create a http-post request and pass the form
       // tell it to report the upload progress

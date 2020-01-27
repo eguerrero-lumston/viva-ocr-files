@@ -47,6 +47,7 @@ export class NewDocTypeComponent implements OnInit {
   ngOnInit() {
     this.api.getAllPositions().subscribe(res => {
       this.positions = res;
+      this.docTypeForm.patchValue( { positionId: res[0]._id });
     });
     this.route.params
       .subscribe((params: Params) => {

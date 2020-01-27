@@ -17,13 +17,23 @@
     </mat-list>
   </mat-dialog-content>
   <mat-card>
-    <div class="flex items-center justify-center">
-      <mat-button-toggle-group [(ngModel)]="type" #group="matButtonToggleGroup" (change)="oo()">
+    <div class="flex items-center column justify-center">
+      <mat-button-toggle-group [(ngModel)]="type" #group="matButtonToggleGroup">
         <!-- <mat-button-toggle value="sobrecargos" aria-label="Text align left">
           sobrecargos
         </mat-button-toggle> -->
         <mat-button-toggle [value]="position._id" aria-label="Text align left" *ngFor="let position of positions">
-            {{ position.name }}
+          {{ position.name }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <br>
+      <label for="">Hojas por expediente</label>
+      <mat-button-toggle-group [(ngModel)]="sheets" #group="matButtonToggleGroup">
+        <mat-button-toggle value="1" aria-label="Text align left">
+          1 hoja
+        </mat-button-toggle>
+        <mat-button-toggle value="2" aria-label="Text align left">
+          2 hojas
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
@@ -31,7 +41,7 @@
     <div class="uploadfilecontainer flex column items-center justify-center" (click)="fileInput.click()" appDragDrop
       (onFileDropped)="uploadFile($event)">
       <input multiple hidden accept="application/pdf" type="file" #fileInput (change)="onThumbnailSelected($event)">
-      <div class="flex inline column items-center">
+      <div class="flex box inline column items-center">
         <img src="assets/drag and drop.svg" style="margin-bottom: 40px; margin-top: 80px;" width="130px" height="130px"
           alt="">
         <span class="text-center drop-title">Arrastra y libera<br>o <span class="text-green">carga</span> tus

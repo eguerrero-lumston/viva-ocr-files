@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
+  // 10.159.64.157
   URL_HOST: 'http://10.1.39.151:3000/api/',
+  // URL_HOST: 'http://10.159.64.157:3000/api/',
   adalConfiguration: {
     tenant: 'AlexCorp727.onmicrosoft.com',
     clientId: '33ddc4f4-6c10-43cc-85dc-7de834f2ceb7',
