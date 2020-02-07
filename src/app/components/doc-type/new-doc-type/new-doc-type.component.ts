@@ -56,9 +56,9 @@ export class NewDocTypeComponent implements OnInit {
             // this.userForm.value = res.data;
             if (!res) { return; }
             this.docType = res;
-            this.docTypeForm.patchValue( this.docType);
-            this.docTypeForm.patchValue( { positionId: this.docType.position._id });
             this.isUpdate = true;
+            this.docTypeForm.patchValue( this.docType);
+            // this.docTypeForm.patchValue( { positionId: this.docType.position._id });
           });
         }
       });
@@ -73,12 +73,12 @@ export class NewDocTypeComponent implements OnInit {
         docType._id = this.docType._id;
         this.api.updateDocType(docType).subscribe(res => {
           console.log('response', res);
-          this.notificationService.showSuccess('Correcto', 'Se actualizo correctamente');
+          this.notificationService.showSuccess('Correcto', 'Se ha actualizado correctamente');
         });
       } else {
         this.api.newDocType(docType).subscribe(res => {
           console.log('response', res);
-          this.notificationService.showSuccess('Correcto', 'Se agrego correctamente');
+          this.notificationService.showSuccess('Correcto', 'Se ha agregado correctamente');
           this.docTypeForm.reset();
         });
       }
@@ -92,7 +92,7 @@ export class NewDocTypeComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirma',
-        message: '¿Deseas regresar a la pagina anterior?',
+        message: '¿Deseas regresar a la página anterior?',
         btnOkText: 'Si',
         btnCancelText: 'No'
       }

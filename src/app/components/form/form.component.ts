@@ -133,7 +133,7 @@ export class FormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirma',
-        message: '¿Deseas regresar a la pagina anterior?',
+        message: '¿Deseas regresar a la página anterior?',
         btnOkText: 'Si',
         btnCancelText: 'No'
       }

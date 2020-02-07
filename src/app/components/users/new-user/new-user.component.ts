@@ -57,12 +57,12 @@ export class NewUserComponent implements OnInit {
         user._id = this.user._id;
         this.api.updateUser(user).subscribe(res => {
           console.log('response', res);
-          this.notificationService.showSuccess('Correcto', 'Se actualizo correctamente');
+          this.notificationService.showSuccess('Correcto', 'Se ha actualizado correctamente');
         });
       } else {
         this.api.newUser(user).subscribe(res => {
           console.log('response', res);
-          this.notificationService.showSuccess('Correcto', 'Se agrego correctamente');
+          this.notificationService.showSuccess('Correcto', 'Se ha agregado correctamente');
           this.userForm.reset();
         });
       }
@@ -74,7 +74,7 @@ export class NewUserComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Confirma',
-        message: '¿Deseas regresar a la pagina anterior?',
+        message: '¿Deseas regresar a la página anterior?',
         btnOkText: 'Si',
         btnCancelText: 'No'
       }

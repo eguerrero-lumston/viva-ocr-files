@@ -82,7 +82,7 @@ export class DocTypeComponent implements OnInit {
         debounceTime(1000),
         switchMap(name => {
           if (name !== '') {
-            this.nameSearch.setValue(name);
+            // this.nameSearch.setValue(name);
             return this.restApi.getDocTypesFilter(this.paginator, this.nameSearch.value);
           } else {
             this.configDefault();
