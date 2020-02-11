@@ -1,40 +1,49 @@
 <div class="container">
-    <div class="flex items-center title-container">
-        <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
-            <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
-        </div>
-        <h1 class="grow-1 sub-section-title">{{isUpdate ? 'Modificar' : 'Nuevo'}} usuario</h1>
+  <div class="flex items-center title-container">
+    <div style="cursor: pointer; margin-right: 10px;" (click)="onCancel()" class="flex justify-start">
+      <mat-icon aria-hidden="false" aria-label="back icon">keyboard_backspace</mat-icon>
     </div>
-    <mat-card>
+    <h1 class="grow-1 sub-section-title">{{isUpdate ? 'Modificar' : 'Nuevo'}} usuario</h1>
+  </div>
+  <mat-card>
 
-        <form [formGroup]="userForm">
+    <form [formGroup]="userForm">
 
-            <div class="grid">
-                <div class="col-6">
-                    <div class=" flex column items-center justify-center">
-                        <mat-form-field [floatLabel]="'always'">
-                            <mat-label class="custom-mat-form-field-label">Nombre</mat-label>
-                            <input required formControlName="name" matInput placeholder="Nombre">
-                            <mat-error>Ingrese nombre</mat-error>
-                        </mat-form-field>
+      <div class="grid">
+        <div class="col-6">
+          <div class=" flex column items-center justify-center">
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Nombre</mat-label>
+              <input required formControlName="name" matInput placeholder="Nombre">
+              <mat-error>Ingrese nombre</mat-error>
+            </mat-form-field>
 
-                        <mat-form-field [floatLabel]="'always'">
-                            <mat-label class="custom-mat-form-field-label">Correo electronico</mat-label>
-                            <input required formControlName="email" matInput placeholder="Correo electronico">
-                            <!-- <mat-error>Ingrese correo electronico</mat-error> -->
-                            <mat-error *ngIf="userForm.controls['email'].hasError('required')">Ingrese correo
-                                electronico</mat-error>
-                            <mat-error *ngIf="userForm.controls['email'].hasError('email')">Ingrese correo valido
-                            </mat-error>
-                        </mat-form-field>
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Correo electronico</mat-label>
+              <input required formControlName="email" matInput placeholder="Correo electronico">
+              <!-- <mat-error>Ingrese correo electronico</mat-error> -->
+              <mat-error *ngIf="userForm.controls['email'].hasError('required')">Ingrese correo
+                electronico</mat-error>
+              <mat-error *ngIf="userForm.controls['email'].hasError('email')">Ingrese correo valido
+              </mat-error>
+            </mat-form-field>
 
-                    </div>
-                </div>
-            </div>
-            <mat-card-actions style="text-align: end;">
-                <button class="btn send-file margin" type="submit" (click)="onSubmit()">
-                    {{isUpdate ? 'Modificar' : 'Agregar'}} </button>
-            </mat-card-actions>
-        </form>
-    </mat-card>
+            <mat-form-field [floatLabel]="'always'">
+              <mat-label class="custom-mat-form-field-label">Rol</mat-label>
+              <mat-select formControlName="rolId">
+                <mat-option *ngFor="let role of roles" [value]="role._id">
+                  {{ role.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+        </div>
+      </div>
+      <mat-card-actions style="text-align: end;">
+        <button class="btn send-file margin" type="submit" (click)="onSubmit()">
+          {{isUpdate ? 'Modificar' : 'Agregar'}} </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
 </div>

@@ -1,9 +1,11 @@
+import { SessionService } from './../../services/session.service';
 import { AdalService } from 'adal-angular4';
 import { DialogConfirmComponent } from './../../single-components/dialog-confirm/dialog-confirm.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import isElectron from 'is-electron';
+import { LocalStorageService } from 'src/app/util/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +15,15 @@ import isElectron from 'is-electron';
 export class HomeComponent implements OnInit {
 
   isElectron: boolean;
-
+  rol = 0;
   constructor(
     private router: Router,
     private adalService: AdalService,
+    private localStorageService: LocalStorageService,
+    private sessionService: SessionService,
     public dialog: MatDialog) {
       this.isElectron = isElectron();
+      this.rol = this.localStorageService.getRol();
     }
 
   ngOnInit() {
@@ -39,8 +44,7 @@ export class HomeComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       if (result) {
         // logout
-        this.adalService.logOut();
-        this.router.navigate(['/login']);
+        this.sessionService.logOut();
       }
     });
   }

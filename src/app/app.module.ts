@@ -38,6 +38,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UsersComponent } from './components/users/users.component';
 import { DocTypeComponent } from './components/doc-type/doc-type.component';
 import { NewDocTypeComponent } from './components/doc-type/new-doc-type/new-doc-type.component';
+// import { AccessGuard } from './services/access.guard';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { NewDocTypeComponent } from './components/doc-type/new-doc-type/new-doc-
     // },
     AdalService,
     AuthGuard,
+    // AccessGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },

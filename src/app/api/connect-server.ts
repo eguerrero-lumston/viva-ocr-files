@@ -1,3 +1,4 @@
+import { UserRequest } from './../model/request/user-request';
 import { DocTypeRequest } from './../model/request/doc-type-request';
 import { DocType } from './../model/doc-type';
 import { DocTypesRequest } from './../model/request/doc-types-request';
@@ -183,10 +184,10 @@ export class ConnectServer {
     }
 
     // HttpClient API get() method => Fetch user
-    getUser(id: string): Observable<User> {
+    getUser(id: string): Observable<UserRequest> {
         const params = new HttpParams()
             .set('id', id);
-        return this.http.get<User>(this.apiURL + 'users', { headers: this.headers().headers, params })
+        return this.http.get<UserRequest>(this.apiURL + 'users', { headers: this.headers().headers, params })
             .pipe(
                 tap(data => this.print('getUser', data)),
                 catchError(error => this.handleError(error))
@@ -359,7 +360,6 @@ export class ConnectServer {
                 //     this.adalService.logOut();
                 // }, 5000);
                 errorMessage = `Error Code: ${error.status} \n Message: Error de autenticación`;
-
             } else {
                 errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
             }

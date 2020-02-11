@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,32 @@ export class LocalStorageService {
 
     delete(key: string) {
       localStorage.removeItem(key);
+    }
+
+    clear() {
+      localStorage.clear();
+    }
+
+    saveRol(rol) {
+      try {
+        const enc = CryptoJS.AES.encrypt(JSON.stringify(rol), 'rol').toString();
+        localStorage.setItem('rol', enc);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getRol(): number {
+      try {
+        const data = localStorage.getItem('rol');
+        // console.log('data', data);
+        const bytes = CryptoJS.AES.decrypt(data, 'rol');
+        if (bytes.toString()) {
+          return parseInt(bytes.toString(CryptoJS.enc.Utf8), 0);
+        }
+        return -1;
+      } catch (e) {
+        console.log(e);
+        return -1;
+      }
     }
 }

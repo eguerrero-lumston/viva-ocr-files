@@ -1,3 +1,4 @@
+import { SessionService } from './../../services/session.service';
 import { LocalStorageService } from './../../util/local-storage.service';
 import { ConnectServer } from './../../api/connect-server';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
@@ -16,13 +17,13 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
   constructor(
     private resApi: ConnectServer,
     private localStorageService: LocalStorageService,
-    private router: Router,
+    private sessionService: SessionService,
     private adalService: AdalService
   ) {
     //   this.adalService.init(environment.adalConfiguration);
     this.adalService.handleWindowCallback();
-    console.log('this.adalService.userInfo.authenticated', this.adalService);
-    console.log('userinfo', this.adalService.userInfo);
+    // console.log('this.adalService.userInfo.authenticated', this.adalService);
+    // console.log('userinfo', this.adalService.userInfo);
     if (this.adalService.userInfo.authenticated) {
       const oid = this.adalService.userInfo.profile.oid;
       const email = this.adalService.userInfo.userName;
@@ -30,7 +31,7 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
       this.resApi.getToken(oid, email).subscribe(res => {
         // console.log('response', res);
         if (res) {
-          this.loginHandle(res.token);
+          this.sessionService.logIn(res.token, res.rol);
         }
       });
     }
@@ -40,10 +41,6 @@ export class LoginUserComponent implements OnInit, AfterViewInit {
 
   }
 
-  async loginHandle(token) {
-    await this.localStorageService.save('token', token);
-    this.router.navigate(['/']);
-  }
   login() {
     this.adalService.login();
     // this.router.navigate(['/']);

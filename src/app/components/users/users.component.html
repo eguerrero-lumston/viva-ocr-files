@@ -64,19 +64,18 @@
                     </td>
                 </ng-container>
 
-                <!-- password Column -->
-                <!-- <ng-container matColumnDef="password">
+                <ng-container matColumnDef="role">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-title">
-                        <div class="text-center"> Contraseña </div>
+                        <div class="text-center"> Rol </div>
                     </th>
                     <td mat-cell *matCellDef="let element" class="items-center row-style">
                         <div class="flex grow-1 justify-start">
                             <div>
-                                {{ element.password }}
+                                {{ element.role?.name || '--' }}
                             </div>
                         </div>
                     </td>
-                </ng-container> -->
+                </ng-container>
 
                 <!-- email Column -->
                 <ng-container matColumnDef="email">

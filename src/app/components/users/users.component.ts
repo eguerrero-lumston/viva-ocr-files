@@ -44,8 +44,8 @@ export class UsersComponent implements OnInit {
   dataSource = new MatTableDataSource<User>();
   displayedColumns: string[] = [
     'name',
-    // 'password',
     'email',
+    'role',
     'created',
     'actions'];
   constructor(

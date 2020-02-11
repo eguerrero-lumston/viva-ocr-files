@@ -36,7 +36,7 @@
       <img height="18px" class="item-icon" src="assets/reports.svg" alt="icon">
       Reporte de cumplimiento
     </a> -->
-    <a [queryParams]="{}" [routerLink]="['/users']" routerLinkActive="active" class="item flex">
+    <a *ngIf="rol === 1" [queryParams]="{}" [routerLink]="['/users']" routerLinkActive="active" class="item flex">
       <img height="18px" class="item-icon" src="assets/usuarios.svg" alt="icon">
       Usuarios
     </a>

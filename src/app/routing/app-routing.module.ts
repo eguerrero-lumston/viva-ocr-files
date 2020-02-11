@@ -13,6 +13,7 @@ import { FormComponent } from '../components/form/form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FileUploadComponent } from '../components/file-upload/file-upload.component';
+import { AccessGuard } from '../services/access.guard';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent, outlet: 'primary',
     canActivate: [AuthGuard],
+    canActivateChild: [AccessGuard],
     children: [
       {
         path: '',
@@ -49,6 +51,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
+        canActivate: [AccessGuard],
         children: [
           { path: '', component: UsersComponent },
           { path: 'new', component: NewUserComponent }
