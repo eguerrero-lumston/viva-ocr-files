@@ -27,7 +27,7 @@ export class FileUploadComponent implements OnInit {
   uploadSuccessful = false;
   constructor(
     public uploadService: UploadService,
-    private notificationservice: NotificationService,
+    private notificationService: NotificationService,
     private api: ConnectServer) { }
 
   ngOnInit() {
@@ -39,14 +39,13 @@ export class FileUploadComponent implements OnInit {
     this.canBeClosed = true;
     this.showCancelButton = true;
     this.uploading = false;
-
     this.api.getAllPositions().subscribe(res => {
       this.positions = res;
       this.type = this.positions[0]._id || '';
       // console.log(this.positions, this.type);
     });
-    // this.notificationservice.showSuccess("safdas", "dvfds");
-    // this.notificationservice.showCustom();
+    // this.notificationService.showSuccess("safdas", "dvfds");
+    // this.notificationService.showCustom();
   }
 
   uploadFile(event) {
@@ -88,10 +87,10 @@ export class FileUploadComponent implements OnInit {
   addFiles(event: Event) {
     this.isLoading = true;
     if (this.uploading) {
-      this.notificationservice.showInfo('Información', 'Espera a que los archivos seleccionados sean subidos');
+      this.notificationService.showInfo('Información', 'Espera a que los archivos seleccionados sean subidos');
       return;
     } else {
-      this.notificationservice.showInfo('Información', 'Iniciando subida de los archivos seleccionados');
+      this.notificationService.showInfo('Información', 'Iniciando subida de los archivos seleccionados');
     }
 
     // console.log('uploadFile', event, this.fileInput);

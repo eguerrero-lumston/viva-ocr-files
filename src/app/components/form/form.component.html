@@ -70,7 +70,7 @@
                 [(ngModel)]="file.courseName" matInput placeholder="Curso" > -->
               <mat-select  [disabled]="isConfirmed" required [(ngModel)]="file.courseId" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let type of docTypes" [value]="type._id">
-                  {{ type.name }}
+                  {{ type.name }} - ({{ type.textToRecognize }})
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="hasError(file.courseId)">Ingrese curso</mat-error>

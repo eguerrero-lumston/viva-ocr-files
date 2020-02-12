@@ -23,7 +23,11 @@ export class NotificationService {
     this.notifier.success(body, title, this.options);
   }
 
-  showError(title: string, body: string) {
+  showError(title: string, body: string, disableTimeOut?: boolean) {
+    const temp = this.options;
+    if (disableTimeOut) {
+      temp.disableTimeOut = disableTimeOut;
+    }
     this.notifier.error(body, title, this.options);
   }
 

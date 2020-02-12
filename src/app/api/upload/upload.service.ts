@@ -73,7 +73,7 @@ export class UploadService {
         }
       }, error => {
         // console.log(error.message);
-        this.notifierService.showError('Error', `${file.name} no se subio, ${error.message}`);
+        this.notifierService.showError('Error', `${file.name} no se subio, ${error.message}`, true);
       });
 
       // Save every progress-observable in a map of all observables
