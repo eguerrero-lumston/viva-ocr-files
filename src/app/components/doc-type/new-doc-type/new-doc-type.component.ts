@@ -39,7 +39,6 @@ export class NewDocTypeComponent implements OnInit {
     private localStorageService: LocalStorageService) {
     this.docTypeForm = this.fb.group({
       name: [null, Validators.required],
-      positionId: [null, Validators.required],
       textToRecognize: [null, Validators.required ]
     });
   }

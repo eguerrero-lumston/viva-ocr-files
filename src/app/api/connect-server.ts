@@ -28,6 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { Position } from '../model/position';
+import { Role } from '../model/role';
 
 @Injectable({
     providedIn: 'root'
@@ -321,6 +322,14 @@ export class ConnectServer {
             params = params.append('name', name);
         }
         return this.http.get<DocTypesRequest>(this.apiURL + 'docs-type/filter/table', { headers: this.headers().headers, params })
+            .pipe(
+                // tap(data => this.helperService.stopLoader()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
+    getRoles(): Observable<Role[]> {
+        return this.http.get<Role[]>(this.apiURL + 'roles', this.headers() )
             .pipe(
                 // tap(data => this.helperService.stopLoader()),
                 catchError(error => this.handleError(error))

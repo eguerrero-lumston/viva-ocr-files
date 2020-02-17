@@ -37,6 +37,10 @@ export class NewUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('roles');
+    this.api.getRoles().subscribe(res => {
+      this.roles = res;
+    });
     this.route.queryParams
       .subscribe((params) => {
         console.log('paraa .---->', params);
