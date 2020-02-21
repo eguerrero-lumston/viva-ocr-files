@@ -1,4 +1,4 @@
-import { NotificationService } from './../../../api/notification.service';
+import { NotificationService } from '../../../api/notification.service';
 import { User } from 'src/app/model/user';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';

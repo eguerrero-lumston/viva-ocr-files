@@ -1,4 +1,4 @@
-import { ToastNotificationComponent } from './../single-components/toast-notification/toast-notification.component';
+import { ToastNotificationComponent } from '../single-components/toast-notification/toast-notification.component';
 import { Injectable } from '@angular/core';
 import { ToastrService, IndividualConfig } from 'ngx-toastr';
 

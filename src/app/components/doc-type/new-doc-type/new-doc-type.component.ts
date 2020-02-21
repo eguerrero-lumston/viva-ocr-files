@@ -2,7 +2,7 @@ import { Position } from './../../../model/position';
 import { DocType } from './../../../model/doc-type';
 import { DialogConfirmComponent } from './../../../single-components/dialog-confirm/dialog-confirm.component';
 import { LocalStorageService } from './../../../util/local-storage.service';
-import { NotificationService } from './../../../api/notification.service';
+import { NotificationService } from '../../../api/notification.service';
 import { ConnectServer } from './../../../api/connect-server';
 import { Observable } from 'rxjs';
 import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';

@@ -1,5 +1,5 @@
 import { LocalStorageService } from './../../util/local-storage.service';
-import { NotificationService } from './../notification.service';
+import { NotificationService } from '../notification.service';
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import {

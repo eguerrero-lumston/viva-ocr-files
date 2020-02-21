@@ -9,15 +9,22 @@ export class LocalStorageService {
     constructor() { }
 
     exist(key: string): boolean {
-      return localStorage.getItem(key) !== null;
+      // tslint:disable-next-line: prefer-const
+      let item = localStorage.getItem(key);
+      return item !== null && item !== '' && item !== undefined;
     }
     save(key: string, object: any) {
       localStorage.setItem(key, JSON.stringify(object));
     }
 
     get(key: string) {
+      // console.log('key', key, localStorage.getItem(key));
       if (this.exist(key)) {
-        return JSON.parse(localStorage.getItem(key));
+        try {
+          return JSON.parse(localStorage.getItem(key));
+        } catch (error) {
+          return (localStorage.getItem(key));
+        }
       } else {
         return '';
       }

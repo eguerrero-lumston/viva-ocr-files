@@ -1,23 +1,24 @@
 import { LocalStorageService } from './../../util/local-storage.service';
-import { NotificationService } from './../../api/notification.service';
+import { NotificationService } from '../../api/notification.service';
 import { HelperService } from './../../api/helper.service';
 import { ConnectServer } from './../../api/connect-server';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, Inject, Optional, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { MatBottomSheetRef, MatBottomSheet, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import * as uuid from 'uuid';
+import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-file-viewer',
   templateUrl: './file-viewer.component.html',
   styleUrls: ['./file-viewer.component.css']
 })
-export class FileViewerComponent implements OnInit {
-
+export class FileViewerComponent implements OnInit, OnDestroy {
   @Input() key = '';
   color = '#7EC636';
   rotation =  0;
   loaderId = uuid.v4();
+  public loadedPdf: PDFDocumentProxy;
   @Input() isBottomSheet = false;
   @Output() closeWindow = new EventEmitter();
   pdfSrc = '';
@@ -48,15 +49,24 @@ export class FileViewerComponent implements OnInit {
         }
       });
   }
-
+  ngOnDestroy(): void {
+    if (this.loadedPdf) {
+      this.loadedPdf.destroy();
+    }
+  }
   getPdfFile(key: string, isRepository: boolean) {
     // console.log('keeey', key, isRepository);
     // if (this.localStorageService.exist(key)) {
     //   this.pdfSrc = this.localStorageService.get(key);
     // } else {
       this.api.getPDFUri(key, this.loaderId, isRepository).subscribe(data => {
-        this.localStorageService.save(key, data.url);
-        this.pdfSrc = data.url;
+        // this.localStorageService.save(key, data.url);
+        if (data.message) {
+          this.closeWindow.emit(null);
+          this.notificationService.showWarning('Aviso', 'El archivo no se encontró');
+        } else {
+          this.pdfSrc = data.url;
+        }
       });
     // }
   }
@@ -67,19 +77,23 @@ export class FileViewerComponent implements OnInit {
   }
 
   close() {
-    this.closeWindow.emit(null);
+    if (this.closeWindow) {
+      this.closeWindow.emit(null);
+    }
     // this.bottomSheetRef.dismiss();
   }
 
-  afterLoadPdf() {
-    // console.log('finish pdf');
+  afterLoadPdf(pdf: PDFDocumentProxy) {
+    // console.log('finish pdf', pdf);
+    this.loadedPdf = pdf;
     this.helperService.stopLoader(this.loaderId);
   }
 
   onError(error: any) {
     // do anything
-    this.closeWindow.emit(null);
+    console.log(error);
+    // this.closeWindow.emit(null);
     this.helperService.stopLoader(this.loaderId);
-    this.notificationService.showError('Error', 'No se pudo cargar el archivo ' + error);
+    // this.notificationService.showError('Error', 'No se pudo cargar el archivo ' + error);
   }
 }

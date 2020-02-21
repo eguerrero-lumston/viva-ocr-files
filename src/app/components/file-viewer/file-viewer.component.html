@@ -12,6 +12,6 @@
       <button class="btn cancel" (click)="close()">Cerrar</button>
     </div>
     <pdf-viewer [src]="pdfSrc" [rotation]="rotation" [render-text]="true" style="display: block;" 
-    (after-load-complete)="afterLoadPdf()" (error)="onError($event)"></pdf-viewer>
+    (after-load-complete)="afterLoadPdf($event)" (error)="onError($event)"></pdf-viewer>
   </mat-card>
 </div>

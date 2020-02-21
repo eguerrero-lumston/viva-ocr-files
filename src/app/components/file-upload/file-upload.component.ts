@@ -1,6 +1,6 @@
 import { Position } from './../../model/position';
 import { ConnectServer } from './../../api/connect-server';
-import { NotificationService } from './../../api/notification.service';
+import { NotificationService } from '../../api/notification.service';
 import { UploadService } from './../../api/upload/upload.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { forkJoin } from 'rxjs';

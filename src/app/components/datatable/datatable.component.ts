@@ -99,7 +99,7 @@ export class DatatableComponent implements OnInit {
         debounceTime(1000),
         switchMap(name => {
           if (name !== '') {
-            this.nameSearch.setValue(name);
+            // this.nameSearch.setValue(name);
             return this.restApi.getFileFilter(this.paginator, this.nameSearch.value, this.status.toString());
           } else {
             this.configDefault();

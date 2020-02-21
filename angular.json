@@ -31,7 +31,6 @@
               "src/css/flexboxlayout.min.css",
               "src/css/grid.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              
               "src/css/material.scss",
               "src/css/dark.scss",
               "src/css/bootstrap.scss"
